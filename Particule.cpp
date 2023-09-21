@@ -1,7 +1,7 @@
 // Particule.cpp
 
 #include "Particule.hpp"
-
+namespace Physics{
 Particule::Particule(double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration)
     : masse(masse), position(position), vitesse(vitesse), acceleration(acceleration) {}
 
@@ -25,3 +25,5 @@ Vecteur3D Particule::getVitesse() const {
 Vecteur3D Particule::getAcceleration() const {
     return acceleration;
 }
+}
+
