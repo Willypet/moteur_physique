@@ -1,9 +1,10 @@
-// Particule.hpp
+#pragma once
 
 #ifndef PARTICULE_HPP
 #define PARTICULE_HPP
 
 #include "Vecteur3D.hpp"
+
 namespace Physics{
     class Particule {
         private:

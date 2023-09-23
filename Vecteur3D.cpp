@@ -1,113 +1,96 @@
 #include <cmath>
+#include "Vecteur3D.hpp"
+
 namespace Physics{
-	class Vecteur3D{
-		public:
-			float x;
-			float y;
-			float z;
+	Vecteur3D::Vecteur3D(const float x, const float y, const float z){
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
 
-			Vecteur3D(const float x, const float y, const float z){
-				this->x = x;
-				this->y = y;
-				this->z = z;
-			}
+	Vecteur3D::Vecteur3D() : x(0), y(0), z(0) {}
 
-			Vecteur3D(){
-				Vecteur3D(0, 0, 0);
-			}
+	Vecteur3D::Vecteur3D(const Vecteur3D &other){
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
 
-			Vecteur3D(const Vecteur3D &other){
-				x = other.x;
-				y = other.y;
-				z = other.z;
-			}
+	Vecteur3D& Vecteur3D::operator=(const Vecteur3D& other){
+		return *this = Vecteur3D(other.x, other.y, other.z);
+	}
 
-			Vecteur3D& operator=(const Vecteur3D& other){
-				x = other.x;
-				y = other.y;
-				z = other.z;
-				return *this;
-			}
+	Vecteur3D& Vecteur3D::operator+=(const Vecteur3D& other){
+		return *this = Vecteur3D(x + other.x, y + other.y, z + other.z);
+	}
 
-			Vecteur3D operator+(const Vecteur3D& other){
-				Vecteur3D res;
-				res.x = x + other.x;
-				res.y = y + other.y;
-				res.z = z + other.z;
-				return res;
-			}
+	Vecteur3D& Vecteur3D::operator-=(const Vecteur3D& other){
+		return *this = Vecteur3D(x - other.x, y - other.y, z - other.z);
+	}
 
-			Vecteur3D operator-(const Vecteur3D& other){
-				Vecteur3D res;
-				res.x = x - other.x;
-				res.y = y - other.y;
-				res.z = z - other.z;
-				return res;
-			}
+	Vecteur3D& Vecteur3D::operator*=(const float other){
+		return *this = Vecteur3D(x * other, y * other, z * other);
+	}
 
-			Vecteur3D operator*(const float other){
-				Vecteur3D res;
-				res.x = x * other;
-				res.y = y * other;
-				res.z = z * other;
-				return res;
-			}
+	Vecteur3D& Vecteur3D::operator/=(const float other){
+		if (abs(other) < 10e-6){
+			throw "DivisionByZero";
+		}
+		else{
+			return *this = Vecteur3D(x / other, y / other, z / other);
 
-			Vecteur3D operator/(const float other){
-				if (abs(other) < 10e-6){
-					throw "DivisionByZero";
-				}
-				else{
-					Vecteur3D res;
-					res.x = x / other;
-					res.y = y / other;
-					res.z = z / other;
-					return res;
-				}
-			}
+		}
+	}
 
-			Vecteur3D operator^(const Vecteur3D& other){
-				Vecteur3D res;
-				res.x = y * other.z - z * other.y;
-				res.y = z * other.x - x * other.z;
-				res.z = x * other.y - y * other.x;
-				return res;
-			}
+	Vecteur3D& Vecteur3D::operator^(const Vecteur3D& other){
+		return *this = Vecteur3D(y * other.z - z * other.y, 
+								 z * other.x - x * other.z, 
+								 x * other.y - y * other.x);
+	}
 
-			float magnitude(){
-				return std::sqrt(x * x + y * y + z * z);
-			}
 
-			void normalize(){
-				*this = this->normalized();
-			}
+	float Vecteur3D::magnitude(){
+		return std::sqrt(x * x + y * y + z * z);
+	}
 
-			Vecteur3D normalized(){
-				float magnitude = this->magnitude();
-				if(magnitude < 10e-6){
-					throw "NullNormalization";
-				}
-				else{
-					Vecteur3D res (*this);
-					res = res / magnitude;
-					return res;
-				}
-			}
+	void Vecteur3D::normalize(){
+		*this = this->normalized();
+	}
 
-			Vecteur3D cross(const Vecteur3D& other){
-				return *this^other;
-			}
+	Vecteur3D Vecteur3D::normalized(){
+		float magnitude = this->magnitude();
+		if(magnitude < 10e-6){
+			throw "NullNormalization";
+		}
+		else{
+			Vecteur3D res (*this);
+			res = res / magnitude;
+			return res;
+		}
+	}
 
-			static float dot(const Vecteur3D& lhs, const Vecteur3D& rhs){
-				return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
-			}
-	};
+	Vecteur3D Vecteur3D::cross(const Vecteur3D& other){
+		return *this^other;
+	}
 
-	Vecteur3D operator*(const float lhs, Vecteur3D rhs){
-		Vecteur3D res (rhs);
-		res.x *= lhs;
-		res.y *= lhs;
-		res.z *= lhs;
-		return res;
+	float Vecteur3D::dot(const Vecteur3D& lhs, const Vecteur3D& rhs){
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+	}
+
+
+
+	Vecteur3D operator*(const float f, Vecteur3D v){
+		return Vecteur3D(v.x * f, v.y * f, v.z * f);
+	}
+
+	Vecteur3D operator*(Vecteur3D v, const float f) {
+		return Vecteur3D(v.x * f, v.y * f, v.z * f);
+	}
+
+	Vecteur3D operator/(Vecteur3D v, const float f) {
+		if (f < 10e-6) {
+			throw "NullNormalization";
+		}
+		return Vecteur3D(v.x / f, v.y / f, v.z / f);
 	}
 }

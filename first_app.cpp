@@ -69,16 +69,7 @@ namespace Visual {
     }    
 
     void FirstApp::loadGameObjects() {
-        std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, "models/flat_vase.obj");
-
-        auto flatVase = VGameObject::createGameObject();
-        flatVase.model = VModel;
-        flatVase.transform.translation = { -.5f, -.5f, 2.5f };
-        flatVase.transform.scale = glm::vec3{3.f, 1.5f, 3.f };
-        gameObjects.push_back(std::move(flatVase));
-
-        
-        VModel = VModel::createModelFromFile(VDevice, "models/colored_cube.obj");
+        std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, "models/colored_cube.obj");
 
         auto smoothVase = VGameObject::createGameObject();
         smoothVase.model = VModel;
