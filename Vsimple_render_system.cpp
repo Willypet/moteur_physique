@@ -59,7 +59,7 @@ namespace Visual {
             pipelineConfig);
     }
 
-    void VSimpleRenderSystem::renderGameObjects(VkCommandBuffer commandBuffer, std::vector<VGameObject>& gameObjects, const VCamera& camera) {
+    void VSimpleRenderSystem::renderGameObjects(VkCommandBuffer commandBuffer, std::map<int, VGameObject>& gameObjects, const VCamera& camera) {
         
         v_pipeline->bind(commandBuffer);
 
@@ -70,9 +70,9 @@ namespace Visual {
             
             // render          
             SimplePushConstraintData push{};
-            auto modelMatrix = obj.transform.mat4();
+            auto modelMatrix = obj.second.transform.mat4();
             push.transfom = projectionView * modelMatrix;
-            push.normallMatrix = obj.transform.normalMatrix();
+            push.normallMatrix = obj.second.transform.normalMatrix();
 
             vkCmdPushConstants(
                 commandBuffer,
@@ -82,8 +82,8 @@ namespace Visual {
                 sizeof(SimplePushConstraintData),
                 &push);
 
-            obj.model->bind(commandBuffer);
-            obj.model->draw(commandBuffer);
+            obj.second.model->bind(commandBuffer);
+            obj.second.model->draw(commandBuffer);
         }
     }
 }  // namespace V

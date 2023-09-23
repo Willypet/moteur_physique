@@ -14,13 +14,18 @@ namespace Physics{
             Vecteur3D position;
             Vecteur3D vitesse;
             Vecteur3D acceleration;
-            std::string gameObjectFilePath;
 
-        public:
+            //Game Object info
+            std::string gameObjectFilePath;         
+
+        public: 
             // Constructeur
             Particule(const std::string& gameObjectFilePath);
             Particule(const Vecteur3D& position, const std::string& gameObjectFilePath);
             Particule(double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& getGameObjectFilePath);
+
+            //Game Object info
+            int idGameObject;
 
             // Fonction pour update les attributs de la particule
             void update(double time);

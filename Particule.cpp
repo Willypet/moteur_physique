@@ -2,15 +2,30 @@
 
 namespace Physics{
     Particule::Particule(const std::string& gameObjectFilePath) 
-        : masse(1), position(Vecteur3D::vecteurNull()), vitesse(Vecteur3D::vecteurNull()), acceleration(Vecteur3D::vecteurNull()), gameObjectFilePath(gameObjectFilePath) {}
+        : masse(1), 
+        position(Vecteur3D::vecteurNull()), 
+        vitesse(Vecteur3D::vecteurNull()), 
+        acceleration(Vecteur3D::vecteurNull()), 
+        gameObjectFilePath(gameObjectFilePath),
+        idGameObject(0) {}
     Particule::Particule(const Vecteur3D& position, const std::string& gameObjectFilePath)
-        : masse(1), position(position), vitesse(Vecteur3D::vecteurNull()), acceleration(Vecteur3D::vecteurNull()), gameObjectFilePath(gameObjectFilePath) {}
+        : masse(1), 
+        position(position), 
+        vitesse(Vecteur3D::vecteurNull()), 
+        acceleration(Vecteur3D::vecteurNull()), 
+        gameObjectFilePath(gameObjectFilePath),
+        idGameObject(0) {}
     Particule::Particule(double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& gameObjectFilePath)
-        : masse(masse), position(position), vitesse(vitesse), acceleration(acceleration), gameObjectFilePath(gameObjectFilePath){}
+        : masse(masse), 
+        position(position), 
+        vitesse(vitesse),
+        acceleration(acceleration), 
+        gameObjectFilePath(gameObjectFilePath),
+        idGameObject(0){}
     
-    void Particule::update(double time) {
-        vitesse += acceleration * time;
-        position += vitesse * time;
+    void Particule::update(double deltaTime) {
+        vitesse += acceleration * deltaTime;
+        position += vitesse * deltaTime;
     }
     
     double Particule::getMasse() const {

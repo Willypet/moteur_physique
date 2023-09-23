@@ -7,7 +7,7 @@
 
 // std
 #include <memory>
-#include <vector>
+#include <map>
 
 namespace Visual {
 	class VSimpleRenderSystem {
@@ -18,7 +18,7 @@ namespace Visual {
 		VSimpleRenderSystem(const VSimpleRenderSystem&) = delete;
 		VSimpleRenderSystem& operator=(const VSimpleRenderSystem&) = delete;	
 
-		void renderGameObjects(VkCommandBuffer commandeBuffer, std::vector<VGameObject> & gameObjects, const VCamera& camera);
+		void renderGameObjects(VkCommandBuffer commandeBuffer, std::map<int, VGameObject> & gameObjects, const VCamera& camera);
 
 	private:		
 		void createPipelineLayout();

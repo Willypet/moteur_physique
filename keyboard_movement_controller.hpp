@@ -2,6 +2,7 @@
 
 #include "Vgame_object.hpp"
 #include "Vwindow.hpp"
+#include "first_app.hpp"
 
 namespace Visual {
 	class KeyboardMovementController {
@@ -17,6 +18,8 @@ namespace Visual {
             int lookRight = GLFW_KEY_RIGHT;
             int lookUp = GLFW_KEY_UP;
             int lookDown = GLFW_KEY_DOWN;
+            int spawn = GLFW_KEY_ENTER;
+            int close = GLFW_KEY_ESCAPE;
 		};
 
         KeyMappings keys{};
@@ -24,6 +27,7 @@ namespace Visual {
         float lookSpeed{ 1.5f };
         float maxDistanceToTarget{.2f};
         float minDistanceToTarget{ 9.9f };
+        bool isSpawnKeyPressed = false;
 
         void moveInPlaneXZ(GLFWwindow* window, float dt, VGameObject& gameObject);
     	};

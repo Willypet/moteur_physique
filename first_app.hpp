@@ -10,6 +10,7 @@
 
 // std
 #include <memory>
+#include <map>
 #include <vector>
 #include <string>
 
@@ -19,22 +20,32 @@ namespace Visual {
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;
 		
-		FirstApp();
-		~FirstApp();
-		
-		FirstApp(const FirstApp &) = delete;
-		FirstApp &operator=(const FirstApp &) = delete;
+		static FirstApp& getInstance() {
+			static FirstApp instance; // Instance unique de la classe
+			return instance;
+		}
+
+		void close() {shouldClose = true;}
 		
 		void run();
+		void inputParticle();
 		
-	private:	 
+	private:	
+		FirstApp();
+		~FirstApp();
+
+		FirstApp(const FirstApp&) = delete;
+		FirstApp& operator=(const FirstApp&) = delete;
+
+		bool shouldClose;
+
 		void loadGameObjects(Physics::Particule* particule);
-		void spawnParticule(const std::string& gameObjectFilePath);
+		void spawnParticule(Physics::Particule* particule);
 		
 		VWindow VWindow{WIDTH, HEIGHT, "Moteur Physique"};
 		VDevice VDevice{VWindow};
 		VRenderer VRenderer{ VWindow, VDevice };
-		
-		std::vector<VGameObject> gameObjects;
+		std::vector<Physics::Particule*> particules;
+		std::map<int, VGameObject> gameObjects;
 	};
 }  // namespace V

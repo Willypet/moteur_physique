@@ -42,5 +42,22 @@ namespace Visual {
 		if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {
 			gameObject.transform.translation += moveSpeed * dt * glm::normalize(moveDir);
 		}
+
+		//Spawn
+		if (glfwGetKey(window, keys.spawn) == GLFW_PRESS) {
+			if (!isSpawnKeyPressed) {
+
+				FirstApp::getInstance().inputParticle();
+				isSpawnKeyPressed = true;
+			}
+		}
+		else {
+			isSpawnKeyPressed = false;
+		}
+
+		// Quitter
+		if (glfwGetKey(window, keys.close) == GLFW_PRESS) {
+			FirstApp::getInstance().close();
+		}
 	}	
 }

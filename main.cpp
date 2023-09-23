@@ -7,10 +7,10 @@
 #include <stdexcept>
 
 int main() {
-    Visual::FirstApp app{};
+    //Visual::FirstApp app{};
 
   try {
-    app.run();
+      Visual::FirstApp::getInstance().run();
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
     return EXIT_FAILURE;

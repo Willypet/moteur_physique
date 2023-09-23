@@ -18,7 +18,12 @@ namespace Physics{
 	}
 
 	Vecteur3D& Vecteur3D::operator=(const Vecteur3D& other){
-		return *this = Vecteur3D(other.x, other.y, other.z);
+		if (this != &other) { 
+			x = other.x;
+			y = other.y;
+			z = other.z;
+		}
+		return *this;
 	}
 
 	Vecteur3D& Vecteur3D::operator+=(const Vecteur3D& other){
