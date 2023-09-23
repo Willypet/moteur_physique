@@ -141,8 +141,10 @@
     <ClCompile Include="first_app.cpp" />
     <ClCompile Include="keyboard_movement_controller.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particule.cpp" />
     <ClCompile Include="Vcamera.cpp" />
     <ClCompile Include="Vdevice.cpp" />
+    <ClCompile Include="Vecteur3D.cpp" />
     <ClCompile Include="Vgame_object.cpp" />
     <ClCompile Include="Vmodel.cpp" />
     <ClCompile Include="Vpipeline.cpp" />
@@ -154,8 +156,10 @@
   <ItemGroup>
     <ClInclude Include="first_app.hpp" />
     <ClInclude Include="keyboard_movement_controller.hpp" />
+    <ClInclude Include="Particule.hpp" />
     <ClInclude Include="Vcamera.hpp" />
     <ClInclude Include="Vdevice.hpp" />
+    <ClInclude Include="Vecteur3D.hpp" />
     <ClInclude Include="Vgame_object.hpp" />
     <ClInclude Include="Vmodel.hpp" />
     <ClInclude Include="Vpipeline.hpp" />

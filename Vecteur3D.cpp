@@ -1,3 +1,4 @@
+#include "Vecteur3D.hpp"
 #include <cmath>
 #include "Vecteur3D.hpp"
 
@@ -75,6 +76,11 @@ namespace Physics{
 
 	float Vecteur3D::dot(const Vecteur3D& lhs, const Vecteur3D& rhs){
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+	}
+
+	Vecteur3D Vecteur3D::vecteurNull()
+	{
+		return Vecteur3D(0,0,0);
 	}
 
 

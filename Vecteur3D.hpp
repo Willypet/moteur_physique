@@ -27,6 +27,8 @@ namespace Physics{
 
 			Vecteur3D cross(const Vecteur3D& other);
 			float dot(const Vecteur3D& lhs, const Vecteur3D& rhs);
+
+			static Vecteur3D vecteurNull();
 	};
 
 	Vecteur3D operator*(const float f, const Vecteur3D v);

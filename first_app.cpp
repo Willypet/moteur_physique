@@ -20,7 +20,7 @@
 namespace Visual {
 
     FirstApp::FirstApp() {
-      loadGameObjects();     
+        spawnParticule("models/colored_cube.obj");
     }
     
     FirstApp::~FirstApp() {}
@@ -68,13 +68,18 @@ namespace Visual {
         vkDeviceWaitIdle(VDevice.device());
     }    
 
-    void FirstApp::loadGameObjects() {
-        std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, "models/colored_cube.obj");
+    void FirstApp::loadGameObjects(Physics::Particule* particule) {
+        std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, particule->getGameObjectFilePath());
 
-        auto smoothVase = VGameObject::createGameObject();
-        smoothVase.model = VModel;
-        smoothVase.transform.translation = { .5f, .5f, 2.5f };
-        smoothVase.transform.scale = glm::vec3{ .5f, .5f, .5f };
-        gameObjects.push_back(std::move(smoothVase));
+        auto object = VGameObject::createGameObject();
+        object.model = VModel;
+        object.transform.translation = glm::vec3{particule->getPosition().x, particule->getPosition().y, particule->getPosition().z};
+        object.transform.scale = glm::vec3{ .5f, .5f, .5f };
+        gameObjects.push_back(std::move(object));
     }   
+
+    void FirstApp::spawnParticule(const std::string& gameObjectFilePath) {
+        auto particule = new Physics::Particule{Physics::Vecteur3D(0,0,2), gameObjectFilePath};
+        loadGameObjects(particule);
+    }
 }  // namespace V
