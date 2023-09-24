@@ -12,6 +12,10 @@
 #include <cstring>
 #include <unordered_map>
 
+#ifndef ENGINE_DIR
+#define ENGINE_DIR "../"
+#endif
+
 namespace std {
     template <>
     struct hash<Visual::VModel::Vertex> {
@@ -166,13 +170,14 @@ namespace Visual {
     }
 
     void VModel::Builder::loadModel(const std::string& filepath) {
+        std::string enginePath = ENGINE_DIR + filepath;
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
         std::string warn, err;
 
-        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filepath.c_str())) {
-            throw std::runtime_error(warn + err);
+        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, enginePath.c_str())) {
+            throw std::runtime_error(warn + err);   
         }
 
         vertices.clear();

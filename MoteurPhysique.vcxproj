@@ -136,38 +136,42 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="compile.bat" />
+    <None Include="minGWBuild.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="first_app.cpp" />
-    <ClCompile Include="keyboard_movement_controller.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Particule.cpp" />
-    <ClCompile Include="Vcamera.cpp" />
-    <ClCompile Include="Vdevice.cpp" />
-    <ClCompile Include="Vecteur3D.cpp" />
-    <ClCompile Include="Vgame_object.cpp" />
-    <ClCompile Include="Vmodel.cpp" />
-    <ClCompile Include="Vpipeline.cpp" />
-    <ClCompile Include="Vrenderer.cpp" />
-    <ClCompile Include="Vsimple_render_system.cpp" />
-    <ClCompile Include="Vswap_chain.cpp" />
-    <ClCompile Include="Vwindow.cpp" />
+    <ClCompile Include="src\first_app.cpp" />
+    <ClCompile Include="src\keyboard_movement_controller.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Particule.cpp" />
+    <ClCompile Include="src\Vcamera.cpp" />
+    <ClCompile Include="src\Vdevice.cpp" />
+    <ClCompile Include="src\Vecteur3D.cpp" />
+    <ClCompile Include="src\Vgame_object.cpp" />
+    <ClCompile Include="src\Vmodel.cpp" />
+    <ClCompile Include="src\Vpipeline.cpp" />
+    <ClCompile Include="src\Vrenderer.cpp" />
+    <ClCompile Include="src\Vsimple_render_system.cpp" />
+    <ClCompile Include="src\Vswap_chain.cpp" />
+    <ClCompile Include="src\Vwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="first_app.hpp" />
-    <ClInclude Include="keyboard_movement_controller.hpp" />
-    <ClInclude Include="Particule.hpp" />
-    <ClInclude Include="Vcamera.hpp" />
-    <ClInclude Include="Vdevice.hpp" />
-    <ClInclude Include="Vecteur3D.hpp" />
-    <ClInclude Include="Vgame_object.hpp" />
-    <ClInclude Include="Vmodel.hpp" />
-    <ClInclude Include="Vpipeline.hpp" />
-    <ClInclude Include="Vrenderer.hpp" />
-    <ClInclude Include="Vsimple_render_system.hpp" />
-    <ClInclude Include="Vswap_chain.hpp" />
-    <ClInclude Include="Vutils.hpp" />
-    <ClInclude Include="Vwindow.hpp" />
+    <ClInclude Include="src\first_app.hpp" />
+    <ClInclude Include="src\keyboard_movement_controller.hpp" />
+    <ClInclude Include="src\Particule.hpp" />
+    <ClInclude Include="src\Vcamera.hpp" />
+    <ClInclude Include="src\Vdevice.hpp" />
+    <ClInclude Include="src\Vecteur3D.hpp" />
+    <ClInclude Include="src\Vgame_object.hpp" />
+    <ClInclude Include="src\Vmodel.hpp" />
+    <ClInclude Include="src\Vpipeline.hpp" />
+    <ClInclude Include="src\Vrenderer.hpp" />
+    <ClInclude Include="src\Vsimple_render_system.hpp" />
+    <ClInclude Include="src\Vswap_chain.hpp" />
+    <ClInclude Include="src\Vutils.hpp" />
+    <ClInclude Include="src\Vwindow.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

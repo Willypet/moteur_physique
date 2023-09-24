@@ -18,93 +18,99 @@
     <None Include="compile.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="minGWBuild.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="first_app.cpp">
+    <ClCompile Include="src\first_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="keyboard_movement_controller.cpp">
+    <ClCompile Include="src\keyboard_movement_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vcamera.cpp">
+    <ClCompile Include="src\Vcamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vdevice.cpp">
+    <ClCompile Include="src\Vdevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vgame_object.cpp">
+    <ClCompile Include="src\Vgame_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vmodel.cpp">
+    <ClCompile Include="src\Vmodel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vpipeline.cpp">
+    <ClCompile Include="src\Vpipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vrenderer.cpp">
+    <ClCompile Include="src\Vrenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vsimple_render_system.cpp">
+    <ClCompile Include="src\Vsimple_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vswap_chain.cpp">
+    <ClCompile Include="src\Vswap_chain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vwindow.cpp">
+    <ClCompile Include="src\Vwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Particule.cpp">
+    <ClCompile Include="src\Particule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vecteur3D.cpp">
+    <ClCompile Include="src\Vecteur3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="first_app.hpp">
+    <ClInclude Include="src\first_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="keyboard_movement_controller.hpp">
+    <ClInclude Include="src\keyboard_movement_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vcamera.hpp">
+    <ClInclude Include="src\Vcamera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vdevice.hpp">
+    <ClInclude Include="src\Vdevice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vgame_object.hpp">
+    <ClInclude Include="src\Vgame_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vmodel.hpp">
+    <ClInclude Include="src\Vmodel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vpipeline.hpp">
+    <ClInclude Include="src\Vpipeline.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vrenderer.hpp">
+    <ClInclude Include="src\Vrenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vsimple_render_system.hpp">
+    <ClInclude Include="src\Vsimple_render_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vswap_chain.hpp">
+    <ClInclude Include="src\Vswap_chain.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vutils.hpp">
+    <ClInclude Include="src\Vutils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vwindow.hpp">
+    <ClInclude Include="src\Vwindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Particule.hpp">
+    <ClInclude Include="src\Particule.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vecteur3D.hpp">
+    <ClInclude Include="src\Vecteur3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>
