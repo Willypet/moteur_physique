@@ -21,6 +21,7 @@
     <None Include="minGWBuild.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include=".env.cmake" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\first_app.cpp">
