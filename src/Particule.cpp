@@ -22,12 +22,19 @@ namespace Physics{
         acceleration(acceleration), 
         gameObjectFilePath(gameObjectFilePath),
         idGameObject(0){}
-    
-    void Particule::update(double deltaTime) {
+    // TODO : Setter pour update
+    /*void Particule::update(double deltaTime) {
         vitesse += acceleration * deltaTime;
         position += vitesse * deltaTime;
+    }*/
+    void Particule::setVitesse(Vecteur3D new_vitesse) {
+        vitesse = new_vitesse;
     }
-    
+
+    void Particule::setAcceleration(Vecteur3D new_acceleration) {
+        acceleration = new_acceleration;
+    }
+
     double Particule::getMasse() const {
         return masse;
     }

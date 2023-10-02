@@ -28,7 +28,11 @@ namespace Physics{
             int idGameObject;
 
             // Fonction pour update les attributs de la particule
-            void update(double time);
+            //// void update(double time);
+
+            // Setters
+            void setVitesse(Vecteur3D new_vitesse);
+            void setAcceleration(Vecteur3D new_acceleration);
 
             // Getters
             double getMasse() const;
