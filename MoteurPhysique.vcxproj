@@ -167,6 +167,7 @@
     <ClInclude Include="src\first_app.hpp" />
     <ClInclude Include="src\keyboard_movement_controller.hpp" />
     <ClInclude Include="src\Particule.hpp" />
+    <ClInclude Include="src\PhysicsCore.hpp" />
     <ClInclude Include="src\Vcamera.hpp" />
     <ClInclude Include="src\Vdevice.hpp" />
     <ClInclude Include="src\Vecteur3D.hpp" />
