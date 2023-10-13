@@ -152,6 +152,7 @@
     <ClCompile Include="src\keyboard_movement_controller.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Particule.cpp" />
+    <ClCompile Include="src\PhysicsCore.cpp" />
     <ClCompile Include="src\Vcamera.cpp" />
     <ClCompile Include="src\Vdevice.cpp" />
     <ClCompile Include="src\Vecteur3D.cpp" />
