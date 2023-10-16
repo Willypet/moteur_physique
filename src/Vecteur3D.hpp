@@ -16,7 +16,9 @@ namespace Physics{
 
 			Vecteur3D& operator=(const Vecteur3D& other);
 			Vecteur3D& operator+=(const Vecteur3D& other);
+			Vecteur3D operator+(const Vecteur3D& other);
 			Vecteur3D& operator-=(const Vecteur3D& other);
+			Vecteur3D operator-(const Vecteur3D& other);
 			Vecteur3D& operator*=(const float other);
 			Vecteur3D& operator/=(const float other);
 			Vecteur3D& operator^(const Vecteur3D& other);

@@ -27,11 +27,16 @@ namespace Physics{
         vitesse += acceleration * deltaTime;
         position += vitesse * deltaTime;
     }*/
-    void Particule::setVitesse(Vecteur3D new_vitesse) {
+
+    void Particule::setPosition(const Vecteur3D& new_position) {
+        position = new_position;
+    }
+
+    void Particule::setVitesse(const Vecteur3D& new_vitesse) {
         vitesse = new_vitesse;
     }
 
-    void Particule::setAcceleration(Vecteur3D new_acceleration) {
+    void Particule::setAcceleration(const Vecteur3D& new_acceleration) {
         acceleration = new_acceleration;
     }
 

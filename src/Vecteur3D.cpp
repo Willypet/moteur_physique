@@ -30,8 +30,16 @@ namespace Physics{
 		return *this = Vecteur3D(x + other.x, y + other.y, z + other.z);
 	}
 
+	Vecteur3D Vecteur3D::operator+(const Vecteur3D& other) {
+		return Vecteur3D(x + other.x, y + other.y, z + other.z);
+	}
+
 	Vecteur3D& Vecteur3D::operator-=(const Vecteur3D& other){
 		return *this = Vecteur3D(x - other.x, y - other.y, z - other.z);
+	}
+
+	Vecteur3D Vecteur3D::operator-(const Vecteur3D& other) {
+		return Vecteur3D(x - other.x, y - other.y, z - other.z);
 	}
 
 	Vecteur3D& Vecteur3D::operator*=(const float other){

@@ -8,7 +8,7 @@
 namespace Physics {
     class ParticleForceGenerator {
         public:
-            virtual void UpdateForce(const Particule& particule, float duration) const = 0;
+            virtual void UpdateForce(Particule* particule, float duration) const = 0;
     };
 } // namespace Physics
 

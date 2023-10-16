@@ -12,7 +12,7 @@ namespace Physics {
             Vecteur3D m_gravity;
         public:
             ParticleGravity(const Vecteur3D& m_gravity);
-            void UpdateForce(Particule* particule, float duration);
+            void UpdateForce(Particule* particule, float duration) const override;
     };
 } // namespace Physics
 

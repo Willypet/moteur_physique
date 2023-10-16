@@ -2,6 +2,7 @@
 #include "Vsimple_render_system.hpp"
 #include "Vcamera.hpp"
 #include "keyboard_movement_controller.hpp"
+#include "ParticleGravity.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -48,23 +49,23 @@ namespace Visual {
 
             simulationTime += frameTime;
 
+            //SIMULATION PHYSIQUE
             currentIter = 0;
             while (simulationTime >= SIMULATION_STEP && currentIter < MAX_SIMULATION_ITER){
                 simulationTime -= SIMULATION_STEP;
                 currentIter += 1;
                 physicsCore.UpdateAll(SIMULATION_STEP);
             }
-            //DEPLACEMENT OBJETS
-            /*for (auto particule : particules)
-            {
-                particule->update(frameTime);
-                
+
+            //DEPLACEMENT VISUEL
+            for (auto particule : particules)
+            {   
                 auto gameObjectIterator = gameObjects.find(particule->idGameObject);
                 if (gameObjectIterator != gameObjects.end()) {
                     VGameObject& gameObject = gameObjectIterator->second; 
                     gameObject.transform.translation = glm::vec3{particule->getPosition().x, particule->getPosition().y, particule->getPosition().z };
                 }
-            }*/
+            }
 
             cameraController.moveInPlaneXZ(VWindow.getGLFWwindow(), frameTime, viewerObject);                      
             camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
@@ -90,9 +91,12 @@ namespace Visual {
 
     void FirstApp::inputParticle()
     {
+        Physics::ParticleGravity* gravity = new Physics::ParticleGravity(Physics::Vecteur3D(0, -1, 0));
         //vitesse initalie nulle, acceleration constante
         auto particule1 = new Physics::Particule{ 1, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(.5,0,0), "models/cube_rouge.obj" };
         spawnParticule(particule1);
+        physicsCore.AddParticle(particule1);
+        physicsCore.AddForce(gravity, particule1);
         //vitesse constante, acceleration nulle
         auto particule2 = new Physics::Particule{ 1, Physics::Vecteur3D(0,-0.5,2), Physics::Vecteur3D(.5,0,0), Physics::Vecteur3D(0,0,0), "models/cube_vert.obj" };
         spawnParticule(particule2);

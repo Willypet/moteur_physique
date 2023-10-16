@@ -31,8 +31,9 @@ namespace Physics{
             //// void update(double time);
 
             // Setters
-            void setVitesse(Vecteur3D new_vitesse);
-            void setAcceleration(Vecteur3D new_acceleration);
+            void setPosition(const Vecteur3D& new_position);
+            void setVitesse(const Vecteur3D& new_vitesse);
+            void setAcceleration(const Vecteur3D& new_acceleration);
 
             // Getters
             double getMasse() const;
