@@ -2,10 +2,22 @@
 
 namespace Physics {
 	void PhysicsCore::UpdateAll(const float duration) {
-		for (auto & [force, particules] : forces) {
-			for (Particule* particule : particules) {
-				force->UpdateForce(particule, duration);
+		for (auto iter_forces = forces.begin(); iter_forces != forces.end();){
+			auto& [force, particules] = *iter_forces;
+			if (force == nullptr) {
+				iter_forces = forces.erase(iter_forces);
+				continue;
 			}
+			for (auto iter_particules = particules.begin(); iter_particules != particules.end();) {
+				Particule *particule = *iter_particules;
+				if (particule == nullptr) {
+					iter_particules = particules.erase(iter_particules);
+					continue;
+				}
+				force->UpdateForce(particule, duration);
+				iter_particules++;
+			}
+			iter_forces++;
 		}
 		UpdateParticlePos(duration);
 	}
