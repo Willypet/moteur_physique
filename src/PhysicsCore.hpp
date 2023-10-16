@@ -9,9 +9,13 @@
 namespace Physics {
 	class PhysicsCore {
 	public:
-		std::map<ParticleForceGenerator, std::vector<Particule>> forces;
-
 		void UpdateAll(const float duration);
+
+		void AddForce(ParticleForceGenerator* force, Particule* particule);
+
+		void AddForce(ParticleForceGenerator* force, std::vector<Particule*> particules);
+	private:
+		std::map<ParticleForceGenerator*, std::vector<Particule*>> forces;
 	};
 }
 #endif

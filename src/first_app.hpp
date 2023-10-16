@@ -7,6 +7,7 @@
 
 #include "Particule.hpp"
 #include "Vecteur3D.hpp"
+#include "PhysicsCore.hpp"
 
 // std
 #include <memory>
@@ -47,5 +48,6 @@ namespace Visual {
 		VRenderer VRenderer{ VWindow, VDevice };
 		std::vector<Physics::Particule*> particules;
 		std::map<int, VGameObject> gameObjects;
+		Physics::PhysicsCore physicsCore;
 	};
 }  // namespace V

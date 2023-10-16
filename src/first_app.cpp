@@ -16,6 +16,8 @@
 #include <chrono>
 
 #define MAX_FRAME_TIME .01f
+#define SIMULATION_STEP 0.016f
+#define MAX_SIMULATION_ITER 10
 
 namespace Visual {
 
@@ -29,6 +31,8 @@ namespace Visual {
         VSimpleRenderSystem simpleRenderSystem{ VDevice, VRenderer.getSwapChainRenderPass() };
 
         VCamera camera{}; 
+        float simulationTime = 0.0f;
+        int currentIter = 0;
 
         auto viewerObject = VGameObject::createGameObject(); // garde en memoire l'etat de la camera. N'a pas de rendu
         KeyboardMovementController cameraController{};
@@ -42,10 +46,16 @@ namespace Visual {
             float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
             currentTime = newTime;
 
-            frameTime = glm::min(frameTime, MAX_FRAME_TIME);
+            simulationTime += frameTime;
 
+            currentIter = 0;
+            while (simulationTime >= SIMULATION_STEP && currentIter < MAX_SIMULATION_ITER){
+                simulationTime -= SIMULATION_STEP;
+                currentIter += 1;
+                physicsCore.UpdateAll(SIMULATION_STEP);
+            }
             //DEPLACEMENT OBJETS
-            for (auto particule : particules)
+            /*for (auto particule : particules)
             {
                 particule->update(frameTime);
                 
@@ -54,7 +64,7 @@ namespace Visual {
                     VGameObject& gameObject = gameObjectIterator->second; 
                     gameObject.transform.translation = glm::vec3{particule->getPosition().x, particule->getPosition().y, particule->getPosition().z };
                 }
-            }
+            }*/
 
             cameraController.moveInPlaneXZ(VWindow.getGLFWwindow(), frameTime, viewerObject);                      
             camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
