@@ -28,7 +28,7 @@ namespace Physics{
 			Vecteur3D normalized();
 
 			Vecteur3D cross(const Vecteur3D& other);
-			float dot(const Vecteur3D& lhs, const Vecteur3D& rhs);
+			static float dot(const Vecteur3D& lhs, const Vecteur3D& rhs);
 
 			static Vecteur3D vecteurNull();
 	};
