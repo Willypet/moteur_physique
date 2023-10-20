@@ -14,6 +14,7 @@ namespace Physics{
             Vecteur3D position;
             Vecteur3D vitesse;
             Vecteur3D acceleration;
+            float radius;
 
             //Game Object info
             std::string gameObjectFilePath;         
@@ -22,7 +23,7 @@ namespace Physics{
             // Constructeur
             Particule(const std::string& gameObjectFilePath);
             Particule(const Vecteur3D& position, const std::string& gameObjectFilePath);
-            Particule(double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& getGameObjectFilePath);
+            Particule(float radius, double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& getGameObjectFilePath);
 
             //Game Object info
             int idGameObject;
@@ -36,6 +37,7 @@ namespace Physics{
             void setAcceleration(const Vecteur3D& new_acceleration);
 
             // Getters
+            float getRadius() const;
             double getMasse() const;
             Vecteur3D getPosition() const;
             Vecteur3D getVitesse() const;

@@ -1,6 +1,7 @@
 #include "PhysicsCore.hpp"
 
 namespace Physics {
+
 	void PhysicsCore::UpdateAll(const float duration) {
 		for (auto iter_forces = forces.begin(); iter_forces != forces.end();){
 			auto& [force, particules] = *iter_forces;
@@ -20,14 +21,39 @@ namespace Physics {
 			iter_forces++;
 		}
 		UpdateParticlePos(duration);
+		std::vector<ParticleContact> contacts = GenerateContacts();
+		ResolveContacts(contacts, duration);
+		ResetParticleAcc();
 	}
 
 	void PhysicsCore::UpdateParticlePos(const float duration) {
 		for (Particule* particule : particulesInSim) {
 			particule->setPosition(particule->getPosition() + particule->getVitesse() * duration);
-			particule->setVitesse(particule->getVitesse() + particule->getAcceleration() * duration);
+			particule->setVitesse(particule->getVitesse() + particule->getAcceleration() * duration);	
+		}
+	}
+
+	void PhysicsCore::ResetParticleAcc() {
+		for (Particule* particule : particulesInSim) {
 			particule->setAcceleration(Vecteur3D(0, 0, 0));
 		}
+	}
+
+	std::vector<ParticleContact> PhysicsCore::GenerateContacts() {
+		std::vector<ParticleContact> contacts;
+		for (auto& contact : contactGenerators) {
+			contact->addContact(contacts);
+		}
+		return contacts;
+	}
+
+	void PhysicsCore::ResolveContacts(std::vector<ParticleContact>& contacts, float duration) {
+		resolver.setMaxIterations(2 * contacts.size());
+		resolver.resolveContacts(contacts, duration);
+	}
+
+	void PhysicsCore::AddContactGenerator(ParticleContactGenerator* contact) {
+		contactGenerators.push_back(contact);
 	}
 
 	void PhysicsCore::AddForce(ParticleForceGenerator* force, Particule* particule){
@@ -57,6 +83,9 @@ namespace Physics {
 	PhysicsCore::~PhysicsCore() {
 		for (auto& [force, particules] : forces) {
 			delete force;
+		}
+		for (auto& contact : contactGenerators) {
+			delete contact;
 		}
 	}
 }

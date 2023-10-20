@@ -62,6 +62,9 @@ namespace Physics{
 								 x * other.y - y * other.x);
 	}
 
+	float Vecteur3D::magnitudeSquared() {
+		return x * x + y * y + z * z;
+	}
 
 	float Vecteur3D::magnitude(){
 		return std::sqrt(x * x + y * y + z * z);

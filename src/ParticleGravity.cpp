@@ -5,7 +5,7 @@ namespace Physics {
         this->m_gravity = m_gravity;
     }
 
-    void ParticleGravity::UpdateForce(Particule* particule, float duration) const{
+    void ParticleGravity::UpdateForce(Particule* particule, float duration){
         particule->setAcceleration(particule->getAcceleration() + m_gravity);
     }
 }

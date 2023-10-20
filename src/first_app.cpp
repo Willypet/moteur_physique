@@ -3,6 +3,7 @@
 #include "Vcamera.hpp"
 #include "keyboard_movement_controller.hpp"
 #include "ParticleGravity.hpp"
+#include "NaiveParticleCollisionGenerator.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -91,12 +92,21 @@ namespace Visual {
 
     void FirstApp::inputParticle()
     {
-        Physics::ParticleGravity* gravity = new Physics::ParticleGravity(Physics::Vecteur3D(0, -1, 0));
+        //Physics::ParticleGravity* gravity = new Physics::ParticleGravity(Physics::Vecteur3D(0, -1, 0));
         //vitesse initalie nulle, acceleration constante
-        auto particule1 = new Physics::Particule{ 1, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(.5,0,0), "models/cube_rouge.obj" };
+        auto particule1 = new Physics::Particule{1, 1, Physics::Vecteur3D(5,0,0), Physics::Vecteur3D(-1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
         spawnParticule(particule1);
         physicsCore.AddParticle(particule1);
-        physicsCore.AddForce(gravity, particule1);
+
+        auto particule2 = new Physics::Particule{ 1, 1, Physics::Vecteur3D(-5,0,0), Physics::Vecteur3D(1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
+        spawnParticule(particule2);
+        physicsCore.AddParticle(particule2);
+
+        Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
+        collisionGenerator->particles = std::vector<Physics::Particule*>({ particule1, particule2 });
+        physicsCore.AddContactGenerator(collisionGenerator);
+        //physicsCore.AddForce(gravity, particule1);
+        /*
         //vitesse constante, acceleration nulle
         auto particule2 = new Physics::Particule{ 1, Physics::Vecteur3D(0,-0.5,2), Physics::Vecteur3D(.5,0,0), Physics::Vecteur3D(0,0,0), "models/cube_vert.obj" };
         spawnParticule(particule2);
@@ -108,7 +118,7 @@ namespace Visual {
         spawnParticule(particule4);
         //montre que les coordonnes sont en 3D
         auto particule5 = new Physics::Particule{ 1, Physics::Vecteur3D(1,-1,5), Physics::Vecteur3D(-.5,.5,-.5), Physics::Vecteur3D(0,-.2,0), "models/colored_cube.obj" };
-        spawnParticule(particule5);
+        spawnParticule(particule5);*/
     }
 
     void FirstApp::loadGameObjects(Physics::Particule* particule) {

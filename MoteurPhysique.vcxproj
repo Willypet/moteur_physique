@@ -151,7 +151,13 @@
     <ClCompile Include="src\first_app.cpp" />
     <ClCompile Include="src\keyboard_movement_controller.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NaiveParticleCollisionGenerator.cpp" />
+    <ClCompile Include="src\ParticleAnchoredSpring.cpp" />
+    <ClCompile Include="src\ParticleContact.cpp" />
+    <ClCompile Include="src\ParticleContactResolver.cpp" />
+    <ClCompile Include="src\ParticleDrag.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
+    <ClCompile Include="src\ParticleSpring.cpp" />
     <ClCompile Include="src\Particule.cpp" />
     <ClCompile Include="src\PhysicsCore.cpp" />
     <ClCompile Include="src\Vcamera.cpp" />
@@ -168,7 +174,15 @@
   <ItemGroup>
     <ClInclude Include="src\first_app.hpp" />
     <ClInclude Include="src\keyboard_movement_controller.hpp" />
+    <ClInclude Include="src\NaiveParticleCollisionGenerator.hpp" />
+    <ClInclude Include="src\ParticleAnchoredSpring.hpp" />
+    <ClInclude Include="src\ParticleContact.hpp" />
+    <ClInclude Include="src\ParticleContactGenerator.hpp" />
+    <ClInclude Include="src\ParticleContactResolver.hpp" />
+    <ClInclude Include="src\ParticleDrag.hpp" />
+    <ClInclude Include="src\ParticleForceGenerator.hpp" />
     <ClInclude Include="src\ParticleGravity.hpp" />
+    <ClInclude Include="src\ParticleSpring.hpp" />
     <ClInclude Include="src\Particule.hpp" />
     <ClInclude Include="src\PhysicsCore.hpp" />
     <ClInclude Include="src\Vcamera.hpp" />

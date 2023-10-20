@@ -2,21 +2,24 @@
 
 namespace Physics{
     Particule::Particule(const std::string& gameObjectFilePath) 
-        : masse(1), 
+        : radius(1),
+        masse(1), 
         position(Vecteur3D::vecteurNull()), 
         vitesse(Vecteur3D::vecteurNull()), 
         acceleration(Vecteur3D::vecteurNull()), 
         gameObjectFilePath(gameObjectFilePath),
         idGameObject(0) {}
     Particule::Particule(const Vecteur3D& position, const std::string& gameObjectFilePath)
-        : masse(1), 
+        : radius(1),
+        masse(1), 
         position(position), 
         vitesse(Vecteur3D::vecteurNull()), 
         acceleration(Vecteur3D::vecteurNull()), 
         gameObjectFilePath(gameObjectFilePath),
         idGameObject(0) {}
-    Particule::Particule(double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& gameObjectFilePath)
-        : masse(masse), 
+    Particule::Particule(float radius, double masse, const Vecteur3D& position, const Vecteur3D& vitesse, const Vecteur3D& acceleration, const std::string& gameObjectFilePath)
+        : radius(radius),
+        masse(masse), 
         position(position), 
         vitesse(vitesse),
         acceleration(acceleration), 
@@ -38,6 +41,10 @@ namespace Physics{
 
     void Particule::setAcceleration(const Vecteur3D& new_acceleration) {
         acceleration = new_acceleration;
+    }
+
+    float Particule::getRadius() const {
+        return radius;
     }
 
     double Particule::getMasse() const {

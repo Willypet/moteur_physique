@@ -23,6 +23,7 @@ namespace Physics{
 			Vecteur3D& operator/=(const float other);
 			Vecteur3D& operator^(const Vecteur3D& other);
 
+			float magnitudeSquared();
 			float magnitude();
 			void normalize();
 			Vecteur3D normalized();

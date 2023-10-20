@@ -1,18 +1,20 @@
 #pragma once
 #include "ParticleContact.hpp"
+#include<vector>
 
 namespace Physics {
 	class ParticleContactResolver {
 	public:
-		ParticleContactResolver(int maxIterations);
+		ParticleContactResolver();
+		ParticleContactResolver(unsigned int maxIterations);
 
-		void setMaxIterations(int newMax);
+		void setMaxIterations(unsigned int newMax);
 
-		void resolveContacts(ParticleContact* contacts, int contactsNumber, float duration);
+		void resolveContacts(std::vector<ParticleContact> contacts, float duration);
 
 	private:
-		int maxIterations;
+		unsigned int maxIterations;
 
-		int currentIteration;
+		unsigned int currentIteration;
 	};
 }
