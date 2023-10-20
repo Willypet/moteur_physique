@@ -19,17 +19,22 @@ namespace Physics {
 		currentIteration = 0;
 		while (currentIteration < maxIterations) {
 			unsigned int contactsNumber = contacts.size();
-			float maxVelocity = 0;
-			int maxIndex = contactsNumber;
+			float minSeparatingVelocity = 0;
+			int minIndex = contactsNumber;
 			for (unsigned int i = 0; i < contactsNumber; i++) {
 				float separatingVelocity = contacts[i].computeVelocity();
 
-				if (separatingVelocity > maxVelocity) {
-					maxVelocity = separatingVelocity;
-					maxIndex = i;
+				if (separatingVelocity < minSeparatingVelocity) {
+					minSeparatingVelocity = separatingVelocity;
+					minIndex = i;
 				}
 			}
-			contacts[maxIndex].resolve(duration);
+
+			if (minSeparatingVelocity >= 0) { //Tous les contacts sont résolus
+				return;
+			}
+
+			contacts[minIndex].resolve(duration);
 			currentIteration++;
 		}
 	}

@@ -78,12 +78,12 @@ namespace Physics {
 			return;
 		}
 
-		Vecteur3D moveIMass = normal * (-penetration / sumInverseMass);
+		Vecteur3D moveIMass = normal * (penetration / sumInverseMass);
 
 		particles[0]->setPosition(particles[0]->getPosition() + moveIMass / particles[0]->getMasse());
 		if (particles[1] != nullptr)
 		{
-			particles[1]->setPosition(particles[1]->getPosition() + moveIMass / particles[1]->getMasse());
+			particles[1]->setPosition(particles[1]->getPosition() - moveIMass / particles[1]->getMasse());
 		}
 	}
 }

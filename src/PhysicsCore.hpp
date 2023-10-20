@@ -12,7 +12,7 @@
 namespace Physics {
 	class PhysicsCore {
 	public:
-		void UpdateAll(const float duration);
+		void UpdateAll(const float duration, const unsigned int substep);
 
 		void AddForce(ParticleForceGenerator* force, Particule* particule);
 
@@ -25,6 +25,7 @@ namespace Physics {
 		~PhysicsCore();
 	private:
 		std::vector<ParticleContact> GenerateContacts();
+		void ApplyForces(const float duration);
 		void ResolveContacts(std::vector<ParticleContact> &contacts, float duration);
 		void UpdateParticlePos(const float duration);
 		void ResetParticleAcc();

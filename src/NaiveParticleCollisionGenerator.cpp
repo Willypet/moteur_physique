@@ -13,7 +13,7 @@ namespace Physics {
 					contact.particles[1] = particles[j];
 					contact.restitution = 1;
 					contact.penetration = maxDistance - distance;
-					contact.normal = (particles[j]->getPosition() - particles[i]->getPosition()).normalized();
+					contact.normal = (particles[i]->getPosition() - particles[j]->getPosition()).normalized();
 					contacts.push_back(contact);
 				}
 			}

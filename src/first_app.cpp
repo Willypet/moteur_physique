@@ -55,7 +55,7 @@ namespace Visual {
             while (simulationTime >= SIMULATION_STEP && currentIter < MAX_SIMULATION_ITER){
                 simulationTime -= SIMULATION_STEP;
                 currentIter += 1;
-                physicsCore.UpdateAll(SIMULATION_STEP);
+                physicsCore.UpdateAll(SIMULATION_STEP, 2);
             }
 
             //DEPLACEMENT VISUEL
@@ -94,16 +94,20 @@ namespace Visual {
     {
         //Physics::ParticleGravity* gravity = new Physics::ParticleGravity(Physics::Vecteur3D(0, -1, 0));
         //vitesse initalie nulle, acceleration constante
-        auto particule1 = new Physics::Particule{1, 1, Physics::Vecteur3D(5,0,0), Physics::Vecteur3D(-1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
+        auto particule1 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(0.1,-0.1,5), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
         spawnParticule(particule1);
         physicsCore.AddParticle(particule1);
 
-        auto particule2 = new Physics::Particule{ 1, 1, Physics::Vecteur3D(-5,0,0), Physics::Vecteur3D(1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
+        auto particule2 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(0.2,0,5), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
         spawnParticule(particule2);
         physicsCore.AddParticle(particule2);
 
+        auto particule3 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(0,-3,5), Physics::Vecteur3D(0,1,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj"};
+        spawnParticule(particule3);
+        physicsCore.AddParticle(particule3);
+
         Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
-        collisionGenerator->particles = std::vector<Physics::Particule*>({ particule1, particule2 });
+        collisionGenerator->particles = std::vector<Physics::Particule*>({ particule1, particule2, particule3});
         physicsCore.AddContactGenerator(collisionGenerator);
         //physicsCore.AddForce(gravity, particule1);
         /*

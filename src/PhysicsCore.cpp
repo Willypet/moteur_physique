@@ -2,15 +2,27 @@
 
 namespace Physics {
 
-	void PhysicsCore::UpdateAll(const float duration) {
-		for (auto iter_forces = forces.begin(); iter_forces != forces.end();){
+	void PhysicsCore::UpdateAll(const float duration, const unsigned int substep) {
+		float timestep = duration / substep;
+		for (unsigned int i = 0; i < substep; i++) {
+			ApplyForces(timestep);
+			UpdateParticlePos(timestep);
+			std::vector<ParticleContact> contacts = GenerateContacts();
+			ResolveContacts(contacts, timestep);
+			ResetParticleAcc();
+		}
+	}
+
+
+	void PhysicsCore::ApplyForces(const float duration) {
+		for (auto iter_forces = forces.begin(); iter_forces != forces.end();) {
 			auto& [force, particules] = *iter_forces;
 			if (force == nullptr) {
 				iter_forces = forces.erase(iter_forces);
 				continue;
 			}
 			for (auto iter_particules = particules.begin(); iter_particules != particules.end();) {
-				Particule *particule = *iter_particules;
+				Particule* particule = *iter_particules;
 				if (particule == nullptr) {
 					iter_particules = particules.erase(iter_particules);
 					continue;
@@ -20,10 +32,6 @@ namespace Physics {
 			}
 			iter_forces++;
 		}
-		UpdateParticlePos(duration);
-		std::vector<ParticleContact> contacts = GenerateContacts();
-		ResolveContacts(contacts, duration);
-		ResetParticleAcc();
 	}
 
 	void PhysicsCore::UpdateParticlePos(const float duration) {
@@ -40,7 +48,7 @@ namespace Physics {
 	}
 
 	std::vector<ParticleContact> PhysicsCore::GenerateContacts() {
-		std::vector<ParticleContact> contacts;
+		std::vector<ParticleContact> contacts = std::vector<ParticleContact>();
 		for (auto& contact : contactGenerators) {
 			contact->addContact(contacts);
 		}
