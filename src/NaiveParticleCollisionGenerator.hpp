@@ -6,6 +6,6 @@ namespace Physics {
 	class NaiveParticleCollisionGenerator : public ParticleContactGenerator {
 	public:
 		std::vector<Particule*> particles;
-		unsigned int addContact(std::vector<ParticleContact> &contacts) const;
+		void addContact(std::vector<ParticleContact> &contacts) const;
 	};
 }

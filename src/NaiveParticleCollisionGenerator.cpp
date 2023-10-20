@@ -1,7 +1,7 @@
 #include "NaiveParticleCollisionGenerator.hpp"
 
 namespace Physics {
-	unsigned int NaiveParticleCollisionGenerator::addContact(std::vector<ParticleContact> &contacts) const {
+	void NaiveParticleCollisionGenerator::addContact(std::vector<ParticleContact> &contacts) const {
 		unsigned int size = particles.size();
 		for (unsigned int i = 0; i < size - 1; i++) {
 			for (unsigned int j = i + 1; j < size; j++) {

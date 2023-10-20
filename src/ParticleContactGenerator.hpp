@@ -5,6 +5,6 @@
 namespace Physics {
 	class ParticleContactGenerator {
 	public:
-		virtual unsigned int addContact(std::vector<ParticleContact> &contacts) const = 0;
+		virtual void addContact(std::vector<ParticleContact> &contacts) const = 0;
 	};
 }
