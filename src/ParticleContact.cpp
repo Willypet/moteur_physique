@@ -18,7 +18,7 @@ namespace Physics {
 	void ParticleContact::resolveVelocity(float duration) {
 		float separatingVelocity = computeVelocity();
 
-		if (separatingVelocity > 0) //Contact au repos ou déjà en éloignement
+		if (separatingVelocity >= 0) //Contact au repos ou déjà en éloignement
 		{
 			return;
 		}
