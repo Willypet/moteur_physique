@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vdevice.hpp"
-#include "Vwindow.hpp"
-#include "Vgame_object.hpp"
-#include "Vrenderer.hpp"
+#include "Visual/Vdevice.hpp"
+#include "Visual/Vwindow.hpp"
+#include "Visual/Vgame_object.hpp"
+#include "Visual/Vrenderer.hpp"
 
-#include "Particule.hpp"
-#include "Vecteur3D.hpp"
-#include "PhysicsCore.hpp"
+#include "Physics/Particule.hpp"
+#include "Physics/Vecteur3D.hpp"
+#include "Physics/PhysicsCore.hpp"
 
 // std
 #include <memory>

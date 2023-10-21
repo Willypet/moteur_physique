@@ -33,61 +33,61 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vcamera.cpp">
+    <ClCompile Include="src\Physics\NaiveParticleCollisionGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vdevice.cpp">
+    <ClCompile Include="src\Physics\ParticleAnchoredSpring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vgame_object.cpp">
+    <ClCompile Include="src\Physics\ParticleContact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vmodel.cpp">
+    <ClCompile Include="src\Physics\ParticleContactResolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vpipeline.cpp">
+    <ClCompile Include="src\Physics\ParticleDrag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vrenderer.cpp">
+    <ClCompile Include="src\Physics\ParticleGravity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vsimple_render_system.cpp">
+    <ClCompile Include="src\Physics\ParticleSpring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vswap_chain.cpp">
+    <ClCompile Include="src\Physics\Particule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vwindow.cpp">
+    <ClCompile Include="src\Physics\PhysicsCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particule.cpp">
+    <ClCompile Include="src\Physics\Vecteur3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vecteur3D.cpp">
+    <ClCompile Include="src\Visual\Vcamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PhysicsCore.cpp">
+    <ClCompile Include="src\Visual\Vdevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleGravity.cpp">
+    <ClCompile Include="src\Visual\Vgame_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleAnchoredSpring.cpp">
+    <ClCompile Include="src\Visual\Vmodel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleDrag.cpp">
+    <ClCompile Include="src\Visual\Vpipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleSpring.cpp">
+    <ClCompile Include="src\Visual\Vrenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleContact.cpp">
+    <ClCompile Include="src\Visual\Vsimple_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleContactResolver.cpp">
+    <ClCompile Include="src\Visual\Vswap_chain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\NaiveParticleCollisionGenerator.cpp">
+    <ClCompile Include="src\Visual\Vwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,70 +98,70 @@
     <ClInclude Include="src\keyboard_movement_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vcamera.hpp">
+    <ClInclude Include="src\Visual\Vwindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vdevice.hpp">
+    <ClInclude Include="src\Physics\NaiveParticleCollisionGenerator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vgame_object.hpp">
+    <ClInclude Include="src\Physics\ParticleAnchoredSpring.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vmodel.hpp">
+    <ClInclude Include="src\Physics\ParticleContact.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vpipeline.hpp">
+    <ClInclude Include="src\Physics\ParticleContactGenerator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vrenderer.hpp">
+    <ClInclude Include="src\Physics\ParticleContactResolver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vsimple_render_system.hpp">
+    <ClInclude Include="src\Physics\ParticleDrag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vswap_chain.hpp">
+    <ClInclude Include="src\Physics\ParticleForceGenerator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vutils.hpp">
+    <ClInclude Include="src\Physics\ParticleGravity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vwindow.hpp">
+    <ClInclude Include="src\Physics\ParticleSpring.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Particule.hpp">
+    <ClInclude Include="src\Physics\Particule.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vecteur3D.hpp">
+    <ClInclude Include="src\Physics\PhysicsCore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PhysicsCore.hpp">
+    <ClInclude Include="src\Physics\Vecteur3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleGravity.hpp">
+    <ClInclude Include="src\Visual\Vcamera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleAnchoredSpring.hpp">
+    <ClInclude Include="src\Visual\Vdevice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleDrag.hpp">
+    <ClInclude Include="src\Visual\Vgame_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleForceGenerator.hpp">
+    <ClInclude Include="src\Visual\Vmodel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleSpring.hpp">
+    <ClInclude Include="src\Visual\Vpipeline.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleContact.hpp">
+    <ClInclude Include="src\Visual\Vrenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleContactResolver.hpp">
+    <ClInclude Include="src\Visual\Vsimple_render_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleContactGenerator.hpp">
+    <ClInclude Include="src\Visual\Vswap_chain.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\NaiveParticleCollisionGenerator.hpp">
+    <ClInclude Include="src\Visual\Vutils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

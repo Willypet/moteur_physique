@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vgame_object.hpp"
-#include "Vwindow.hpp"
+#include "Visual/Vgame_object.hpp"
+#include "Visual/Vwindow.hpp"
 #include "first_app.hpp"
 
 namespace Visual {

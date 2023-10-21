@@ -1,9 +1,10 @@
 #include "first_app.hpp"
-#include "Vsimple_render_system.hpp"
-#include "Vcamera.hpp"
+#include "Visual/Vsimple_render_system.hpp"
+#include "Visual/Vcamera.hpp"
 #include "keyboard_movement_controller.hpp"
-#include "ParticleGravity.hpp"
-#include "NaiveParticleCollisionGenerator.hpp"
+
+#include "Physics/ParticleGravity.hpp"
+#include "Physics/NaiveParticleCollisionGenerator.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -94,15 +95,15 @@ namespace Visual {
     {
         Physics::ParticleGravity* gravity = new Physics::ParticleGravity(Physics::Vecteur3D(0, 1, 0));
         //vitesse initalie nulle, acceleration constante
-        auto particule1 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(3,0,5), Physics::Vecteur3D(-1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
+        auto particule1 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(3,0,5), Physics::Vecteur3D(-1,0,0), Physics::Vecteur3D(0,0,0), "models/sphere.obj" };
         spawnParticule(particule1);
         physicsCore.AddParticle(particule1);
 
-        auto particule2 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(-3,0,5), Physics::Vecteur3D(1,0,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj" };
+        auto particule2 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(-3,0,5), Physics::Vecteur3D(1,0,0), Physics::Vecteur3D(0,0,0), "models/sphere.obj" };
         spawnParticule(particule2);
         physicsCore.AddParticle(particule2);
 
-        auto particule3 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(0,-3,5), Physics::Vecteur3D(0,1,0), Physics::Vecteur3D(0,0,0), "models/cube_rouge.obj"};
+        auto particule3 = new Physics::Particule{0.1, 1, Physics::Vecteur3D(0,-3,5), Physics::Vecteur3D(0,1,0), Physics::Vecteur3D(0,0,0), "models/sphere.obj"};
         spawnParticule(particule3);
         physicsCore.AddParticle(particule3);
 
@@ -131,7 +132,7 @@ namespace Visual {
         auto object = VGameObject::createGameObject();
         object.model = VModel;
         object.transform.translation = glm::vec3{particule->getPosition().x, particule->getPosition().y, particule->getPosition().z};
-        object.transform.scale = glm::vec3{ .1f, .1f, .1f };
+        object.transform.scale = glm::vec3{ particule->getRadius()};
         particule->idGameObject = object.getId();
         gameObjects.emplace(object.getId(), std::move(object));
     }   
