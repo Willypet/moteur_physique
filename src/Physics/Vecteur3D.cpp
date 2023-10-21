@@ -78,6 +78,7 @@ namespace Physics{
 		float magnitude = this->magnitude();
 		if(magnitude < 10e-6){
 			throw "NullNormalization";
+			//return *(new Vecteur3D());
 		}
 		else{
 			Vecteur3D res (*this);

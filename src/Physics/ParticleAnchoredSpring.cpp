@@ -10,6 +10,6 @@ namespace Physics {
         auto d = m_anchor - particule->getPosition();
         auto norme_d = sqrt(pow(d.x, 2) + pow(d.y, 2) + pow(d.z, 2));
         auto force = m_k * (norme_d - m_restLength) * d.normalized();
-        particule->setAcceleration(particule->getAcceleration() - force / particule->getMasse());
+        particule->setAcceleration(particule->getAcceleration() + force / particule->getMasse());
     }
 }
