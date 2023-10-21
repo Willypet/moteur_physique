@@ -29,7 +29,7 @@ namespace Visual {
 		void close() {shouldClose = true;}
 		
 		void run();
-		void inputParticle();
+		void inputParticle(int app);
 		
 	private:	
 		FirstApp();
@@ -42,6 +42,10 @@ namespace Visual {
 
 		void loadGameObjects(Physics::Particule* particule);
 		void spawnParticule(Physics::Particule* particule);
+		
+		void resetApp();
+		void App0();
+		void App1();
 		
 		VWindow VWindow{WIDTH, HEIGHT, "Moteur Physique"};
 		VDevice VDevice{VWindow};

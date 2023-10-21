@@ -18,7 +18,9 @@ namespace Visual {
             int lookRight = GLFW_KEY_RIGHT;
             int lookUp = GLFW_KEY_UP;
             int lookDown = GLFW_KEY_DOWN;
-            int spawn = GLFW_KEY_ENTER;
+            int spawn0 = GLFW_KEY_0;
+            int spawn1 = GLFW_KEY_1;
+            int spawn2 = GLFW_KEY_2;
             int close = GLFW_KEY_ESCAPE;
 		};
 
