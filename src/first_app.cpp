@@ -23,6 +23,7 @@
 #include <array>
 #include <stdexcept>
 #include <chrono>
+#include <limits>
 
 #define MAX_FRAME_TIME .01f
 #define SIMULATION_STEP 0.016f
@@ -114,6 +115,9 @@ namespace Visual {
             break;
         case 4:
             App4();
+            break;
+        case 5:
+            App5();
             break;
         default:
             App0();
@@ -416,6 +420,34 @@ namespace Visual {
         physicsCore.AddForce(anchoredSpring1, particule4);
         Physics::ParticleAnchoredSpring* anchoredSpring2 = new Physics::ParticleAnchoredSpring(anchor2->getPosition(), 2, 1.5);
         physicsCore.AddForce(anchoredSpring2, particule8);
+
+
+        /*Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
+        collisionGenerator->particles = std::vector<Physics::Particule*>{ particule1, particule2, particule3, particule4, particule5, particule6, particule7, particule8, particule9, particule10,particule11 };
+        physicsCore.AddContactGenerator(collisionGenerator);*/
+    }
+
+    void FirstApp::App5() // Double Pendule
+    {
+        Physics::ParticleGravity* gravity1 = new Physics::ParticleGravity(Physics::Vecteur3D(0, 9.81, 0));
+        auto particule1 = new Physics::Particule{ 0.2, std::numeric_limits<double>::infinity(), Physics::Vecteur3D(0,1,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj"};
+        spawnParticule(particule1);
+        physicsCore.AddParticle(particule1);
+        auto particule2 = new Physics::Particule{ 0.2, 1, Physics::Vecteur3D(2,1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
+        spawnParticule(particule2);
+        physicsCore.AddParticle(particule2);
+        auto particule3 = new Physics::Particule{ 0.2, 1, Physics::Vecteur3D(4,1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
+        spawnParticule(particule3);
+        physicsCore.AddParticle(particule3);
+
+        Physics::Particule* link12[2] = { particule1, particule2 };
+        Physics::Particule* link23[2] = { particule2, particule3 };
+        Physics::ParticleRod* cable12 = new Physics::ParticleRod(link12, 2);
+        Physics::ParticleRod* cable23 = new Physics::ParticleRod(link23, 2);
+        physicsCore.AddContactGenerator(cable12);
+        physicsCore.AddContactGenerator(cable23);
+
+        physicsCore.AddForce(gravity1, std::vector<Physics::Particule*>({ particule2, particule3 }));
 
 
         /*Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
