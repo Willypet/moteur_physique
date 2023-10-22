@@ -9,6 +9,8 @@
 #include "Physics/ParticleDrag.hpp"
 #include "Physics/ParticleSpring.hpp"
 #include "Physics/ParticleAnchoredSpring.hpp"
+#include "Physics/ParticleCable.hpp"
+#include "Physics/ParticleRod.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -109,6 +111,9 @@ namespace Visual {
             break;
         case 3:
             App3();
+            break;
+        case 4:
+            App4();
             break;
         default:
             App0();
@@ -261,27 +266,27 @@ namespace Visual {
         spawnParticule(anchor0);
         physicsCore.AddParticle(anchor0);
 
-        auto particuleA0 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(0,1,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA0 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,1,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA0);
         physicsCore.AddParticle(particuleA0);
 
-        auto particuleA1 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(0,-1,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA1 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,-1,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA1);
         physicsCore.AddParticle(particuleA1);
 
-        auto particuleA2 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(1,0,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA2 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(1,0,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA2);
         physicsCore.AddParticle(particuleA2);
 
-        auto particuleA3 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(-1,0,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA3 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(-1,0,3), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA3);
         physicsCore.AddParticle(particuleA3);
 
-        auto particuleA4 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA4 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA4);
         physicsCore.AddParticle(particuleA4);
 
-        auto particuleA5 = new Physics::Particule{ 0.05, 1, Physics::Vecteur3D(0,0,4), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        auto particuleA5 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,0,4), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
         spawnParticule(particuleA5);
         physicsCore.AddParticle(particuleA5);
 
@@ -298,15 +303,126 @@ namespace Visual {
     void FirstApp::App3() // Mur + contact au repos
     {
         Physics::ParticleGravity* gravity1 = new Physics::ParticleGravity(Physics::Vecteur3D(0, 1, 0));
-        auto particule1 = new Physics::Particule{ .1, 1, Physics::Vecteur3D(0,-1,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj" };
+        auto particule1 = new Physics::Particule{ .2, 3, Physics::Vecteur3D(-.75,-2,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj" };
         spawnParticule(particule1);
         physicsCore.AddParticle(particule1);
-        physicsCore.AddForce(gravity1, particule1);
+
+        auto particule2 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(-.25,-2,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_jaune.obj" };
+        spawnParticule(particule2);
+        physicsCore.AddParticle(particule2);
+
+        auto particule3 = new Physics::Particule{ 0.1, .2, Physics::Vecteur3D(.25,-2,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_vert.obj" };
+        spawnParticule(particule3);
+        physicsCore.AddParticle(particule3);
+
+        auto particule4 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(.75,-2,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        spawnParticule(particule4);
+        physicsCore.AddParticle(particule4);
+
+        physicsCore.AddForce(gravity1, std::vector<Physics::Particule*>({ particule1, particule2, particule3, particule4 }));
+
+        auto ground = new Physics::Particule{ 1, 1, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/plane.obj" };
+        spawnParticule(ground);
         auto PlaneContact = new Physics::WallContactGenerator(Physics::Vecteur3D(0, -1, 0), Physics::Vecteur3D(0, 0, 0));
-        PlaneContact->particles = std::vector<Physics::Particule*>({ particule1 });
-        PlaneContact->restitution = 0.7;
+        PlaneContact->particles = std::vector<Physics::Particule*>({ particule1, particule2, particule3, particule4});
+        PlaneContact->restitution = .7;
         physicsCore.AddContactGenerator(PlaneContact);
+
+
     }
+
+    void FirstApp::App4() // Corde
+    {
+        Physics::ParticleGravity* gravity1 = new Physics::ParticleGravity(Physics::Vecteur3D(0, 1, 0));
+        auto particule1 = new Physics::Particule{ 0.2, 3, Physics::Vecteur3D(0,1,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj" };
+        spawnParticule(particule1);
+        physicsCore.AddParticle(particule1);
+        auto particule2 = new Physics::Particule{ 0.2, 3, Physics::Vecteur3D(0,1.4,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
+        spawnParticule(particule2);
+        physicsCore.AddParticle(particule2);
+        auto particule3 = new Physics::Particule{ 0.2, .3, Physics::Vecteur3D(0,1.6,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
+        spawnParticule(particule3);
+        physicsCore.AddParticle(particule3);
+
+        Physics::Particule* link12[2] = { particule1, particule2 };
+        Physics::Particule* link23[2] = { particule2, particule3 };
+        Physics::ParticleRod* cable12 = new Physics::ParticleRod(link12, .3);
+        Physics::ParticleRod* cable23 = new Physics::ParticleRod(link23, .3);
+        physicsCore.AddContactGenerator(cable12);
+        physicsCore.AddContactGenerator(cable23);
+
+
+        auto particule4 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,-1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        spawnParticule(particule4);
+        physicsCore.AddParticle(particule4);
+        auto particule5 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,-1.1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        spawnParticule(particule5);
+        physicsCore.AddParticle(particule5);
+        auto particule6 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,-1.2,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        spawnParticule(particule6);
+        physicsCore.AddParticle(particule6);
+        auto particule7 = new Physics::Particule{ 0.05, .5, Physics::Vecteur3D(0,-1.3,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_bleu.obj" };
+        spawnParticule(particule7);
+        physicsCore.AddParticle(particule7);
+
+        Physics::Particule* link45[2] = { particule4, particule5 };
+        Physics::Particule* link56[2] = { particule5, particule6 };
+        Physics::Particule* link67[2] = { particule6, particule7 };
+        Physics::ParticleCable* cable45 = new Physics::ParticleCable(link45, .2, 1);
+        Physics::ParticleCable* cable56 = new Physics::ParticleCable(link56, .2, 1);
+        Physics::ParticleCable* cable67 = new Physics::ParticleCable(link67, .2, 1);
+        physicsCore.AddContactGenerator(cable45);
+        physicsCore.AddContactGenerator(cable56);
+        physicsCore.AddContactGenerator(cable67);
+
+
+        auto particule8 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(0, 0, 2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_jaune.obj" };
+        spawnParticule(particule8);
+        physicsCore.AddParticle(particule8);
+        auto particule9 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(0, .2, 2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_jaune.obj" };
+        spawnParticule(particule9);
+        physicsCore.AddParticle(particule9);
+        auto particule10 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(0, .4, 2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_jaune.obj" };
+        spawnParticule(particule10);
+        physicsCore.AddParticle(particule10);
+        auto particule11 = new Physics::Particule{ .1, 1, Physics::Vecteur3D(0, .6, 2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_jaune.obj" };
+        spawnParticule(particule11);
+        physicsCore.AddParticle(particule11);
+
+        Physics::Particule* link89[2] = { particule8, particule9 };
+        Physics::Particule* link910[2] = { particule9, particule10 };
+        Physics::Particule* link1011[2] = { particule10, particule11 };
+        Physics::ParticleCable* cable89 = new Physics::ParticleCable(link89, .5, .3);
+        Physics::ParticleCable* cable910 = new Physics::ParticleCable(link910, .5, .3);
+        Physics::ParticleCable* cable1011 = new Physics::ParticleCable(link1011, .5, .3);
+        physicsCore.AddContactGenerator(cable89);
+        physicsCore.AddContactGenerator(cable910);
+        physicsCore.AddContactGenerator(cable1011);
+
+
+        auto anchor0 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(-2,1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/cube_rouge.obj" };
+        spawnParticule(anchor0);
+        physicsCore.AddParticle(anchor0);
+        auto anchor1 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(-2,-1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/cube_bleu.obj" };
+        spawnParticule(anchor1);
+        physicsCore.AddParticle(anchor1);
+        auto anchor2 = new Physics::Particule{ 0.1, 1, Physics::Vecteur3D(-2,0,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/cube_jaune.obj" };
+        spawnParticule(anchor2);
+        physicsCore.AddParticle(anchor2);
+
+        Physics::ParticleAnchoredSpring* anchoredSpring0 = new Physics::ParticleAnchoredSpring(anchor0->getPosition(), 2, 1.5);
+        physicsCore.AddForce(anchoredSpring0, particule1);
+        Physics::ParticleAnchoredSpring* anchoredSpring1 = new Physics::ParticleAnchoredSpring(anchor1->getPosition(), 2, 1.5);
+        physicsCore.AddForce(anchoredSpring1, particule4);
+        Physics::ParticleAnchoredSpring* anchoredSpring2 = new Physics::ParticleAnchoredSpring(anchor2->getPosition(), 2, 1.5);
+        physicsCore.AddForce(anchoredSpring2, particule8);
+
+
+        /*Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
+        collisionGenerator->particles = std::vector<Physics::Particule*>{ particule1, particule2, particule3, particule4, particule5, particule6, particule7, particule8, particule9, particule10,particule11 };
+        physicsCore.AddContactGenerator(collisionGenerator);*/
+    }
+
 
     void FirstApp::loadGameObjects(Physics::Particule* particule) {
         std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, particule->getGameObjectFilePath());

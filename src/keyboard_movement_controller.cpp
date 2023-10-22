@@ -58,17 +58,24 @@ namespace Visual {
 				isSpawnKeyPressed = true;
 			}
 		}
-		if (glfwGetKey(window, keys.spawn2) == GLFW_PRESS) {
+		else if (glfwGetKey(window, keys.spawn2) == GLFW_PRESS) {
 			if (!isSpawnKeyPressed) {
 
 				FirstApp::getInstance().inputParticle(2);
 				isSpawnKeyPressed = true;
 			}
 		}
-		if (glfwGetKey(window, keys.spawn3) == GLFW_PRESS) {
+		else if (glfwGetKey(window, keys.spawn3) == GLFW_PRESS) {
 			if (!isSpawnKeyPressed) {
 
 				FirstApp::getInstance().inputParticle(3);
+				isSpawnKeyPressed = true;
+			}
+		}
+		else if (glfwGetKey(window, keys.spawn4) == GLFW_PRESS) {
+			if (!isSpawnKeyPressed) {
+
+				FirstApp::getInstance().inputParticle(4);
 				isSpawnKeyPressed = true;
 			}
 		}
