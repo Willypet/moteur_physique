@@ -13,5 +13,6 @@ namespace Physics {
 		contact.normal.normalize();
 		contact.penetration = length - maxLength;
 		contact.restitution = restitution;
+		contacts.push_back(contact);
 	}
 }
