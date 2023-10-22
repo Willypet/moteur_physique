@@ -5,6 +5,7 @@
 
 #include "Physics/ParticleGravity.hpp"
 #include "Physics/NaiveParticleCollisionGenerator.hpp"
+#include "Physics/WallContactGenerator.hpp"
 #include "Physics/ParticleDrag.hpp"
 #include "Physics/ParticleSpring.hpp"
 #include "Physics/ParticleAnchoredSpring.hpp"
@@ -105,6 +106,9 @@ namespace Visual {
             break;
         case 2:
             App2();
+            break;
+        case 3:
+            App3();
             break;
         default:
             App0();
@@ -289,6 +293,19 @@ namespace Visual {
         collisionGenerator->particles = std::vector<Physics::Particule*>({ particule0, particule1, particule2, particule3, particule4, particule5, particule6,
             particuleA0, particuleA1, particuleA2, particuleA3, particuleA4, particuleA5 });
         physicsCore.AddContactGenerator(collisionGenerator);
+    }
+
+    void FirstApp::App3() // Mur + contact au repos
+    {
+        Physics::ParticleGravity* gravity1 = new Physics::ParticleGravity(Physics::Vecteur3D(0, 1, 0));
+        auto particule1 = new Physics::Particule{ .1, 1, Physics::Vecteur3D(0,-1,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj" };
+        spawnParticule(particule1);
+        physicsCore.AddParticle(particule1);
+        physicsCore.AddForce(gravity1, particule1);
+        auto PlaneContact = new Physics::WallContactGenerator(Physics::Vecteur3D(0, -1, 0), Physics::Vecteur3D(0, 0, 0));
+        PlaneContact->particles = std::vector<Physics::Particule*>({ particule1 });
+        PlaneContact->restitution = 0.7;
+        physicsCore.AddContactGenerator(PlaneContact);
     }
 
     void FirstApp::loadGameObjects(Physics::Particule* particule) {
