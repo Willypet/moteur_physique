@@ -16,5 +16,6 @@ Le déplacement s'effectue avec les touches ZQSD (en AZERTY), et la rotation de 
 La touche Entrée permet de faire apparaître des cubes démontrant les capacités de l'intégrateur.
 La touche Escape permet de quitter l'application.
 
-## Moteur visuel
+## Références
+La génération et la résolution de contact est inspirée de *Game physics engine development* de I. Milington
 Le moteur visuel a été fait en suivant la série de tutoriels youtube de [Brendan Galea](https://www.youtube.com/playlist?list=PL8327DO66nu9qYVKLDmdLW_84-yE4auCR) (jusqu'à la vidéo 21 : Diffuse shading). QUelque morceaux de codes ont été modifiés afin de fonctionner avec le moteur physique. 
