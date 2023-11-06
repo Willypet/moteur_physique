@@ -164,6 +164,7 @@
     <ClCompile Include="src\Physics\Particule.cpp" />
     <ClCompile Include="src\Physics\PhysicsCore.cpp" />
     <ClCompile Include="src\Physics\Plane.cpp" />
+    <ClCompile Include="src\Physics\Quaternion.cpp" />
     <ClCompile Include="src\Physics\Vecteur3D.cpp" />
     <ClCompile Include="src\Physics\WallContactGenerator.cpp" />
     <ClCompile Include="src\Visual\Vcamera.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="src\Physics\Particule.hpp" />
     <ClInclude Include="src\Physics\PhysicsCore.hpp" />
     <ClInclude Include="src\Physics\Plane.hpp" />
+    <ClInclude Include="src\Physics\Quaternion.hpp" />
     <ClInclude Include="src\Physics\Vecteur3D.hpp" />
     <ClInclude Include="src\Physics\WallContactGenerator.hpp" />
     <ClInclude Include="src\Visual\Vcamera.hpp" />
