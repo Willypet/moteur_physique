@@ -100,7 +100,7 @@ namespace Physics {
 	
 	Vecteur3D Physics::Matrix34::TransformPosition(const Vecteur3D v)
 	{
-		return Vecteur3D();
+		return Vecteur3D(value[0][3] + v.x, value[1][3] + v.y, value[2][3] + v.z);
 	}
 	
 	Vecteur3D Physics::Matrix34::TransformDirection(const Vecteur3D& v)
