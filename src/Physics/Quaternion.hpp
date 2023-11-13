@@ -16,7 +16,6 @@ namespace Physics {
 		Quaternion operator*=(const float& f);
 		Quaternion operator+=(const Quaternion& other);
 
-	private:
-		float w, i, j, k;
+		float w, i, j, k;		
 	};
 }

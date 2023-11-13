@@ -152,6 +152,7 @@
     <ClCompile Include="src\keyboard_movement_controller.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Physics\Matrix3.cpp" />
+    <ClCompile Include="src\Physics\Matrix34.cpp" />
     <ClCompile Include="src\Physics\NaiveParticleCollisionGenerator.cpp" />
     <ClCompile Include="src\Physics\ParticleAnchoredSpring.cpp" />
     <ClCompile Include="src\Physics\ParticleCable.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\first_app.hpp" />
     <ClInclude Include="src\keyboard_movement_controller.hpp" />
     <ClInclude Include="src\Physics\Matrix3.hpp" />
+    <ClInclude Include="src\Physics\Matrix34.hpp" />
     <ClInclude Include="src\Physics\NaiveParticleCollisionGenerator.hpp" />
     <ClInclude Include="src\Physics\ParticleAnchoredSpring.hpp" />
     <ClInclude Include="src\Physics\ParticleCable.hpp" />
