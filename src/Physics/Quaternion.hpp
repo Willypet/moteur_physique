@@ -10,7 +10,7 @@ namespace Physics {
 
 		void Normalized();
 		void RotateByVector(const Vecteur3D& vector);
-		void UpdateByAngularVelocity(const Vecteur3D vector);
+		void UpdateByAngularVelocity(const Vecteur3D vector, const float duration = 0.1f);
 
 		Quaternion operator*=(const Quaternion& other);
 		Quaternion operator*=(const float& f);

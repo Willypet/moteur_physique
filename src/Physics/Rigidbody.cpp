@@ -49,7 +49,7 @@ Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, co
 void Physics::Rigidbody::Integrate(float duration)
 {
 	position = position + linearVelocity * duration;
-	orientation.UpdateByAngularVelocity(angularVelocity);
+	orientation.UpdateByAngularVelocity(angularVelocity, duration);
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 
 	Vecteur3D linearAcc = 1 / masse * m_forceAccum;
