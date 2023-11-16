@@ -105,6 +105,10 @@ namespace Physics {
 	
 	Vecteur3D Physics::Matrix34::TransformDirection(const Vecteur3D& v)
 	{
-		return Vecteur3D();
+		return Vecteur3D(
+			value[0][0] * v.x + value[0][1] * v.y + value[0][2] * v.z,
+			value[1][0] * v.x + value[1][1] * v.y + value[1][2] * v.z,
+			value[2][0] * v.x + value[2][1] * v.y + value[2][2] * v.z
+		);
 	}
 }

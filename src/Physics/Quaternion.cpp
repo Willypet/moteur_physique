@@ -24,11 +24,13 @@ namespace Physics {
 		k /= magnitude;
 	}
 
+	//PAS SUR
 	void Quaternion::RotateByVector(const Vecteur3D& vector)
 	{
 		*this *= Quaternion(0, vector.x, vector.y, vector.z);
 	}
 
+	//PAS SUR
 	void Quaternion::UpdateByAngularVelocity(const Vecteur3D vector)
 	{
 		RotateByVector(vector);
