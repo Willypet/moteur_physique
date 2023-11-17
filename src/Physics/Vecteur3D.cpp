@@ -30,7 +30,7 @@ namespace Physics{
 		return *this = Vecteur3D(x + other.x, y + other.y, z + other.z);
 	}
 
-	Vecteur3D Vecteur3D::operator+(const Vecteur3D& other) {
+	Vecteur3D Vecteur3D::operator+(const Vecteur3D& other) const{
 		return Vecteur3D(x + other.x, y + other.y, z + other.z);
 	}
 
@@ -38,7 +38,7 @@ namespace Physics{
 		return *this = Vecteur3D(x - other.x, y - other.y, z - other.z);
 	}
 
-	Vecteur3D Vecteur3D::operator-(const Vecteur3D& other) {
+	Vecteur3D Vecteur3D::operator-(const Vecteur3D& other) const{
 		return Vecteur3D(x - other.x, y - other.y, z - other.z);
 	}
 
@@ -56,10 +56,16 @@ namespace Physics{
 		}
 	}
 
-	Vecteur3D& Vecteur3D::operator^(const Vecteur3D& other){
+	Vecteur3D& Vecteur3D::operator^=(const Vecteur3D& other){
 		return *this = Vecteur3D(y * other.z - z * other.y, 
 								 z * other.x - x * other.z, 
 								 x * other.y - y * other.x);
+	}
+
+	Vecteur3D Vecteur3D::operator^(const Vecteur3D& other) const{
+		return Vecteur3D(y * other.z - z * other.y,
+			z * other.x - x * other.z,
+			x * other.y - y * other.x);
 	}
 
 	float Vecteur3D::magnitudeSquared() {
@@ -87,7 +93,7 @@ namespace Physics{
 		}
 	}
 
-	Vecteur3D Vecteur3D::cross(const Vecteur3D& other){
+	Vecteur3D Vecteur3D::cross(const Vecteur3D& other) const{
 		return *this^other;
 	}
 

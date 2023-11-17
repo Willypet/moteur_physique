@@ -69,11 +69,16 @@ void Physics::Rigidbody::AddForce(const Vecteur3D& force)
 void Physics::Rigidbody::AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint)
 {
 	//TODO
+	m_forceAccum += force;
+	Vecteur3D localPoint = worldPoint - position;
+	m_torqueAccum += localPoint.cross(force);
 }
 
-void Physics::Rigidbody::AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localdPoint)
+void Physics::Rigidbody::AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localPoint)
 {
 	//TODO
+	m_forceAccum += force;
+	m_torqueAccum += localPoint ^ force;
 }
 
 void Physics::Rigidbody::ClearAccumulator()
