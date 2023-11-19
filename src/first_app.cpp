@@ -11,6 +11,8 @@
 #include "Physics/ParticleAnchoredSpring.hpp"
 #include "Physics/ParticleCable.hpp"
 #include "Physics/ParticleRod.hpp"
+#include "Physics/Box.hpp"
+#include "Physics/SpringForceGenerator.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -24,6 +26,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <limits>
+#include<iostream>
 
 #define MAX_FRAME_TIME .01f
 #define SIMULATION_STEP 0.016f
@@ -64,6 +67,7 @@ namespace Visual {
                 simulationTime -= SIMULATION_STEP;
                 currentIter += 1;
                 physicsCore.UpdateAll(SIMULATION_STEP, 2);
+                rigidPhysicsCore.UpdateAll(SIMULATION_STEP, 2);
             }
 
             //DEPLACEMENT VISUEL
@@ -73,6 +77,17 @@ namespace Visual {
                 if (gameObjectIterator != gameObjects.end()) {
                     VGameObject& gameObject = gameObjectIterator->second; 
                     gameObject.transform.translation = glm::vec3{particule->getPosition().x, particule->getPosition().y, particule->getPosition().z };
+                }
+            }
+
+            for (auto body : bodies)
+            {
+                auto gameObjectIterator = gameObjects.find(body->idGameObject);
+                if (gameObjectIterator != gameObjects.end()) {
+                    VGameObject& gameObject = gameObjectIterator->second;
+                    gameObject.transform.translation = glm::vec3{ body->getPosition().x, body->getPosition().y, body->getPosition().z };
+                    Physics::Vecteur3D yxz = body->getRotation().toYXZ();
+                    gameObject.transform.rotation = glm::vec3{ yxz.x, yxz.y, yxz.z };
                 }
             }
 
@@ -131,6 +146,7 @@ namespace Visual {
     void FirstApp::resetApp()
     {
         gameObjects.clear();
+        bodies.clear();
         particules.clear();
     }
 
@@ -427,32 +443,22 @@ namespace Visual {
         physicsCore.AddContactGenerator(collisionGenerator);*/
     }
 
-    void FirstApp::App5() // Double Pendule
+    void FirstApp::App5() // Corps rigides
     {
-        Physics::ParticleGravity* gravity1 = new Physics::ParticleGravity(Physics::Vecteur3D(0, 9.81, 0));
-        auto particule1 = new Physics::Particule{ 0.2, std::numeric_limits<double>::infinity(), Physics::Vecteur3D(0,1,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(0,0,0), "models/sphere_rouge.obj"};
-        spawnParticule(particule1);
-        physicsCore.AddParticle(particule1);
-        auto particule2 = new Physics::Particule{ 0.2, 1, Physics::Vecteur3D(2,1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
-        spawnParticule(particule2);
-        physicsCore.AddParticle(particule2);
-        auto particule3 = new Physics::Particule{ 0.2, 1, Physics::Vecteur3D(4,1,2), Physics::Vecteur3D(), Physics::Vecteur3D(), "models/sphere_rouge.obj" };
-        spawnParticule(particule3);
-        physicsCore.AddParticle(particule3);
+        Physics::Box box1 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
+        Physics::Box box2 = Physics::Box(1, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
 
-        Physics::Particule* link12[2] = { particule1, particule2 };
-        Physics::Particule* link23[2] = { particule2, particule3 };
-        Physics::ParticleRod* cable12 = new Physics::ParticleRod(link12, 2);
-        Physics::ParticleRod* cable23 = new Physics::ParticleRod(link23, 2);
-        physicsCore.AddContactGenerator(cable12);
-        physicsCore.AddContactGenerator(cable23);
+        auto body1 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(3, 2, 4), Physics::Quaternion::identity(), box1, "models/cube_rouge.obj"};
+        spawnBody(body1);
+        rigidPhysicsCore.AddRigidBody(body1);
+        auto body2 = new Physics::Rigidbody{ 1, Physics::Vecteur3D(-1, 1, 3), Physics::Quaternion::identity(), box2, "models/cube_rouge.obj" };
+        spawnBody(body2);
+        rigidPhysicsCore.AddRigidBody(body2);
 
-        physicsCore.AddForce(gravity1, std::vector<Physics::Particule*>({ particule2, particule3 }));
+        Physics::SpringForceGenerator* spring = new Physics::SpringForceGenerator(Physics::Vecteur3D(-0.5, -0.5, -0.5), body2, Physics::Vecteur3D(0.5, 0.5, 0.5), 3, 1.5);
 
+        rigidPhysicsCore.AddForce(spring, body1);
 
-        /*Physics::NaiveParticleCollisionGenerator* collisionGenerator = new Physics::NaiveParticleCollisionGenerator;
-        collisionGenerator->particles = std::vector<Physics::Particule*>{ particule1, particule2, particule3, particule4, particule5, particule6, particule7, particule8, particule9, particule10,particule11 };
-        physicsCore.AddContactGenerator(collisionGenerator);*/
     }
 
 
@@ -471,5 +477,22 @@ namespace Visual {
         //auto particule = new Physics::Particule{1, Physics::Vecteur3D(0,0,2), Physics::Vecteur3D(0,0,0), Physics::Vecteur3D(.5,0,0), gameObjectFilePath};
         particules.push_back(std::move(particule));
         loadGameObjects(particule);
+    }
+
+    void FirstApp::spawnBody(Physics::Rigidbody* body) {
+        bodies.push_back(std::move(body));
+        loadGameObjects(body);
+    }
+
+    void FirstApp::loadGameObjects(Physics::Rigidbody* body) {
+        std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, body->getGameObjectFilePath());
+
+        auto object = VGameObject::createGameObject();
+        object.model = VModel;
+        object.transform.translation = glm::vec3{ body->getPosition().x, body->getPosition().y, body->getPosition().z };
+        Physics::Vecteur3D yxz = body->getRotation().toYXZ();
+        object.transform.rotation = glm::vec3{ yxz.x, yxz.y, yxz.z };
+        body->idGameObject = object.getId();
+        gameObjects.emplace(object.getId(), std::move(object));
     }
 }  // namespace V

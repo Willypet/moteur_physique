@@ -7,7 +7,9 @@
 
 #include "Physics/Particule.hpp"
 #include "Physics/Vecteur3D.hpp"
+#include "Physics/Rigidbody.hpp"
 #include "Physics/PhysicsCore.hpp"
+#include "Physics/RigidPhysicsCore.hpp"
 
 // std
 #include <memory>
@@ -41,7 +43,9 @@ namespace Visual {
 		bool shouldClose;
 
 		void loadGameObjects(Physics::Particule* particule);
+		void loadGameObjects(Physics::Rigidbody* body);
 		void spawnParticule(Physics::Particule* particule);
+		void spawnBody(Physics::Rigidbody* body);
 		
 		void resetApp();
 		void App0();
@@ -55,7 +59,9 @@ namespace Visual {
 		VDevice VDevice{VWindow};
 		VRenderer VRenderer{ VWindow, VDevice };
 		std::vector<Physics::Particule*> particules;
+		std::vector<Physics::Rigidbody*> bodies;
 		std::map<int, VGameObject> gameObjects;
 		Physics::PhysicsCore physicsCore;
+		Physics::RigidPhysicsCore rigidPhysicsCore;
 	};
 }  // namespace V

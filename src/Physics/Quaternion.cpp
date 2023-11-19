@@ -53,4 +53,16 @@ namespace Physics {
 	Quaternion Quaternion::operator+=(const Quaternion& other) {
 		return *this = Quaternion(w + other.w, i + other.i, j + other.j, k + other.k);
 	}
+
+	Quaternion Quaternion::identity() {
+		return Quaternion(1, 0, 0, 0);
+	}
+
+	Vecteur3D Quaternion::toYXZ() {
+		Normalized();
+		float yaw = atan2(2 * (w * k + i * j), 1 - 2 * (j * j + k * k));
+		float pitch = asin(2 * (w * j - k * i));
+		float roll = atan2(2 * (w * i + j * k), 1 - 2 * (i * i + j * j));
+		return Vecteur3D(yaw, pitch, roll);
+	}
 }

@@ -76,6 +76,15 @@ Physics::Vecteur3D Physics::Rigidbody::getPosition() const {
 	return position;
 }
 
+Physics::Quaternion Physics::Rigidbody::getRotation() const {
+	return orientation;
+}
+
+std::string Physics::Rigidbody::getGameObjectFilePath() const
+{
+	return gameObjectFilePath;
+}
+
 void Physics::Rigidbody::AddForce(const Vecteur3D& force)
 {
 	m_forceAccum += force;

@@ -39,6 +39,8 @@ namespace Physics {
 
 		float getMass() const;
 		Vecteur3D getPosition() const;
+		Quaternion getRotation() const;
+		std::string getGameObjectFilePath() const;
 		void AddForce(const Vecteur3D& force);
 		void AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint);
 		void AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localPoint);
