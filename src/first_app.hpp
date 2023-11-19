@@ -55,6 +55,7 @@ namespace Visual {
 		void App4();
 		void App5();
 		void App6();
+		void App7();
 		
 		VWindow VWindow{WIDTH, HEIGHT, "Moteur Physique"};
 		VDevice VDevice{VWindow};

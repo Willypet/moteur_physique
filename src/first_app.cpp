@@ -13,6 +13,8 @@
 #include "Physics/ParticleRod.hpp"
 #include "Physics/Box.hpp"
 #include "Physics/SpringForceGenerator.hpp"
+#include "Physics/AnchoredSpringForceGenerator.hpp"
+#include "Physics/GravityForceGenerator.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -135,6 +137,9 @@ namespace Visual {
             break;
         case 6:
             App6();
+            break;
+        case 7:
+            App7();
             break;
         default:
             App0();
@@ -485,6 +490,21 @@ namespace Visual {
         spawnBody(body3);
         body3->SetAngularVelocity(Physics::Vecteur3D(0, 0, 1));
         rigidPhysicsCore.AddRigidBody(body3);
+    }
+
+    void FirstApp::App7() //Ressort avec ancre au monde
+    {
+        Physics::Box box1 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
+
+        auto body1 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(-1, 1, 4), Physics::Quaternion::identity(), box1, "models/cube_rouge.obj" };
+        spawnBody(body1);
+        rigidPhysicsCore.AddRigidBody(body1);
+
+        Physics::AnchoredSpringForceGenerator* spring = new Physics::AnchoredSpringForceGenerator(Physics::Vecteur3D(0, 0, 4), Physics::Vecteur3D(0.5, 0.5, -0.5), 5, 1);
+        rigidPhysicsCore.AddForce(spring, body1);
+
+        Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+        rigidPhysicsCore.AddForce(gravity, body1);
     }
 
 
