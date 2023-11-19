@@ -1,4 +1,5 @@
 #include "Rigidbody.hpp"
+#include <math.h>
 
 void Physics::Rigidbody::CalculateDerivedData()
 {
@@ -32,12 +33,13 @@ Physics::Rigidbody::Rigidbody(const Vecteur3D position, const Quaternion orienta
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 }
 
-Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, const std::string& getGameObjectFilePath) :
+Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, Collider _col, const std::string& getGameObjectFilePath) :
 	masse{ std::max(_masse, 0.0001f) },
 	linearDamping{ 1 },
 	angularDamping{ 1 },
 	position(_position),
 	orientation{ _orientation },
+	col(_col),
 	linearVelocity(Vecteur3D::vecteurNull()),
 	angularVelocity{ Vecteur3D::vecteurNull() },
 	gameObjectFilePath(gameObjectFilePath),
@@ -53,10 +55,15 @@ void Physics::Rigidbody::Integrate(float duration)
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 
 	Vecteur3D linearAcc = 1 / masse * m_forceAccum;
-	Vecteur3D angularAcc = m_torqueAccum; // TODO multiplier par I^-1
 
-	linearVelocity = linearVelocity + linearAcc * duration; //TODO multiplier linearVelocity par damp^t
-	angularVelocity = angularVelocity + angularAcc * duration; //TODO multiplier angularVelocity par damp^t
+	Matrix3 orientationMatrix = Matrix3();
+	orientationMatrix.SetOrientation(orientation);
+	Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col.GetInverseInertiaTensor() * orientationMatrix;
+
+	Vecteur3D angularAcc = globalInverseInertiaTensor * m_torqueAccum;
+
+	linearVelocity = linearVelocity * pow(linearDamping, duration) + linearAcc * duration;
+	angularVelocity = angularVelocity * pow(angularDamping, duration) + angularAcc * duration;
 
 	ClearAccumulator();
 }
@@ -68,7 +75,6 @@ void Physics::Rigidbody::AddForce(const Vecteur3D& force)
 
 void Physics::Rigidbody::AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint)
 {
-	//TODO
 	m_forceAccum += force;
 	Vecteur3D localPoint = worldPoint - position;
 	m_torqueAccum += localPoint.cross(force);
@@ -76,7 +82,6 @@ void Physics::Rigidbody::AddForceAtPoint(const Vecteur3D& force, const Vecteur3D
 
 void Physics::Rigidbody::AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localPoint)
 {
-	//TODO
 	m_forceAccum += force;
 	m_torqueAccum += localPoint ^ force;
 }

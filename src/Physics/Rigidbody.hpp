@@ -3,6 +3,7 @@
 #include "Vecteur3D.hpp"
 #include "Quaternion.hpp"
 #include "Matrix34.hpp"
+#include "Collider.hpp"
 
 #include <string>
 
@@ -18,6 +19,7 @@ namespace Physics {
 		Quaternion orientation;
 		Vecteur3D angularVelocity;
 		Matrix34 transformMatrix;
+		Collider col;
 
 		Vecteur3D m_forceAccum;
 		Vecteur3D m_torqueAccum;
@@ -29,7 +31,7 @@ namespace Physics {
 	public:
 		Rigidbody(const std::string& gameObjectFilePath);
 		Rigidbody(const Vecteur3D position, const Quaternion orientation, const std::string& gameObjectFilePath);
-		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, const std::string& getGameObjectFilePath);
+		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, Collider col, const std::string& getGameObjectFilePath);
 
 		int idGameObject;
 
