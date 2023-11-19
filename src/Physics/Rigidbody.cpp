@@ -68,6 +68,14 @@ void Physics::Rigidbody::Integrate(float duration)
 	ClearAccumulator();
 }
 
+float Physics::Rigidbody::getMass() const {
+	return masse;
+}
+
+Physics::Vecteur3D Physics::Rigidbody::getPosition() const {
+	return position;
+}
+
 void Physics::Rigidbody::AddForce(const Vecteur3D& force)
 {
 	m_forceAccum += force;

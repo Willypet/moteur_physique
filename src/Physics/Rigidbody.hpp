@@ -37,6 +37,8 @@ namespace Physics {
 
 		void Integrate(float duration);
 
+		float getMass() const;
+		Vecteur3D getPosition() const;
 		void AddForce(const Vecteur3D& force);
 		void AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint);
 		void AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localPoint);
