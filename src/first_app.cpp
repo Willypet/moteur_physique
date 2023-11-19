@@ -26,7 +26,6 @@
 #include <stdexcept>
 #include <chrono>
 #include <limits>
-#include<iostream>
 
 #define MAX_FRAME_TIME .01f
 #define SIMULATION_STEP 0.016f
@@ -95,7 +94,7 @@ namespace Visual {
             camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
             float aspect = VRenderer.getAspectRatio();
-            camera.setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 10.f); // vue perspective
+            camera.setPerspectiveProjection(glm::radians(50.f), aspect, .1f, 100.f); // vue perspective
 
             if (auto commandBuffer = VRenderer.beginFrame()) {
 
@@ -133,6 +132,9 @@ namespace Visual {
             break;
         case 5:
             App5();
+            break;
+        case 6:
+            App6();
             break;
         default:
             App0();
@@ -448,17 +450,41 @@ namespace Visual {
         Physics::Box box1 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
         Physics::Box box2 = Physics::Box(1, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
 
-        auto body1 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(3, 2, 4), Physics::Quaternion::identity(), box1, "models/cube_rouge.obj"};
+        auto body1 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), box1, "models/cube_rouge.obj"};
         spawnBody(body1);
         rigidPhysicsCore.AddRigidBody(body1);
-        auto body2 = new Physics::Rigidbody{ 1, Physics::Vecteur3D(-1, 1, 3), Physics::Quaternion::identity(), box2, "models/cube_rouge.obj" };
+        auto body2 = new Physics::Rigidbody{ 1, Physics::Vecteur3D(-1, 1, 2.5), Physics::Quaternion::identity(), box2, "models/cube_jaune.obj" };
         spawnBody(body2);
         rigidPhysicsCore.AddRigidBody(body2);
 
-        Physics::SpringForceGenerator* spring = new Physics::SpringForceGenerator(Physics::Vecteur3D(-0.5, -0.5, -0.5), body2, Physics::Vecteur3D(0.5, 0.5, 0.5), 3, 1.5);
+        Physics::SpringForceGenerator* spring = new Physics::SpringForceGenerator(Physics::Vecteur3D(-0.5, -0.5, -0.5), body2, Physics::Vecteur3D(0.5, 0.5, 0.5), 5, 1);
 
         rigidPhysicsCore.AddForce(spring, body1);
 
+    }
+
+    void FirstApp::App6() // Cubes qui tourne
+    {
+        Physics::Box box1 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
+
+        auto body1 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(-1, 0, 4), Physics::Quaternion::identity(), box1, "models/cube_rouge.obj" };
+        spawnBody(body1);
+        body1->SetAngularVelocity(Physics::Vecteur3D(1, 0, 0));
+        rigidPhysicsCore.AddRigidBody(body1);
+
+        Physics::Box box2 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
+
+        auto body2 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion::identity(), box2, "models/cube_rouge.obj" };
+        spawnBody(body2);
+        body2->SetAngularVelocity(Physics::Vecteur3D(0, 1, 0));
+        rigidPhysicsCore.AddRigidBody(body2);
+
+        Physics::Box box3 = Physics::Box(2, Physics::Vecteur3D(0, 0, 0), Physics::Vecteur3D(0.5, 0.5, 0.5));
+
+        auto body3 = new Physics::Rigidbody{ 2, Physics::Vecteur3D(1, 0, 4), Physics::Quaternion::identity(), box3, "models/cube_rouge.obj" };
+        spawnBody(body3);
+        body3->SetAngularVelocity(Physics::Vecteur3D(0, 0, 1));
+        rigidPhysicsCore.AddRigidBody(body3);
     }
 
 
@@ -492,6 +518,7 @@ namespace Visual {
         object.transform.translation = glm::vec3{ body->getPosition().x, body->getPosition().y, body->getPosition().z };
         Physics::Vecteur3D yxz = body->getRotation().toYXZ();
         object.transform.rotation = glm::vec3{ yxz.x, yxz.y, yxz.z };
+        object.transform.scale = glm::vec3(0.1, 0.1, 0.1);
         body->idGameObject = object.getId();
         gameObjects.emplace(object.getId(), std::move(object));
     }

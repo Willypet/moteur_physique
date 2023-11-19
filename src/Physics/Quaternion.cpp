@@ -1,6 +1,7 @@
 #include "Quaternion.hpp"
 
 #include  <cmath>
+#include <numbers>
 
 namespace Physics {
 	Quaternion::Quaternion(float w, float i, float j, float k) : w{w}, i{i}, j{j}, k{k}

@@ -1,5 +1,6 @@
 #include "Rigidbody.hpp"
 #include <math.h>
+#include<iostream>
 
 void Physics::Rigidbody::CalculateDerivedData()
 {
@@ -33,7 +34,7 @@ Physics::Rigidbody::Rigidbody(const Vecteur3D position, const Quaternion orienta
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 }
 
-Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, Collider _col, const std::string& getGameObjectFilePath) :
+Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, Collider _col, const std::string& gameObjectFilePath) :
 	masse{ std::max(_masse, 0.0001f) },
 	linearDamping{ 1 },
 	angularDamping{ 1 },
@@ -52,12 +53,18 @@ void Physics::Rigidbody::Integrate(float duration)
 {
 	position = position + linearVelocity * duration;
 	orientation.UpdateByAngularVelocity(angularVelocity, duration);
+	orientation.Normalized();
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 
 	Vecteur3D linearAcc = 1 / masse * m_forceAccum;
 
 	Matrix3 orientationMatrix = Matrix3();
 	orientationMatrix.SetOrientation(orientation);
+	/*DEBUG*/
+	Vecteur3D angles = orientation.toYXZ();
+	std::cout << "posX : " << position.x << " posY : " << position.y << "posZ : " << position.z << std::endl;
+	std::cout << "rotX : " << angles.x << " rotY : " << angles.y << " rotZ : " << angles.z << std::endl;
+	/*FIN DEBUG*/
 	Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col.GetInverseInertiaTensor() * orientationMatrix;
 
 	Vecteur3D angularAcc = globalInverseInertiaTensor * m_torqueAccum;
@@ -83,6 +90,10 @@ Physics::Quaternion Physics::Rigidbody::getRotation() const {
 std::string Physics::Rigidbody::getGameObjectFilePath() const
 {
 	return gameObjectFilePath;
+}
+
+void Physics::Rigidbody::SetAngularVelocity(const Physics::Vecteur3D& newVelocity) {
+	angularVelocity = newVelocity;
 }
 
 void Physics::Rigidbody::AddForce(const Vecteur3D& force)

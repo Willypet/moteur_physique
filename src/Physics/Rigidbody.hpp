@@ -40,6 +40,7 @@ namespace Physics {
 		float getMass() const;
 		Vecteur3D getPosition() const;
 		Quaternion getRotation() const;
+		void SetAngularVelocity(const Vecteur3D& newVelocity); //a des fins de test
 		std::string getGameObjectFilePath() const;
 		void AddForce(const Vecteur3D& force);
 		void AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint);
