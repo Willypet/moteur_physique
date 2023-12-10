@@ -1,5 +1,8 @@
 # moteur_physique
-Ce projet est réalisé dans le cadre du cours Mathématiques et physique pour le jeu vidéo de l'UQAC, enseigné par M. David Gagnon. L'objectif est de développer un moteur physique.
+Ce projet est réalisé dans le cadre du cours Mathématiques et physique pour le jeu vidéo de l'UQAC, enseigné par M. David Gagnon. L'objectif est de développer un moteur physique.Il est composé de diverse applications pour démontrer des cas d'utilisation du moteur physique.
+
+## Utilisation
+Une fois le projet compilé et exécuté, une fenêtre noire va s'ouvrir. Pour lancer les applications, il vous suffit d'appuyer sur les touches de 1 à 6, chaque touche lance une démo. Vous pouvez relancer l'application en cours en réappuyant sur la même touche. Les applications de 1 à 5 concernent des particules, les autres des corps rigides.
 
 ## Compilation
 Afin de compiler le projet, il est nécessaire d'installer le SDK Vulkan, ##
