@@ -1,4 +1,6 @@
 #include "SphereCollider.hpp"
+#include "PlaneCollider.hpp"
+#include "BoxCollider.hpp"
 #include <typeinfo>
 
 namespace Physics
@@ -29,6 +31,62 @@ namespace Physics
 			}
 		}
 		catch (std::bad_cast) {
+			try { //Sphere-Plan
+				const PlaneCollider& otherPlane = dynamic_cast<const PlaneCollider&>(other);
+				Vecteur3D center = rigidbody->getPosition() + offset.TransformPosition(Vecteur3D(0, 0, 0));
+				float distance = Vecteur3D::dot(center, otherPlane.normal) - otherPlane.offset - radius;
+				if (distance <= 0) {
+					Vecteur3D contactPoint = center - otherPlane.normal * radius;
+					RigidbodyContact contact;
+					contact.bodies[0] = rigidbody;
+					contact.bodies[1] = otherPlane.rigidbody;
+					contact.normal = otherPlane.normal;
+					contact.restitution = 0.8;
+					contact.penetration = -distance;
+					contact.contactPoint = contactPoint;
+					contacts.push_back(contact);
+					return;
+				}
+			}
+			catch (std::bad_cast) {
+				try { //Sphere-Boite
+					const BoxCollider& otherBox = dynamic_cast<const BoxCollider&>(other);
+
+					Vecteur3D center = rigidbody->getPosition() + offset.TransformPosition(Vecteur3D(0, 0, 0));
+					Vecteur3D boxCenter = otherBox.rigidbody->getPosition() + otherBox.offset.TransformPosition(Vecteur3D(0, 0, 0));
+					Vecteur3D centerBoxSpace = center - boxCenter;
+
+					Vecteur3D closestPoint;
+					if (centerBoxSpace.x > otherBox.halfsize.x) centerBoxSpace.x = otherBox.halfsize.x;
+					if (centerBoxSpace.x < -otherBox.halfsize.x) centerBoxSpace.x = -otherBox.halfsize.x;
+
+					if (centerBoxSpace.y > otherBox.halfsize.y) centerBoxSpace.y = otherBox.halfsize.y;
+					if (centerBoxSpace.y < -otherBox.halfsize.y) centerBoxSpace.y = -otherBox.halfsize.y;
+
+					if (centerBoxSpace.z > otherBox.halfsize.z) centerBoxSpace.z = otherBox.halfsize.z;
+					if (centerBoxSpace.z < -otherBox.halfsize.z) centerBoxSpace.z = -otherBox.halfsize.z;
+					
+					//Reconversion en coordonnées monde
+					Vecteur3D closestPoint = boxCenter + centerBoxSpace;
+					Vecteur3D distance = center - closestPoint;
+					if (distance.magnitudeSquared() < radius * radius) {
+						Vecteur3D normal = distance.normalized();
+						Vecteur3D contactPoint = center - normal * radius;
+						RigidbodyContact contact;
+						contact.bodies[0] = rigidbody;
+						contact.bodies[1] = otherBox.rigidbody;
+						contact.normal = normal;
+						contact.restitution = 0.8;
+						contact.penetration = radius - distance.magnitude();
+						contact.contactPoint = contactPoint;
+						contacts.push_back(contact);
+					}
+				}
+				catch (std::bad_cast) {
+					//On ne devrait pas être là
+					return;
+				}
+			}
 			return;
 		}
 	}
