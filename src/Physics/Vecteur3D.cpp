@@ -122,4 +122,8 @@ namespace Physics{
 		}
 		return Vecteur3D(v.x / f, v.y / f, v.z / f);
 	}
+	Vecteur3D operator-(const Vecteur3D v)
+	{
+		return Vecteur3D(-v.x, -v.y, -v.z);
+	}
 }

@@ -12,7 +12,7 @@ namespace Physics
 	public:
 		Rigidbody* rigidbody;
 		Matrix34 offset;
-		virtual Vecteur3D getHalfSize() = 0;
+		virtual Vecteur3D getHalfSize() const = 0;
 		virtual void generateContact(const PrimitiveCollider& other, std::vector<RigidbodyContact>& contacts) const = 0;
 		virtual Matrix3 getInverseInertiaTensor() const = 0;
 	protected:

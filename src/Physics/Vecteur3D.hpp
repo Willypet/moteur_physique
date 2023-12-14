@@ -36,7 +36,8 @@ namespace Physics{
 	};
 
 	Vecteur3D operator*(const float f, const Vecteur3D v);
-	Vecteur3D operator*(const Vecteur3D f, const float v);
-	Vecteur3D operator/(const Vecteur3D f, const float v);
+	Vecteur3D operator*(const Vecteur3D v, const float f);
+	Vecteur3D operator/(const Vecteur3D v, const float f);
+	Vecteur3D operator-(const Vecteur3D v);
 }
 #endif

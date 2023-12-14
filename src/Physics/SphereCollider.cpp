@@ -21,7 +21,7 @@ namespace Physics
 		return inverseInertiaTensor;
 	}
 
-	Vecteur3D SphereCollider::getHalfSize() {
+	Vecteur3D SphereCollider::getHalfSize() const {
 		return Vecteur3D(radius, radius, radius);
 	}
 
