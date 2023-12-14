@@ -10,5 +10,6 @@ namespace Physics
 	public:
 		Rigidbody* rigidbody;
 		Matrix34 offset;
+		virtual Vecteur3D getHalfSize() = 0;
 	};
 }

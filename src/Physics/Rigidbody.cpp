@@ -62,7 +62,7 @@ void Physics::Rigidbody::Integrate(float duration)
 	orientationMatrix.SetOrientation(orientation);
 	/*DEBUG*/
 	Vecteur3D angles = orientation.toYXZ();
-	std::cout << "posX : " << position.x << " posY : " << position.y << "posZ : " << position.z << std::endl;
+	//std::cout << "posX : " << position.x << " posY : " << position.y << "posZ : " << position.z << std::endl;
 	std::cout << "rotX : " << angles.x << " rotY : " << angles.y << " rotZ : " << angles.z << std::endl;
 	/*FIN DEBUG*/
 	Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col.GetInverseInertiaTensor() * orientationMatrix;
