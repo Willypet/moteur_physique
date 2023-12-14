@@ -158,6 +158,7 @@
     <ClCompile Include="src\Physics\Matrix3.cpp" />
     <ClCompile Include="src\Physics\Matrix34.cpp" />
     <ClCompile Include="src\Physics\NaiveParticleCollisionGenerator.cpp" />
+    <ClCompile Include="src\Physics\Octree.cpp" />
     <ClCompile Include="src\Physics\ParticleAnchoredSpring.cpp" />
     <ClCompile Include="src\Physics\ParticleCable.cpp" />
     <ClCompile Include="src\Physics\ParticleContact.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Physics\Matrix3.hpp" />
     <ClInclude Include="src\Physics\Matrix34.hpp" />
     <ClInclude Include="src\Physics\NaiveParticleCollisionGenerator.hpp" />
+    <ClInclude Include="src\Physics\Octree.hpp" />
     <ClInclude Include="src\Physics\ParticleAnchoredSpring.hpp" />
     <ClInclude Include="src\Physics\ParticleCable.hpp" />
     <ClInclude Include="src\Physics\ParticleContact.hpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="src\Physics\PrimitiveCollider.hpp" />
     <ClInclude Include="src\Physics\Quaternion.hpp" />
     <ClInclude Include="src\Physics\Rigidbody.hpp" />
+    <ClInclude Include="src\Physics\RigidbodyContact.hpp" />
     <ClInclude Include="src\Physics\RigidPhysicsCore.hpp" />
     <ClInclude Include="src\Physics\SphereCollider.hpp" />
     <ClInclude Include="src\Physics\SpringForceGenerator.hpp" />

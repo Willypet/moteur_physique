@@ -98,7 +98,7 @@ namespace Physics {
 		value[2][3] = v.z;
 	}
 	
-	Vecteur3D Physics::Matrix34::TransformPosition(const Vecteur3D v)
+	Vecteur3D Physics::Matrix34::TransformPosition(const Vecteur3D v) const
 	{
 		return Vecteur3D(value[0][3] + v.x, value[1][3] + v.y, value[2][3] + v.z);
 	}

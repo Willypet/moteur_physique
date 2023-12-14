@@ -1,4 +1,7 @@
 #include "Octree.hpp"
+#include "SphereCollider.hpp"
+
+#include<typeinfo>
 
 namespace Physics {
 	Octree::Octree(Vecteur3D center, float halfSize, int capacity, int depth) :
@@ -56,7 +59,7 @@ namespace Physics {
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
 			for (int j = i + 1; j < values.size(); j++) {
-				generateContact(values[i], values[j], contacts);
+				values[i].generateContact( values[j], contacts);
 			}
 			//Test avec les enfants
 			for(Octree * child : children) {
@@ -73,15 +76,11 @@ namespace Physics {
 	void Octree::checkBodyCollision(const PrimitiveCollider& value, std::vector<RigidbodyContact>& contacts) {
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
-			generateContact(values[i], value, contacts);
+			values[i].generateContact(value, contacts);
 		}
 		for (Octree* child : children) {
 			if (child == nullptr) continue;
 			child->checkBodyCollision(value, contacts);
 		}
-	}
-
-	void Octree::generateContact(const PrimitiveCollider& col1, const PrimitiveCollider& col2, std::vector<RigidbodyContact>& contacts) {
-
 	}
 }

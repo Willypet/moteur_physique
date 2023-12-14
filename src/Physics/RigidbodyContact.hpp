@@ -5,7 +5,7 @@
 namespace Physics {
 	class RigidbodyContact {
 	public:
-		PrimitiveCollider* bodies[2];
+		Rigidbody* bodies[2];
 
 		//Coefficient d'elasticité entre 0 et 1
 		float restitution;
