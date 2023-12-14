@@ -5,6 +5,22 @@
 
 namespace Physics
 {
+
+	SphereCollider::SphereCollider(Rigidbody* body, float radius) {
+		rigidbody = body;
+		this->radius = radius;
+		float mass = rigidbody->getMass();
+
+		Matrix3 inertiaTensor = Matrix3(mass * 2 * radius * radius / 5.0, 0, 0,
+			0, mass * 2 * radius * radius / 5.0, 0,
+			0, 0, mass * 2 * radius * radius / 5.0);
+		inverseInertiaTensor = inertiaTensor.Inverse();
+	}
+
+	Matrix3 SphereCollider::getInverseInertiaTensor() const {
+		return inverseInertiaTensor;
+	}
+
 	Vecteur3D SphereCollider::getHalfSize() {
 		return Vecteur3D(radius, radius, radius);
 	}

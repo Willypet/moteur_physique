@@ -75,6 +75,10 @@ void Physics::Rigidbody::Integrate(float duration)
 	ClearAccumulator();
 }
 
+Physics::Matrix34 Physics::Rigidbody::getTransform() const {
+	return transformMatrix;
+}
+
 float Physics::Rigidbody::getMass() const {
 	return masse;
 }

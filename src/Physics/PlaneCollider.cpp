@@ -4,6 +4,7 @@
 #include <typeinfo>
 
 namespace Physics {
+
 	Vecteur3D PlaneCollider::getHalfSize() {
 		return Vecteur3D(10000, 10000, 10000);
 	}

@@ -4,6 +4,23 @@
 #include <typeinfo>
 
 namespace Physics {
+
+	BoxCollider::BoxCollider(Rigidbody* body, Vecteur3D halfSize)
+	{
+		rigidbody = body;
+		halfSize = halfSize;
+		float mass = rigidbody->getMass();
+
+		Matrix3 inertiaTensor = Matrix3(mass * 4 * (halfSize.y * halfSize.y + halfSize.z * halfSize.z) / 12.0, 0, 0,
+			0, mass * 4 * (halfSize.y * halfSize.y + halfSize.x * halfSize.x) / 12.0, 0,
+			0, 0, mass * 4 * (halfSize.z * halfSize.z + halfSize.x * halfSize.x) / 12.0);
+		inverseInertiaTensor = inertiaTensor.Inverse();
+	}
+
+	Matrix3 BoxCollider::getInverseInertiaTensor() const {
+		return inverseInertiaTensor;
+	}
+
 	Vecteur3D BoxCollider::getHalfSize() {
 		return halfsize;
 	}

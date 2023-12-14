@@ -37,6 +37,7 @@ namespace Physics {
 
 		void Integrate(float duration);
 
+		Matrix34 getTransform() const;
 		float getMass() const;
 		Vecteur3D getPosition() const;
 		Quaternion getRotation() const;
