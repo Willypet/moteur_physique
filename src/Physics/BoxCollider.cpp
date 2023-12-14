@@ -33,7 +33,6 @@ namespace Physics {
 			Vecteur3D boxCenter = rigidbody->getPosition() + offset.TransformPosition(Vecteur3D(0, 0, 0));
 			Vecteur3D centerBoxSpace = center - boxCenter;
 
-			Vecteur3D closestPoint;
 			if (centerBoxSpace.x > halfsize.x) centerBoxSpace.x = halfsize.x;
 			if (centerBoxSpace.x < halfsize.x) centerBoxSpace.x = halfsize.x;
 
@@ -54,7 +53,7 @@ namespace Physics {
 				contact.bodies[1] = rigidbody;
 				contact.normal = normal;
 				contact.restitution = 0.8;
-				contact.penetration = otherShere.radius - distance.magnitude();
+				contact.penetration = otherSphere.radius - distance.magnitude();
 				contact.contactPoint = contactPoint;
 				contacts.push_back(contact);
 			}

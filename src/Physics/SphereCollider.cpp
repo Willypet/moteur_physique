@@ -70,7 +70,6 @@ namespace Physics
 					Vecteur3D boxCenter = otherBox.rigidbody->getPosition() + otherBox.offset.TransformPosition(Vecteur3D(0, 0, 0));
 					Vecteur3D centerBoxSpace = center - boxCenter;
 
-					Vecteur3D closestPoint;
 					if (centerBoxSpace.x > otherBox.halfsize.x) centerBoxSpace.x = otherBox.halfsize.x;
 					if (centerBoxSpace.x < -otherBox.halfsize.x) centerBoxSpace.x = -otherBox.halfsize.x;
 

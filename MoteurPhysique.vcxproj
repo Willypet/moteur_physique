@@ -153,6 +153,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Physics\AnchoredSpringForcegenerator.cpp" />
     <ClCompile Include="src\Physics\Box.cpp" />
+    <ClCompile Include="src\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Physics\BoxCollider.hpp" />
     <ClCompile Include="src\Physics\GravityForceGenerator.cpp" />
     <ClCompile Include="src\Physics\Matrix3.cpp" />
@@ -171,9 +172,11 @@
     <ClCompile Include="src\Physics\Particule.cpp" />
     <ClCompile Include="src\Physics\PhysicsCore.cpp" />
     <ClCompile Include="src\Physics\Plane.cpp" />
+    <ClCompile Include="src\Physics\PlaneCollider.cpp" />
     <ClCompile Include="src\Physics\Quaternion.cpp" />
     <ClCompile Include="src\Physics\Rigidbody.cpp" />
     <ClCompile Include="src\Physics\RigidPhysicsCore.cpp" />
+    <ClCompile Include="src\Physics\SphereCollider.cpp" />
     <ClCompile Include="src\Physics\SpringForceGenerator.cpp" />
     <ClCompile Include="src\Physics\Vecteur3D.cpp" />
     <ClCompile Include="src\Physics\WallContactGenerator.cpp" />
