@@ -8,5 +8,7 @@ namespace Physics
 	public:
 		Vecteur3D normal;
 		float offset;
+		Vecteur3D getHalfSize() override;
+		void generateContact(const PrimitiveCollider& other, std::vector<RigidbodyContact>& contacts) const override;
 	};
 }

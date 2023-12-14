@@ -27,7 +27,6 @@ namespace Physics
 				contact.penetration = penetration;
 				contact.contactPoint = contactPoint;
 				contacts.push_back(contact);
-				return;
 			}
 		}
 		catch (std::bad_cast) {
@@ -45,7 +44,6 @@ namespace Physics
 					contact.penetration = -distance;
 					contact.contactPoint = contactPoint;
 					contacts.push_back(contact);
-					return;
 				}
 			}
 			catch (std::bad_cast) {
