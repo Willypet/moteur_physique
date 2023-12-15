@@ -10,7 +10,7 @@ namespace Physics
 
 		Vecteur3D getHalfSize() const override;
 		BoxCollider(Rigidbody* body, Vecteur3D halfsize);
-		void generateContact(const PrimitiveCollider& other, std::vector<RigidbodyContact>& contacts) const override;
+		void generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const override;
 		Matrix3 getInverseInertiaTensor() const override;
 	};
 }

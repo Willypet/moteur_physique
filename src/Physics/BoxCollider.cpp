@@ -1,7 +1,6 @@
-#include "SphereCollider.hpp"
+ï»¿#include "SphereCollider.hpp"
 #include "PlaneCollider.hpp"
 #include "BoxCollider.hpp"
-
 #include <typeinfo>
 
 namespace Physics {
@@ -22,16 +21,15 @@ namespace Physics {
 		return inverseInertiaTensor;
 	}
 
-	Vecteur3D BoxCollider::getHalfSize() const {
+	Vecteur3D BoxCollider::getHalfSize() const{
 		return halfsize;
 	}
 
-	void BoxCollider::generateContact(const PrimitiveCollider& other, std::vector<RigidbodyContact>& contacts) const {
+	void BoxCollider::generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const {
 		//Boite-Sphere
-		try {
-			const SphereCollider& otherSphere = dynamic_cast<const SphereCollider&>(other);
-
-			Vecteur3D center = otherSphere.rigidbody->getPosition() + otherSphere.offset.TransformPosition(Vecteur3D(0, 0, 0));
+		const SphereCollider* otherSphere = dynamic_cast<const SphereCollider*>(other);
+		if (otherSphere != nullptr){
+			Vecteur3D center = otherSphere->rigidbody->getPosition() + otherSphere->offset.TransformPosition(Vecteur3D(0, 0, 0));
 			Vecteur3D boxCenter = rigidbody->getPosition() + offset.TransformPosition(Vecteur3D(0, 0, 0));
 			Vecteur3D centerBoxSpace = center - boxCenter;
 
@@ -44,26 +42,26 @@ namespace Physics {
 			if (centerBoxSpace.z > halfsize.z) centerBoxSpace.z = halfsize.z;
 			if (centerBoxSpace.z < halfsize.z) centerBoxSpace.z = halfsize.z;
 
-			//Reconversion en coordonnées monde
+			//Reconversion en coordonnÃ©es monde
 			Vecteur3D closestPoint = boxCenter + centerBoxSpace;
 			Vecteur3D distance = center - closestPoint;
-			if (distance.magnitudeSquared() < otherSphere.radius * otherSphere.radius) {
+			if (distance.magnitudeSquared() < otherSphere->radius * otherSphere->radius) {
 				Vecteur3D normal = distance.normalized();
-				Vecteur3D contactPoint = center - normal * otherSphere.radius;
+				Vecteur3D contactPoint = center - normal * otherSphere->radius;
 				RigidbodyContact contact;
-				contact.bodies[0] = otherSphere.rigidbody;
+				contact.bodies[0] = otherSphere->rigidbody;
 				contact.bodies[1] = rigidbody;
 				contact.normal = normal;
 				contact.restitution = 0.8;
-				contact.penetration = otherSphere.radius - distance.magnitude();
+				contact.penetration = otherSphere->radius - distance.magnitude();
 				contact.contactPoint = contactPoint;
 				contacts.push_back(contact);
 			}
 		}
-		catch (std::bad_cast) {
+		else {
 			//Boite-Plan
-			try {
-				const PlaneCollider& otherPlane = dynamic_cast<const PlaneCollider&>(other);
+			const PlaneCollider* otherPlane = dynamic_cast<const PlaneCollider*>(other);
+			if (otherPlane != nullptr) {
 				Vecteur3D boxCenter = rigidbody->getPosition() + offset.TransformPosition(Vecteur3D(0, 0, 0));
 				Vecteur3D points[8];
 				points[0] = boxCenter + halfsize;
@@ -75,12 +73,12 @@ namespace Physics {
 				points[6] = boxCenter + Vecteur3D(halfsize.x, halfsize.y, halfsize.z);
 				points[7] = boxCenter + Vecteur3D(halfsize.x, halfsize.y, halfsize.z);
 				for (Vecteur3D point : points) {
-					float distance = Vecteur3D::dot(point, otherPlane.normal) - otherPlane.offset;
+					float distance = Vecteur3D::dot(point, otherPlane->normal) - otherPlane->offset;
 					if (distance <= 0) {
 						RigidbodyContact contact;
 						contact.bodies[0] = rigidbody;
-						contact.bodies[1] = otherPlane.rigidbody;
-						contact.normal = otherPlane.normal;
+						contact.bodies[1] = otherPlane->rigidbody;
+						contact.normal = otherPlane->normal;
 						contact.restitution = 0.8;
 						contact.penetration = -distance;
 						contact.contactPoint = point;
@@ -88,12 +86,11 @@ namespace Physics {
 					}
 				}
 			}
-			catch (std::bad_cast) {
+			else {
 				//Boite-Boite
-				try {
-					const BoxCollider& otherBox = dynamic_cast<const BoxCollider&>(other);
-
-					std::vector<Vecteur3D> axes = calculateAxes(*this, otherBox);
+				const BoxCollider* otherBox = dynamic_cast<const BoxCollider*>(other);
+				if (otherBox != nullptr) {
+					std::vector<Vecteur3D> axes = calculateAxes(*this, *otherBox);
 
 					float minSeparation = std::numeric_limits<float>::max();
 					Vecteur3D minSeparationAxis;
@@ -101,14 +98,14 @@ namespace Physics {
 					for (const Vecteur3D& axis : axes)
 					{
 						float projectionA = projectOntoAxis(*this, axis);
-						float projectionB = projectOntoAxis(otherBox, axis);
+						float projectionB = projectOntoAxis(*otherBox, axis);
 
 						float overlap = std::min(projectionA, projectionB) - std::max(projectionA, projectionB);
 
 						if (overlap <= 0.0f)
 							//Pas de collisions
 							contacts.clear();
-							return;
+						return;
 
 						if (overlap < minSeparation)
 						{
@@ -118,19 +115,14 @@ namespace Physics {
 							//Point de contact
 							RigidbodyContact contact;
 							contact.bodies[0] = rigidbody;
-							contact.bodies[1] = otherBox.rigidbody;
+							contact.bodies[1] = otherBox->rigidbody;
 							contact.normal = Vecteur3D(axis).normalized();
 							contact.restitution = 0.8;
 							contact.penetration = -overlap;
-							contact.contactPoint = findContactPoint(*this, otherBox, axis);
+							contact.contactPoint = findContactPoint(*this, *otherBox, axis);
 							contacts.push_back(contact);
-						}			
+						}
 					}
-
-				}
-				catch (std::bad_cast) {
-					//On ne doit pas arriver ici
-					return;
 				}
 			}
 		}
@@ -174,21 +166,20 @@ namespace Physics {
 
 	Vecteur3D findContactPoint(const BoxCollider& boxA, const BoxCollider& boxB, const Vecteur3D& axis)
 	{
-		// Projections des coins de la boîte A sur l'axe
+		// Projections des coins de la boite A sur l'axe
 		float projectionA_Max = projectOntoAxis(boxA, axis);
 		float projectionA_Min = -projectionA_Max;
 
-		// Projections des coins de la boîte B sur l'axe
+		// Projections des coins de la boite B sur l'axe
 		float projectionB_Max = projectOntoAxis(boxB, axis);
 		float projectionB_Min = -projectionB_Max;
 
-		// Utilisez la moyenne des projections maximales et minimales pour déterminer le point de contact
+		// Utilisez la moyenne des projections maximales et minimales pour determiner le point de contact
 		float contactPointValue = 0.5 * (projectionA_Max + projectionA_Min + projectionB_Max + projectionB_Min);
 
-		// Convertissez le point de contact de la coordonnée de l'axe à l'espace mondial
+		// Convertissez le point de contact de la coordonnee de l'axe a l'espace mondial
 		Vecteur3D contactPoint = boxA.offset.TransformPosition(Vecteur3D::vecteurNull()) + axis * contactPointValue;
 
 		return contactPoint;
 	}
-
 }

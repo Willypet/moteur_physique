@@ -17,11 +17,8 @@ namespace Physics {
 
 		Vecteur3D normal;
 
-		void resolve(float duration);
-
 		float computeVelocity() const;
 
-	private:
 		void resolveVelocity(float duration);
 
 		void resolveInterpenetration(float duration);

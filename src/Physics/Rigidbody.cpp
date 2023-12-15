@@ -1,4 +1,5 @@
 #include "Rigidbody.hpp"
+#include "Matrix3.hpp"
 #include <math.h>
 #include<iostream>
 
@@ -34,7 +35,7 @@ Physics::Rigidbody::Rigidbody(const Vecteur3D position, const Quaternion orienta
 	transformMatrix.SetOrientationAndPosition(orientation, position);
 }
 
-Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, Collider _col, const std::string& gameObjectFilePath) :
+Physics::Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, PrimitiveCollider* _col, const std::string& gameObjectFilePath) :
 	masse{ std::max(_masse, 0.0001f) },
 	linearDamping{ 1 },
 	angularDamping{ 1 },
@@ -60,12 +61,12 @@ void Physics::Rigidbody::Integrate(float duration)
 
 	Matrix3 orientationMatrix = Matrix3();
 	orientationMatrix.SetOrientation(orientation);
-	/*DEBUG*/
+	/*DEBUG
 	Vecteur3D angles = orientation.toYXZ();
 	//std::cout << "posX : " << position.x << " posY : " << position.y << "posZ : " << position.z << std::endl;
 	std::cout << "rotX : " << angles.x << " rotY : " << angles.y << " rotZ : " << angles.z << std::endl;
 	/*FIN DEBUG*/
-	Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col.GetInverseInertiaTensor() * orientationMatrix;
+	Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col->getInverseInertiaTensor() * orientationMatrix;
 
 	Vecteur3D angularAcc = globalInverseInertiaTensor * m_torqueAccum;
 
@@ -73,6 +74,19 @@ void Physics::Rigidbody::Integrate(float duration)
 	angularVelocity = angularVelocity * pow(angularDamping, duration) + angularAcc * duration;
 
 	ClearAccumulator();
+}
+
+
+Physics::Vecteur3D Physics::Rigidbody::getLinearVelocity() const {
+	return linearVelocity;
+}
+
+Physics::Vecteur3D Physics::Rigidbody::getAngularVelocity() const {
+	return angularVelocity;
+}
+
+Physics::PrimitiveCollider* Physics::Rigidbody::getCollider() const {
+	return col;
 }
 
 Physics::Matrix34 Physics::Rigidbody::getTransform() const {
@@ -94,6 +108,18 @@ Physics::Quaternion Physics::Rigidbody::getRotation() const {
 std::string Physics::Rigidbody::getGameObjectFilePath() const
 {
 	return gameObjectFilePath;
+}
+
+void Physics::Rigidbody::SetRotation(const Physics::Quaternion& newRotation) {
+	orientation = newRotation;
+}
+
+void Physics::Rigidbody::SetPosition(const Physics::Vecteur3D& newPosition) {
+	position = newPosition;
+}
+
+void Physics::Rigidbody::SetLinearVelocity(const Physics::Vecteur3D& newVelocity) {
+	linearVelocity = newVelocity;
 }
 
 void Physics::Rigidbody::SetAngularVelocity(const Physics::Vecteur3D& newVelocity) {

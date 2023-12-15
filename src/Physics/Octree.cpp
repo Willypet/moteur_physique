@@ -4,6 +4,11 @@
 #include<typeinfo>
 
 namespace Physics {
+
+	Octree::Octree() {
+		Octree(Vecteur3D(0, 0, 0), 1000, 2, 8);
+	}
+
 	Octree::Octree(Vecteur3D center, float halfSize, int capacity, int depth) :
 	center(center),
 	halfSize(halfSize),
@@ -11,7 +16,7 @@ namespace Physics {
 	maxDepth(depth),
 	children(){}
 
-	void Octree::insertCollider(PrimitiveCollider &value) {
+	void Octree::insertCollider(PrimitiveCollider* value) {
 
 		if (values.size() < minCapacity || maxDepth == 0) {
 			values.push_back(value);
@@ -20,8 +25,8 @@ namespace Physics {
 
 		int childIndex = 0;
 
-		Vecteur3D colliderCenter = value.rigidbody->getPosition() + value.offset.TransformDirection(Vecteur3D(0, 0, 0));
-		Vecteur3D colSize = value.getHalfSize();
+		Vecteur3D colliderCenter = value->rigidbody->getPosition() + value->offset.TransformDirection(Vecteur3D(0, 0, 0));
+		Vecteur3D colSize = value->getHalfSize();
 
 		float offsetX, offsetY, offsetZ;
 		offsetX = colliderCenter.x - center.x;
@@ -59,7 +64,7 @@ namespace Physics {
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
 			for (int j = i + 1; j < values.size(); j++) {
-				values[i].generateContact( values[j], contacts);
+				values[i]->generateContact(values[j], contacts);
 			}
 			//Test avec les enfants
 			for(Octree * child : children) {
@@ -73,10 +78,10 @@ namespace Physics {
 		}
 	}
 
-	void Octree::checkBodyCollision(const PrimitiveCollider& value, std::vector<RigidbodyContact>& contacts) {
+	void Octree::checkBodyCollision(const PrimitiveCollider* value, std::vector<RigidbodyContact>& contacts) {
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
-			values[i].generateContact(value, contacts);
+			values[i]->generateContact(value, contacts);
 		}
 		for (Octree* child : children) {
 			if (child == nullptr) continue;

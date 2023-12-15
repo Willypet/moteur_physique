@@ -175,6 +175,8 @@
     <ClCompile Include="src\Physics\PlaneCollider.cpp" />
     <ClCompile Include="src\Physics\Quaternion.cpp" />
     <ClCompile Include="src\Physics\Rigidbody.cpp" />
+    <ClCompile Include="src\Physics\RigidbodyContact.cpp" />
+    <ClCompile Include="src\Physics\RigidbodyContactResolver.cpp" />
     <ClCompile Include="src\Physics\RigidPhysicsCore.cpp" />
     <ClCompile Include="src\Physics\SphereCollider.cpp" />
     <ClCompile Include="src\Physics\SpringForceGenerator.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="src\Physics\Quaternion.hpp" />
     <ClInclude Include="src\Physics\Rigidbody.hpp" />
     <ClInclude Include="src\Physics\RigidbodyContact.hpp" />
+    <ClInclude Include="src\Physics\RigidbodyContactResolver.hpp" />
     <ClInclude Include="src\Physics\RigidPhysicsCore.hpp" />
     <ClInclude Include="src\Physics\SphereCollider.hpp" />
     <ClInclude Include="src\Physics\SpringForceGenerator.hpp" />

@@ -147,6 +147,12 @@
     <ClCompile Include="src\Physics\BoxCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\RigidbodyContactResolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\RigidbodyContact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\first_app.hpp">
@@ -282,6 +288,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\RigidbodyContact.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\RigidbodyContactResolver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

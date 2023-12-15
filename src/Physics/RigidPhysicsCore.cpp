@@ -7,10 +7,21 @@ namespace Physics {
 		for (unsigned int i = 0; i < substep; i++) {
 			ApplyForces();
 			UpdateRigidBodies(timestep);
+			std::vector<RigidbodyContact> contacts = GenerateContacts();
+			contactResolver.resolveContacts(contacts, timestep);
 			ResetRigidBodiesAcc();
 		}
 	}
 
+	std::vector<RigidbodyContact> RigidPhysicsCore::GenerateContacts() {
+		std::vector<RigidbodyContact> res;
+		tree = Octree();
+		for (PrimitiveCollider* col : collidersInSim) {
+			tree.insertCollider(col);
+		}
+		tree.checkCollisions(res);
+		return res;
+	}
 
 	void RigidPhysicsCore::ApplyForces() {
 		for (auto iter_forces = forces.begin(); iter_forces != forces.end();) {
@@ -64,8 +75,13 @@ namespace Physics {
 		}
 	}
 
+	void RigidPhysicsCore::AddCollider(PrimitiveCollider* col) {
+		collidersInSim.insert(col);
+	}
+
 	void RigidPhysicsCore::AddRigidBody(Rigidbody* body) {
 		rigidBodiesInSim.insert(body);
+		collidersInSim.insert(body->getCollider());
 	}
 
 	RigidPhysicsCore::~RigidPhysicsCore() {

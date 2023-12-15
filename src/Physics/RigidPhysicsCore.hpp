@@ -2,6 +2,8 @@
 
 #include "RigidBody.hpp"
 #include "ForceGenerator.hpp"
+#include "RigidbodyContactResolver.hpp"
+#include "Octree.hpp"
 #include <map>
 #include<vector>
 #include<set>
@@ -17,13 +19,18 @@ namespace Physics {
 
 		void AddRigidBody(Rigidbody* rigidBody);
 
+		void AddCollider(PrimitiveCollider* col);
 
 		~RigidPhysicsCore();
 	private:
 		void ApplyForces();
 		void UpdateRigidBodies(const float duration);
 		void ResetRigidBodiesAcc();
+		std::vector<RigidbodyContact> GenerateContacts();
+		Octree tree;
 		std::map<ForceGenerator*, std::vector<Rigidbody*>> forces;
 		std::set<Rigidbody*> rigidBodiesInSim;
+		std::set<PrimitiveCollider*> collidersInSim;
+		RigidbodyContactResolver contactResolver;
 	};
 }

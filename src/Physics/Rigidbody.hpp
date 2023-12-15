@@ -3,7 +3,7 @@
 #include "Vecteur3D.hpp"
 #include "Quaternion.hpp"
 #include "Matrix34.hpp"
-#include "Collider.hpp"
+#include "PrimitiveCollider.hpp"
 
 #include <string>
 
@@ -19,7 +19,7 @@ namespace Physics {
 		Quaternion orientation;
 		Vecteur3D angularVelocity;
 		Matrix34 transformMatrix;
-		Collider col;
+		PrimitiveCollider* col;
 
 		Vecteur3D m_forceAccum;
 		Vecteur3D m_torqueAccum;
@@ -31,7 +31,7 @@ namespace Physics {
 	public:
 		Rigidbody(const std::string& gameObjectFilePath);
 		Rigidbody(const Vecteur3D position, const Quaternion orientation, const std::string& gameObjectFilePath);
-		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, Collider col, const std::string& getGameObjectFilePath);
+		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, PrimitiveCollider* col, const std::string& getGameObjectFilePath);
 
 		int idGameObject;
 
@@ -41,7 +41,13 @@ namespace Physics {
 		float getMass() const;
 		Vecteur3D getPosition() const;
 		Quaternion getRotation() const;
-		void SetAngularVelocity(const Vecteur3D& newVelocity); //a des fins de test
+		Vecteur3D getLinearVelocity() const;
+		Vecteur3D getAngularVelocity() const;
+		PrimitiveCollider* getCollider() const;
+		void SetRotation(const Quaternion& newRotation);
+		void SetPosition(const Vecteur3D& newPosition);
+		void SetLinearVelocity(const Vecteur3D& newVelocity);
+		void SetAngularVelocity(const Vecteur3D& newVelocity);
 		std::string getGameObjectFilePath() const;
 		void AddForce(const Vecteur3D& force);
 		void AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint);
