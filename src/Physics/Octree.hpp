@@ -1,7 +1,6 @@
 #pragma once
 #include "Vecteur3D.hpp"
-#include "PrimitiveCollider.hpp"
-#include "RigidbodyContact.hpp"
+#include "Rigidbody.hpp"
 #include <vector>
 
 namespace Physics {

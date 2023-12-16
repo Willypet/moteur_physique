@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PrimitiveCollider.hpp"
+#include "Rigidbody.hpp"
 
 namespace Physics
 {
@@ -10,6 +10,5 @@ namespace Physics
 		SphereCollider(Rigidbody* body, float radius);
 		Vecteur3D getHalfSize() const override;
 		void generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const override;
-		Matrix3 getInverseInertiaTensor() const override;
 	};
 }

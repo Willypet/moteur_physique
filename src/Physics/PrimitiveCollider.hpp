@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Rigidbody.hpp"
-#include "RigidbodyContact.hpp"
 #include "Matrix3.hpp"
 #include "Matrix34.hpp"
 #include <vector>

@@ -1,9 +1,17 @@
 ﻿#include "SphereCollider.hpp"
 #include "PlaneCollider.hpp"
 #include "BoxCollider.hpp"
+
 #include <typeinfo>
 
 namespace Physics {
+
+	BoxCollider::BoxCollider(Vecteur3D halfSize)
+	{
+		rigidbody = nullptr;
+		halfSize = halfSize;
+	
+	}
 
 	BoxCollider::BoxCollider(Rigidbody* body, Vecteur3D halfSize)
 	{
@@ -17,13 +25,66 @@ namespace Physics {
 		inverseInertiaTensor = inertiaTensor.Inverse();
 	}
 
-	Matrix3 BoxCollider::getInverseInertiaTensor() const {
-		return inverseInertiaTensor;
-	}
-
 	Vecteur3D BoxCollider::getHalfSize() const{
 		return halfsize;
 	}
+
+
+	std::vector<Vecteur3D> calculateAxes(const BoxCollider& boxA, const BoxCollider& boxB)
+	{
+		std::vector<Vecteur3D> axes;
+
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(1, 0, 0)));
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 1, 0)));
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 0, 1)));
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(1, 0, 0)));
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 1, 0)));
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 0, 1)));
+
+		axes.push_back(axes[0].cross(axes[3]));
+		axes.push_back(axes[0].cross(axes[4]));
+		axes.push_back(axes[0].cross(axes[5]));
+		axes.push_back(axes[1].cross(axes[3]));
+		axes.push_back(axes[1].cross(axes[4]));
+		axes.push_back(axes[1].cross(axes[5]));
+		axes.push_back(axes[2].cross(axes[3]));
+		axes.push_back(axes[2].cross(axes[4]));
+		axes.push_back(axes[2].cross(axes[5]));
+
+		return axes;
+	}
+
+	float projectOntoAxis(const BoxCollider& box, const Vecteur3D& axis)
+	{
+		float centerProjection = Vecteur3D::dot(box.offset.TransformPosition(Vecteur3D::vecteurNull()), axis);
+
+		Vecteur3D halfsize = box.getHalfSize();
+		float vertexProjection =
+			std::abs(Vecteur3D::dot(box.offset.TransformPosition(halfsize), axis)) +
+			std::abs(Vecteur3D::dot(box.offset.TransformPosition(-halfsize), axis));
+
+		return vertexProjection + centerProjection;
+	}
+
+	Vecteur3D findContactPoint(const BoxCollider& boxA, const BoxCollider& boxB, const Vecteur3D& axis)
+	{
+		// Projections des coins de la boite A sur l'axe
+		float projectionA_Max = projectOntoAxis(boxA, axis);
+		float projectionA_Min = -projectionA_Max;
+
+		// Projections des coins de la boite B sur l'axe
+		float projectionB_Max = projectOntoAxis(boxB, axis);
+		float projectionB_Min = -projectionB_Max;
+
+		// Utilisez la moyenne des projections maximales et minimales pour determiner le point de contact
+		float contactPointValue = 0.5 * (projectionA_Max + projectionA_Min + projectionB_Max + projectionB_Min);
+
+		// Convertissez le point de contact de la coordonnee de l'axe a l'espace mondial
+		Vecteur3D contactPoint = boxA.offset.TransformPosition(Vecteur3D::vecteurNull()) + axis * contactPointValue;
+
+		return contactPoint;
+	}
+
 
 	void BoxCollider::generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const {
 		//Boite-Sphere
@@ -126,60 +187,5 @@ namespace Physics {
 				}
 			}
 		}
-	}
-
-	std::vector<Vecteur3D> calculateAxes(const BoxCollider& boxA, const BoxCollider& boxB)
-	{
-		std::vector<Vecteur3D> axes;
-
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(1, 0, 0)));
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 1, 0)));
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 0, 1)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(1, 0, 0)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 1, 0)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 0, 1)));
-
-		axes.push_back(axes[0].cross(axes[3]));
-		axes.push_back(axes[0].cross(axes[4]));
-		axes.push_back(axes[0].cross(axes[5]));
-		axes.push_back(axes[1].cross(axes[3]));
-		axes.push_back(axes[1].cross(axes[4]));
-		axes.push_back(axes[1].cross(axes[5]));
-		axes.push_back(axes[2].cross(axes[3]));
-		axes.push_back(axes[2].cross(axes[4]));
-		axes.push_back(axes[2].cross(axes[5]));
-
-		return axes;
-	}
-
-	float projectOntoAxis(const BoxCollider& box, const Vecteur3D& axis)
-	{
-		float centerProjection = Vecteur3D::dot(box.offset.TransformPosition(Vecteur3D::vecteurNull()), axis);
-
-		Vecteur3D halfsize = box.getHalfSize();
-		float vertexProjection =
-			std::abs(Vecteur3D::dot(box.offset.TransformPosition(halfsize), axis)) +
-			std::abs(Vecteur3D::dot(box.offset.TransformPosition(-halfsize), axis));
-
-		return vertexProjection + centerProjection;
-	}
-
-	Vecteur3D findContactPoint(const BoxCollider& boxA, const BoxCollider& boxB, const Vecteur3D& axis)
-	{
-		// Projections des coins de la boite A sur l'axe
-		float projectionA_Max = projectOntoAxis(boxA, axis);
-		float projectionA_Min = -projectionA_Max;
-
-		// Projections des coins de la boite B sur l'axe
-		float projectionB_Max = projectOntoAxis(boxB, axis);
-		float projectionB_Min = -projectionB_Max;
-
-		// Utilisez la moyenne des projections maximales et minimales pour determiner le point de contact
-		float contactPointValue = 0.5 * (projectionA_Max + projectionA_Min + projectionB_Max + projectionB_Min);
-
-		// Convertissez le point de contact de la coordonnee de l'axe a l'espace mondial
-		Vecteur3D contactPoint = boxA.offset.TransformPosition(Vecteur3D::vecteurNull()) + axis * contactPointValue;
-
-		return contactPoint;
 	}
 }

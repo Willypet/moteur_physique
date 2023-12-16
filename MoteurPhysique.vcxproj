@@ -152,7 +152,6 @@
     <ClCompile Include="src\keyboard_movement_controller.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Physics\AnchoredSpringForcegenerator.cpp" />
-    <ClCompile Include="src\Physics\Box.cpp" />
     <ClCompile Include="src\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Physics\BoxCollider.hpp" />
     <ClCompile Include="src\Physics\GravityForceGenerator.cpp" />
@@ -175,7 +174,6 @@
     <ClCompile Include="src\Physics\PlaneCollider.cpp" />
     <ClCompile Include="src\Physics\Quaternion.cpp" />
     <ClCompile Include="src\Physics\Rigidbody.cpp" />
-    <ClCompile Include="src\Physics\RigidbodyContact.cpp" />
     <ClCompile Include="src\Physics\RigidbodyContactResolver.cpp" />
     <ClCompile Include="src\Physics\RigidPhysicsCore.cpp" />
     <ClCompile Include="src\Physics\SphereCollider.cpp" />
@@ -196,8 +194,6 @@
     <ClInclude Include="src\first_app.hpp" />
     <ClInclude Include="src\keyboard_movement_controller.hpp" />
     <ClInclude Include="src\Physics\AnchoredSpringForceGenerator.hpp" />
-    <ClInclude Include="src\Physics\Box.hpp" />
-    <ClInclude Include="src\Physics\Collider.hpp" />
     <ClInclude Include="src\Physics\ForceGenerator.hpp" />
     <ClInclude Include="src\Physics\GravityForceGenerator.hpp" />
     <ClInclude Include="src\Physics\Matrix3.hpp" />
@@ -219,10 +215,8 @@
     <ClInclude Include="src\Physics\PhysicsCore.hpp" />
     <ClInclude Include="src\Physics\Plane.hpp" />
     <ClInclude Include="src\Physics\PlaneCollider.hpp" />
-    <ClInclude Include="src\Physics\PrimitiveCollider.hpp" />
     <ClInclude Include="src\Physics\Quaternion.hpp" />
     <ClInclude Include="src\Physics\Rigidbody.hpp" />
-    <ClInclude Include="src\Physics\RigidbodyContact.hpp" />
     <ClInclude Include="src\Physics\RigidbodyContactResolver.hpp" />
     <ClInclude Include="src\Physics\RigidPhysicsCore.hpp" />
     <ClInclude Include="src\Physics\SphereCollider.hpp" />

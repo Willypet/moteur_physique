@@ -1,5 +1,5 @@
 #pragma once
-#include "RigidbodyContact.hpp"
+#include "Rigidbody.hpp"
 #include<vector>
 
 namespace Physics {

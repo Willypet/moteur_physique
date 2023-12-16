@@ -10,8 +10,4 @@ namespace Physics {
 			0, 0, mass * 4 * (halfExtents.z * halfExtents.z + halfExtents.x * halfExtents.x) / 12.0);
 		inverseInertiaTensor = inertiaTensor.Inverse();
 	}
-
-	Matrix3 Box::GetInverseInertiaTensor() const {
-		return inverseInertiaTensor;
-	}
 }

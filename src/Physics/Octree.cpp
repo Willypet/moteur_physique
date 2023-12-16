@@ -61,6 +61,9 @@ namespace Physics {
 	}
 
 	void Octree::checkCollisions(std::vector<RigidbodyContact> &contacts) {
+		if (values.size() == 0) {
+			return;
+		}
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
 			for (int j = i + 1; j < values.size(); j++) {

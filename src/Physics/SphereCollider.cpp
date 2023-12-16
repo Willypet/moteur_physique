@@ -17,10 +17,6 @@ namespace Physics
 		inverseInertiaTensor = inertiaTensor.Inverse();
 	}
 
-	Matrix3 SphereCollider::getInverseInertiaTensor() const {
-		return inverseInertiaTensor;
-	}
-
 	Vecteur3D SphereCollider::getHalfSize() const {
 		return Vecteur3D(radius, radius, radius);
 	}

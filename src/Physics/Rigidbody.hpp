@@ -3,11 +3,15 @@
 #include "Vecteur3D.hpp"
 #include "Quaternion.hpp"
 #include "Matrix34.hpp"
-#include "PrimitiveCollider.hpp"
+#include "Matrix3.hpp"
 
+#include <vector>
 #include <string>
 
 namespace Physics {
+
+	//RIGIDBODY
+	class PrimitiveCollider;
 	class Rigidbody {
 	private:
 		float masse;
@@ -53,5 +57,39 @@ namespace Physics {
 		void AddForceAtPoint(const Vecteur3D& force, const Vecteur3D& worldPoint);
 		void AddForceAtBodyPoint(const Vecteur3D& force, const Vecteur3D& localPoint);
 		void ClearAccumulator();
+	};
+
+	//CONTACTS
+	class RigidbodyContact {
+	public:
+		Rigidbody* bodies[2];
+
+		//Coefficient d'elasticité entre 0 et 1
+		float restitution;
+
+		//Interpenetration du contact
+		float penetration;
+
+		Vecteur3D contactPoint;
+
+		Vecteur3D normal;
+
+		float computeVelocity() const;
+
+		void resolveVelocity(float duration);
+
+		void resolveInterpenetration(float duration);
+	};
+
+	//COL
+	class PrimitiveCollider
+	{
+	public:
+		Rigidbody* rigidbody;
+		Matrix34 offset;
+		Matrix3 inverseInertiaTensor;
+
+		virtual Vecteur3D getHalfSize() const = 0;
+		virtual void generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const = 0;
 	};
 }

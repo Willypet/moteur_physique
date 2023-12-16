@@ -76,7 +76,7 @@ namespace Physics {
 	}
 
 	void RigidPhysicsCore::AddCollider(PrimitiveCollider* col) {
-		collidersInSim.insert(col);
+		//collidersInSim.insert(col);
 	}
 
 	void RigidPhysicsCore::AddRigidBody(Rigidbody* body) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PrimitiveCollider.hpp"
+#include "Rigidbody.hpp"
 
 namespace Physics
 {
