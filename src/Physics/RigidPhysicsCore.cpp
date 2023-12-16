@@ -15,15 +15,15 @@ namespace Physics {
 
 	std::vector<RigidbodyContact> RigidPhysicsCore::GenerateContacts() {
 		std::vector<RigidbodyContact> res;
-		tree = Octree();
+		tree = new Octree(Vecteur3D(0, 0, 0), 1000.f, 2, 8);
 		if (collidersInSim.size() == 0) {
 			return res;
 		}
 		for (int i = 0; i < collidersInSim.size(); i++) {
 			collidersInSim[i]->rigidbody = rigidBodiesInSim[i];
-			tree.insertCollider(collidersInSim[i]);
+			tree->insertCollider(collidersInSim[i]);
 		}
-		tree.checkCollisions(res);
+		tree->checkCollisions(res);
 		return res;
 	}
 

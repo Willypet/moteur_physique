@@ -6,19 +6,17 @@
 namespace Physics
 {
 
-	SphereCollider::SphereCollider(Rigidbody* body, float radius) {
+	SphereCollider::SphereCollider(Rigidbody* body, float _radius) {
 		rigidbody = body;
-		this->radius = radius;
+		radius = _radius;
+		halfsize = Vecteur3D(radius, radius, radius);
+
 		float mass = rigidbody->getMass();
 
 		Matrix3 inertiaTensor = Matrix3(mass * 2 * radius * radius / 5.0, 0, 0,
 			0, mass * 2 * radius * radius / 5.0, 0,
 			0, 0, mass * 2 * radius * radius / 5.0);
 		inverseInertiaTensor = inertiaTensor.Inverse();
-	}
-
-	Vecteur3D SphereCollider::getHalfSize() const {
-		return Vecteur3D(radius, radius, radius);
 	}
 
 	void SphereCollider::generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const {

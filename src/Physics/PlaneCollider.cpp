@@ -5,8 +5,9 @@
 
 namespace Physics {
 
-	Vecteur3D PlaneCollider::getHalfSize() const {
-		return Vecteur3D(1000000, 1000000, 1000000);
+	PlaneCollider::PlaneCollider(Vecteur3D normal, float offset, Rigidbody* body) : normal(normal), offset(offset){
+		rigidbody = body;
+		halfsize = Vecteur3D(1000000, 1000000, 1000000);
 	}
 
 	void PlaneCollider::generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const {

@@ -88,8 +88,8 @@ namespace Physics {
 		Rigidbody* rigidbody;
 		Matrix34 offset;
 		Matrix3 inverseInertiaTensor;
+		Vecteur3D halfsize;
 
-		virtual Vecteur3D getHalfSize() const = 0;
 		virtual void generateContact(const PrimitiveCollider* other, std::vector<RigidbodyContact>& contacts) const = 0;
 	};
 }

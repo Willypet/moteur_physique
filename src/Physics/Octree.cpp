@@ -27,7 +27,7 @@ namespace Physics {
 		int childIndex = 0;
 
 		Vecteur3D colliderCenter = value->rigidbody->getPosition() + value->offset.TransformDirection(Vecteur3D(0, 0, 0));
-		Vecteur3D colSize = value->getHalfSize();
+		Vecteur3D colSize = value->halfsize;
 
 		float offsetX, offsetY, offsetZ;
 		offsetX = colliderCenter.x - center.x;
@@ -68,6 +68,8 @@ namespace Physics {
 		for (int i = 0; i < values.size() - 1; i++) {
 			//Test avec la cellule courante
 			for (int j = i + 1; j < values.size(); j++) {
+				std::cout << "Avant generateContact : " << values[i]->rigidbody->idGameObject << std::endl;
+				std::cout << "Avant generateContact : " << values[i]->halfsize.x << std::endl;
 				values[i]->generateContact(values[j], contacts);
 			}
 			//Test avec les enfants

@@ -25,11 +25,6 @@ namespace Physics {
 		inverseInertiaTensor = inertiaTensor.Inverse();
 	}
 
-	Vecteur3D BoxCollider::getHalfSize() const{
-		return halfsize;
-	}
-
-
 	std::vector<Vecteur3D> calculateAxes(const BoxCollider& boxA, const BoxCollider& boxB)
 	{
 		std::vector<Vecteur3D> axes;
@@ -58,7 +53,7 @@ namespace Physics {
 	{
 		float centerProjection = Vecteur3D::dot(box.offset.TransformPosition(Vecteur3D::vecteurNull()), axis);
 
-		Vecteur3D halfsize = box.getHalfSize();
+		Vecteur3D halfsize = box.halfsize;
 		float vertexProjection =
 			std::abs(Vecteur3D::dot(box.offset.TransformPosition(halfsize), axis)) +
 			std::abs(Vecteur3D::dot(box.offset.TransformPosition(-halfsize), axis));

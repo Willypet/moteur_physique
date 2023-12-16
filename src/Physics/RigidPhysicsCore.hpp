@@ -27,7 +27,7 @@ namespace Physics {
 		void UpdateRigidBodies(const float duration);
 		void ResetRigidBodiesAcc();
 		std::vector<RigidbodyContact> GenerateContacts();
-		Octree tree;
+		Octree* tree;
 		std::map<ForceGenerator*, std::vector<Rigidbody*>> forces;
 		std::vector<Rigidbody*> rigidBodiesInSim;
 		std::vector<PrimitiveCollider*> collidersInSim;

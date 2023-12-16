@@ -51,7 +51,7 @@ namespace Physics {
 		idGameObject(0)
 	{
 		col->rigidbody = this;;
-		Vecteur3D halfSize = col->getHalfSize();
+		Vecteur3D halfSize = col->halfsize;
 		Matrix3 inertiaTensor = Matrix3(masse * 4 * (halfSize.y * halfSize.y + halfSize.z * halfSize.z) / 12.0, 0, 0,
 			0, masse * 4 * (halfSize.y * halfSize.y + halfSize.x * halfSize.x) / 12.0, 0,
 			0, 0, masse * 4 * (halfSize.z * halfSize.z + halfSize.x * halfSize.x) / 12.0);
