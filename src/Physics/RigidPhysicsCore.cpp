@@ -16,8 +16,12 @@ namespace Physics {
 	std::vector<RigidbodyContact> RigidPhysicsCore::GenerateContacts() {
 		std::vector<RigidbodyContact> res;
 		tree = Octree();
-		for (PrimitiveCollider* col : collidersInSim) {
-			tree.insertCollider(col);
+		if (collidersInSim.size() == 0) {
+			return res;
+		}
+		for (int i = 0; i < collidersInSim.size(); i++) {
+			collidersInSim[i]->rigidbody = rigidBodiesInSim[i];
+			tree.insertCollider(collidersInSim[i]);
 		}
 		tree.checkCollisions(res);
 		return res;
@@ -80,8 +84,8 @@ namespace Physics {
 	}
 
 	void RigidPhysicsCore::AddRigidBody(Rigidbody* body) {
-		rigidBodiesInSim.insert(body);
-		collidersInSim.insert(body->getCollider());
+		rigidBodiesInSim.push_back(body);
+		collidersInSim.push_back(body->getCollider());
 	}
 
 	RigidPhysicsCore::~RigidPhysicsCore() {

@@ -29,8 +29,8 @@ namespace Physics {
 		std::vector<RigidbodyContact> GenerateContacts();
 		Octree tree;
 		std::map<ForceGenerator*, std::vector<Rigidbody*>> forces;
-		std::set<Rigidbody*> rigidBodiesInSim;
-		std::set<PrimitiveCollider*> collidersInSim;
+		std::vector<Rigidbody*> rigidBodiesInSim;
+		std::vector<PrimitiveCollider*> collidersInSim;
 		RigidbodyContactResolver contactResolver;
 	};
 }

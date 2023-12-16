@@ -2,11 +2,12 @@
 #include "SphereCollider.hpp"
 
 #include<typeinfo>
+#include<iostream>
 
 namespace Physics {
 
 	Octree::Octree() {
-		Octree(Vecteur3D(0, 0, 0), 1000, 2, 8);
+		Octree(Vecteur3D(0, 0, 0), 1000.f, 2, 8);
 	}
 
 	Octree::Octree(Vecteur3D center, float halfSize, int capacity, int depth) :

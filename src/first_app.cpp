@@ -455,10 +455,10 @@ namespace Visual {
         Physics::BoxCollider box1 = Physics::BoxCollider(Physics::Vecteur3D(1, 1, 1));
         Physics::BoxCollider box2 = Physics::BoxCollider(Physics::Vecteur3D(1, 1, 1));
 
-        auto body1 = new Physics::Rigidbody( 2.f, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), static_cast<Physics::PrimitiveCollider*>(&box1), "models/cube_rouge.obj");
+        auto body1 = new Physics::Rigidbody( 2.f, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), dynamic_cast <Physics::PrimitiveCollider*>(&box1), "models/cube_rouge.obj");
         spawnBody(body1);
         rigidPhysicsCore.AddRigidBody(body1);
-        auto body2 = new Physics::Rigidbody( 1.f, Physics::Vecteur3D(-1, 1, 2.5), Physics::Quaternion::identity(), static_cast<Physics::PrimitiveCollider*>(&box2), "models/cube_jaune.obj" );
+        auto body2 = new Physics::Rigidbody( 1.f, Physics::Vecteur3D(-1, 1, 2.5), Physics::Quaternion::identity(), dynamic_cast <Physics::PrimitiveCollider*>(&box2), "models/cube_jaune.obj" );
         spawnBody(body2);
         rigidPhysicsCore.AddRigidBody(body2);
 
