@@ -1,19 +1,26 @@
 # Phase 1
 
 Aucune difficulté particulière n'est apparue pendant cette phase. Le rendu est basé sur Vulkan, avec une architecture développée précedemment par Benjamin pour un autre projet, ce qui a permis de se concentrer sur la partie physique à proprement parler.
-L'intégrateur est cependant rudimentaire, et cause des ralentissements selon la machine utilisée.
+Nous avons travaillé de manière équitable sans s'y prendre en retard ce qui a permi de poser une bonne base de structure du projet en séparant bien la partie physique de la partie visuelle.
+L'intégrateur fonctionne bien et nous permet de donner une vitesse et une accélération initiale aux particules ce qui nous permet de voir différents cas de figue. Cependant, le framerate n'est pas identique selon la machine utilisée.
+
 
 # Phase 2
 
+Sur cette phase, chacun a commencé à traviller relativemet tôt sur des tâches que nous nous sommes réparties et nous n'avons eu aucun problème. 
 Les générateurs de force implémentés sont les suivants : gravité, friction, ressort ancré à un point fixe, ressort entre 2 particules, ainsi que des cables et des tiges. Pour la collision, un algorithme naïf comparant toutes les paires de particules est utilisé. L'unique subtilité dans cet algorithme est de s'assurer de ne pas traiter les contacts 2 fois (particule1 - particule 2 et particule2 - particule 1) mais ceci est de toute façon nécessaire pour une résolution physiquement correcte. Le système gère également les contacts au repos. La résolution de contact est basée sur les algorithmes présentés dans *Game Physics Engine Development* de Ian Millington.
-
+De plus la partie physique est également mieux structurée : les forces, les gestions de collisions, les conditions initiales sont toutes indépendantes. De plus nous avons plusieurs applications pour montrer chaque force et ses cas de figures. Il y a également la gestion des contacts au repos.
 # Phase 3
 
-Cette phase a été plus ardue, notamment par le fait que William n'y a pas participé. Les corps rigides sont cependant fonctionnels, avec des forces appliquant correctement mouvement linéaire et rotationnel. Un bug visuel est demeuré qui amène les objet à ne pas tourner correctement autour de certains axes.
+Cette phase a été plus ardue, notamment par le fait que William n'y a pas participé et nous nous y sommes pris un peu en retard. Heureusement la structure du projet nous a permis de facilement intégrer les corps rigides en généralisant nos fonctions des particules en y appliquant des forces avec des mouvements linéaires et/ou rotationnels. Ainsi les corps rigides peuvent coexister avec les particules et tout ce qui a été implémenté jusque là fonctionne toujours.
+Un bug visuel est demeuré qui amène les objet à ne pas tourner correctement autour de l'axes Y mais ce bug est lié au moteur visuel et à la ccnversion d'un angle.
 
 # Phase 4
 
-Cette phase a été particulièrement complexe à cause d'une mauvaise planification sur les autres projets amenant à un temps réduit consacré à ce projet, et également car William n'y a pas non plus participé.
+Pour cette phase nous nous y sommes pris plus en avance que la précédente cependant nous avons dû aire face à trois problèmes : William n'a toujours rien fait et nous avions d'autres projets à rendre ce qui nous donne une plus grande charge de travail à répartir sur moins de temps. De plus nous avons dû faire face pour la première fois à de nombreux bugs car la structure du projet s'est fortement complexifiée et nous n'avons pas toujours fait les meilleurs choix. Par exemple nous avons dû faire face à des inclusions récursives entre les Rigidbody et leur Collider, des soucis d'accès à la mémoire à cause de pointeurs déréférencés ou encore des problèmes avec les classes abstraites et leur classes filles. Ces bugs ont mis plusieurs jours avant d'être résolus et nous avons finalement obtenus des résultats visible le dernier jour ce qui nous a empêché de régler d'autres bugs ou de retravailler les collisions qui ne fonctionnent pas toutes correctement (les collisions entre deux boîtes ne sont pas détectées sans que nous ayons pu comprendre pourquoi et les de collider ne fonctionnent correctement que la première fois, il faut ensuite relancer le moteur.). Nous n'avons également pas pu implémenter la friction, bien que le contact au repos fonctionne toujours grâce aux particules. 
+De plus, les applications implémentées pour la phase 3 sont devenues obsolètes et provoquaient des crashs ce qui nous a poussé à les supprimer.
 La Broad Phase est assurée par un système d'Octree, reconstruit à chaque frame pour partitionner correctement l'espace. Afin d'optimiser, il serait possible de construire un octree pour les objets statiques, qui ne serait pas reconstruit, et un octree pour les objets dynamiques, qui serait alors plus petit. Compte tenu du nombre d'objets considérés ici et des contraintes de temps, cela n'a pas été fait.
-La détection précise de collisions fonctionnent, sauf pour les collisions boite-boite qui ne sont pas correctement détectées.
-La résolution des collisions génère également des comportements étranges au niveau rotationnel.
+
+# Conclusion
+Pour conclure nous avons pu éviter de nombreux problèmes sur les trois premières phases grâce à une structure du projet claire et ordonnée mais sur la phase 4, en étant plus que deux sur le projet depuis deux mois, c'est devenu bien plus compliqué de tout gérer, d'autant plus que d'autres projets nous ont également pris du temps. S'il fallait changer quelque chose, ça serait le lien entre la classe Rigidbody et la classe Collider qui est à l'origine de nos problème. Enfin si nous avions continué de travailler à trois sur ce projet nous aurions pu avoir le temps d'implémenter le reste des fonctionalités demandées. 
+Nous avons tout de même pu créer ce projet depuis le début et comprendre comment fonctionne un moteur physique et un moteur visuel, comment les séparer et les faire travailler ensemble. De plus ce projet est un projet qui est devenu de plus en plus important et nous avons appris à maintenir autant que possible sa structure pour le garder le plus clair possible (jusqu'à la phase 4).
