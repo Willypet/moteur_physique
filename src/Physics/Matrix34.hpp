@@ -16,7 +16,7 @@ namespace Physics {
 		Matrix34 Inverse();
 		void SetOrientationAndPosition(const Quaternion& q, const Vecteur3D& v);
 		Vecteur3D TransformPosition(const Vecteur3D v) const;
-		Vecteur3D TransformDirection(const Vecteur3D& v);
+		Vecteur3D TransformDirection(const Vecteur3D& v) const;
 	
 	private:
 		float value[3][4];

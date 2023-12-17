@@ -4,7 +4,7 @@ namespace Physics {
 
 	Matrix34::Matrix34()
 	{
-		Matrix34(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		Matrix34(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0);
 	}
 
 	Matrix34::Matrix34(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l)
@@ -103,7 +103,7 @@ namespace Physics {
 		return Vecteur3D(value[0][3] + v.x, value[1][3] + v.y, value[2][3] + v.z);
 	}
 	
-	Vecteur3D Physics::Matrix34::TransformDirection(const Vecteur3D& v)
+	Vecteur3D Physics::Matrix34::TransformDirection(const Vecteur3D& v) const
 	{
 		return Vecteur3D(
 			value[0][0] * v.x + value[0][1] * v.y + value[0][2] * v.z,

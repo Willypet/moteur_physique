@@ -10,12 +10,14 @@ namespace Physics {
 	{
 		rigidbody = nullptr;
 		halfSize = halfSize;
+		offset.SetOrientationAndPosition(Quaternion::identity(), Vecteur3D(0, 0, 0));
 	}
 
 	BoxCollider::BoxCollider(Rigidbody* body, Vecteur3D halfSize)
 	{
 		rigidbody = body;
 		halfSize = halfSize;
+		offset.SetOrientationAndPosition(Quaternion::identity(), Vecteur3D(0, 0, 0));
 		float mass = rigidbody->getMass();
 
 		Matrix3 inertiaTensor = Matrix3(mass * 4 * (halfSize.y * halfSize.y + halfSize.z * halfSize.z) / 12.0, 0, 0,
@@ -28,55 +30,80 @@ namespace Physics {
 	{
 		std::vector<Vecteur3D> axes;
 
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(1, 0, 0)));
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 1, 0)));
-		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 0, 1)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(1, 0, 0)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 1, 0)));
-		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 0, 1)));
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(1, 0, 0)).normalized());
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 1, 0)).normalized());
+		axes.push_back(Matrix34(boxA.offset).TransformDirection(Vecteur3D(0, 0, 1)).normalized());
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(1, 0, 0)).normalized());
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 1, 0)).normalized());
+		axes.push_back(Matrix34(boxB.offset).TransformDirection(Vecteur3D(0, 0, 1)).normalized());
 
-		axes.push_back(axes[0].cross(axes[3]));
-		axes.push_back(axes[0].cross(axes[4]));
-		axes.push_back(axes[0].cross(axes[5]));
-		axes.push_back(axes[1].cross(axes[3]));
-		axes.push_back(axes[1].cross(axes[4]));
-		axes.push_back(axes[1].cross(axes[5]));
-		axes.push_back(axes[2].cross(axes[3]));
-		axes.push_back(axes[2].cross(axes[4]));
-		axes.push_back(axes[2].cross(axes[5]));
-
+		Vecteur3D cross;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 3; j < 6; j++) {
+				cross = axes[i].cross(axes[j]);
+				if (cross.magnitudeSquared() >= 1e-6) {
+					axes.push_back(cross.normalized());
+				}
+			}
+		}
 		return axes;
 	}
 
-	float projectOntoAxis(const BoxCollider& box, const Vecteur3D& axis)
+	struct projection {
+		float min;
+		float max;
+	};
+	
+	struct projection projectOntoAxis(const BoxCollider& box, const Vecteur3D& axis)
 	{
-		float centerProjection = Vecteur3D::dot(box.offset.TransformPosition(Vecteur3D::vecteurNull()), axis);
-
+		struct projection res;
 		Vecteur3D halfsize = box.halfsize;
-		float vertexProjection =
-			std::abs(Vecteur3D::dot(box.offset.TransformPosition(halfsize), axis)) +
-			std::abs(Vecteur3D::dot(box.offset.TransformPosition(-halfsize), axis));
+		float vertexProjectionMax = Vecteur3D::dot(box.offset.TransformPosition(box.rigidbody->getPosition() + box.offset.TransformDirection(halfsize)), axis);
+		float vertexProjectionMin = Vecteur3D::dot(box.offset.TransformPosition(box.rigidbody->getPosition() - box.offset.TransformDirection(halfsize)), axis);
 
-		return vertexProjection + centerProjection;
+		if (vertexProjectionMax > vertexProjectionMin) {
+			res.max = vertexProjectionMax;
+			res.min = vertexProjectionMin;
+		}
+		else {
+			res.min = vertexProjectionMax;
+			res.max = vertexProjectionMin;
+		}
+		return res;
 	}
 
-	Vecteur3D findContactPoint(const BoxCollider& boxA, const BoxCollider& boxB, const Vecteur3D& axis)
+	Vecteur3D findContactPoint(const BoxCollider& box, const Vecteur3D& axis)
 	{
-		// Projections des coins de la boite A sur l'axe
-		float projectionA_Max = projectOntoAxis(boxA, axis);
-		float projectionA_Min = -projectionA_Max;
+		Vecteur3D axes[3];
+		axes[0] = Matrix34(box.offset).TransformDirection(Vecteur3D(1, 0, 0)).normalized();
+		axes[1] = Matrix34(box.offset).TransformDirection(Vecteur3D(0, 1, 0)).normalized();
+		axes[2] = Matrix34(box.offset).TransformDirection(Vecteur3D(0, 0, 1)).normalized();
 
-		// Projections des coins de la boite B sur l'axe
-		float projectionB_Max = projectOntoAxis(boxB, axis);
-		float projectionB_Min = -projectionB_Max;
+		int indexMax = 0;
+		float maxDotProduct = 0.f;
+		for (int i = 0; i < 3; i++) {
+			if (abs(Vecteur3D::dot(axes[i], axis)) >= maxDotProduct) {
+				indexMax = i;
+				maxDotProduct = abs(Vecteur3D::dot(axes[i], axis));
+			}
+		}
+		float scale;
+		switch (indexMax)
+		{
+		case 0:
+			scale = box.halfsize.x;
+			break;
+		case 1:
+			scale = box.halfsize.y;
+			break;
+		case 2:
+			scale = box.halfsize.z;
+			break;
+		default:
+			break;
+		}
 
-		// Utilisez la moyenne des projections maximales et minimales pour determiner le point de contact
-		float contactPointValue = 0.5 * (projectionA_Max + projectionA_Min + projectionB_Max + projectionB_Min);
-
-		// Convertissez le point de contact de la coordonnee de l'axe a l'espace mondial
-		Vecteur3D contactPoint = boxA.offset.TransformPosition(Vecteur3D::vecteurNull()) + axis * contactPointValue;
-
-		return contactPoint;
+		return box.rigidbody->getPosition() + axis * scale / Vecteur3D::dot(axes[indexMax], axis);
 	}
 
 
@@ -152,32 +179,30 @@ namespace Physics {
 
 					for (const Vecteur3D& axis : axes)
 					{
-						float projectionA = projectOntoAxis(*this, axis);
-						float projectionB = projectOntoAxis(*otherBox, axis);
+						struct projection projectionA = projectOntoAxis(*this, axis);
+						struct projection projectionB = projectOntoAxis(*otherBox, axis);
 
-						float overlap = std::min(projectionA, projectionB) - std::max(projectionA, projectionB);
+						float overlap = std::max(projectionA.max - projectionB.min, projectionB.max - projectionA.min);
 
 						if (overlap <= 0.0f)
 							//Pas de collisions
-							contacts.clear();
-						return;
+							return;
 
 						if (overlap < minSeparation)
 						{
 							minSeparation = overlap;
 							minSeparationAxis = axis;
-
-							//Point de contact
-							RigidbodyContact contact;
-							contact.bodies[0] = rigidbody;
-							contact.bodies[1] = otherBox->rigidbody;
-							contact.normal = Vecteur3D(axis).normalized();
-							contact.restitution = 0.8;
-							contact.penetration = -overlap;
-							contact.contactPoint = findContactPoint(*this, *otherBox, axis);
-							contacts.push_back(contact);
 						}
 					}
+					//Point de contact
+					RigidbodyContact contact;
+					contact.bodies[0] = rigidbody;
+					contact.bodies[1] = otherBox->rigidbody;
+					contact.normal = Vecteur3D(minSeparationAxis).normalized();
+					contact.restitution = 0.8;
+					contact.penetration = minSeparation;
+					contact.contactPoint = findContactPoint(*this, minSeparationAxis);
+					contacts.push_back(contact);
 				}
 			}
 		}
