@@ -38,6 +38,21 @@ namespace Physics {
 		transformMatrix.SetOrientationAndPosition(orientation, position);
 	}
 
+	Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, const std::string& gameObjectFilePath) :
+		masse{ std::max(_masse, 0.0001f) },
+		linearDamping{ 1 },
+		angularDamping{ 1 },
+		position(_position),
+		orientation{ _orientation },
+		linearVelocity(Vecteur3D::vecteurNull()),
+		angularVelocity{ Vecteur3D::vecteurNull() },
+		gameObjectFilePath(gameObjectFilePath),
+		idGameObject(0)
+	{
+		col = nullptr;
+		transformMatrix.SetOrientationAndPosition(orientation, position);
+	}
+
 	Rigidbody::Rigidbody(const float _masse, const Vecteur3D& _position, const Quaternion _orientation, PrimitiveCollider* _col, const std::string& gameObjectFilePath) :
 		masse{ std::max(_masse, 0.0001f) },
 		linearDamping{ 1 },
@@ -50,13 +65,6 @@ namespace Physics {
 		gameObjectFilePath(gameObjectFilePath),
 		idGameObject(0)
 	{
-		col->rigidbody = this;;
-		Vecteur3D halfSize = col->halfsize;
-		Matrix3 inertiaTensor = Matrix3(masse * 4 * (halfSize.y * halfSize.y + halfSize.z * halfSize.z) / 12.0, 0, 0,
-			0, masse * 4 * (halfSize.y * halfSize.y + halfSize.x * halfSize.x) / 12.0, 0,
-			0, 0, masse * 4 * (halfSize.z * halfSize.z + halfSize.x * halfSize.x) / 12.0);
-		col->inverseInertiaTensor = inertiaTensor.Inverse();
-
 		transformMatrix.SetOrientationAndPosition(orientation, position);
 	}
 
@@ -71,11 +79,6 @@ namespace Physics {
 
 		Matrix3 orientationMatrix = Matrix3();
 		orientationMatrix.SetOrientation(orientation);
-		/*DEBUG
-		Vecteur3D angles = orientation.toYXZ();
-		//std::cout << "posX : " << position.x << " posY : " << position.y << "posZ : " << position.z << std::endl;
-		std::cout << "rotX : " << angles.x << " rotY : " << angles.y << " rotZ : " << angles.z << std::endl;
-		/*FIN DEBUG*/
 		Matrix3 globalInverseInertiaTensor = orientationMatrix.Transpose() * col->inverseInertiaTensor * orientationMatrix;
 
 		Vecteur3D angularAcc = globalInverseInertiaTensor * m_torqueAccum;
@@ -97,6 +100,10 @@ namespace Physics {
 
 	PrimitiveCollider* Rigidbody::getCollider() const {
 		return col;
+	}
+
+	void Rigidbody::SetCollider(PrimitiveCollider* newCol){
+		col = newCol;
 	}
 
 	Matrix34 Rigidbody::getTransform() const {
@@ -251,24 +258,32 @@ namespace Physics {
 		float angularMove1 = penetration * angularInertia1 * inverseTotalInertia;
 
 		bodies[0]->SetPosition(bodies[0]->getPosition() + normal * linearMove1);
-		Vecteur3D impulsePerMove = globalInverseInertiaTensor1 * (offset1.cross(normal));
-		Vecteur3D rotationPerMove = impulsePerMove / angularInertia1;
-		Vecteur3D rotation = rotationPerMove * angularMove1;
-		Quaternion newRotation = bodies[0]->getRotation();
-		newRotation.RotateByVector(rotation);
-		bodies[0]->SetRotation(newRotation);
+		Vecteur3D impulsePerMove;
+		Vecteur3D rotationPerMove;
+		Vecteur3D rotation;
+		Quaternion newRotation;
+		if (abs(angularInertia1) >= 1e-3){
+			impulsePerMove = globalInverseInertiaTensor1 * (offset1.cross(normal));
+			rotationPerMove = impulsePerMove / angularInertia1;
+			rotation = rotationPerMove * angularMove1;
+			newRotation = bodies[0]->getRotation();
+			newRotation.RotateByVector(rotation);
+			bodies[0]->SetRotation(newRotation);
+		}
 
 		if (bodies[1] != nullptr) {
 			float linearMove2 = -penetration * linearInertia2 * inverseTotalInertia;
 			float angularMove2 = -penetration * angularInertia2 * inverseTotalInertia;
 
 			bodies[1]->SetPosition(bodies[1]->getPosition() + normal * linearMove2);
-			impulsePerMove = globalInverseInertiaTensor2 * (offset2.cross(normal));
-			rotationPerMove = impulsePerMove / angularInertia2;
-			rotation = rotationPerMove * angularMove2;
-			newRotation = bodies[1]->getRotation();
-			newRotation.RotateByVector(rotation);
-			bodies[1]->SetRotation(newRotation);
+			if (abs(angularInertia2) >= 1e-3) {
+				impulsePerMove = globalInverseInertiaTensor2 * (offset2.cross(normal));
+				rotationPerMove = impulsePerMove / angularInertia2;
+				rotation = rotationPerMove * angularMove2;
+				newRotation = bodies[1]->getRotation();
+				newRotation.RotateByVector(rotation);
+				bodies[1]->SetRotation(newRotation);
+			}
 		}
 
 		//Ne pas refaire ce contact

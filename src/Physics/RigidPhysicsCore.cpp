@@ -8,6 +8,7 @@ namespace Physics {
 			ApplyForces();
 			UpdateRigidBodies(timestep);
 			std::vector<RigidbodyContact> contacts = GenerateContacts();
+			contactResolver.setMaxIterations(contacts.size());
 			contactResolver.resolveContacts(contacts, timestep);
 			ResetRigidBodiesAcc();
 		}

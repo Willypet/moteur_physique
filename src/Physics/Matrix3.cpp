@@ -1,4 +1,5 @@
 #include "Matrix3.hpp"
+#include <iostream>
 
 namespace Physics {
 	Matrix3::Matrix3()
@@ -99,5 +100,11 @@ namespace Physics {
 		value[2][1] = 2 * q.j * q.k - 2 * q.i * q.w;
 		value[2][2] = 1 - (2 * q.i * q.i + 2 * q.j * q.j);
 		
+	}
+
+	void Matrix3::print() {
+		std::cout << value[0][0] << ", " << value[0][1] << ", " << value[0][2] << std::endl;
+		std::cout << value[1][0] << ", " << value[1][1] << ", " << value[1][2] << std::endl;
+		std::cout << value[2][0] << ", " << value[2][1] << ", " << value[2][2] << std::endl;
 	}
 }

@@ -35,6 +35,7 @@ namespace Physics {
 	public:
 		Rigidbody(const std::string& gameObjectFilePath);
 		Rigidbody(const Vecteur3D position, const Quaternion orientation, const std::string& gameObjectFilePath);
+		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, const std::string& getGameObjectFilePath);
 		Rigidbody(const float masse, const Vecteur3D& position, const Quaternion orientation, PrimitiveCollider* col, const std::string& getGameObjectFilePath);
 
 		int idGameObject;
@@ -48,6 +49,7 @@ namespace Physics {
 		Vecteur3D getLinearVelocity() const;
 		Vecteur3D getAngularVelocity() const;
 		PrimitiveCollider* getCollider() const;
+		void SetCollider(PrimitiveCollider* col);
 		void SetRotation(const Quaternion& newRotation);
 		void SetPosition(const Vecteur3D& newPosition);
 		void SetLinearVelocity(const Vecteur3D& newVelocity);

@@ -10,7 +10,6 @@ namespace Physics {
 	{
 		rigidbody = nullptr;
 		halfSize = halfSize;
-	
 	}
 
 	BoxCollider::BoxCollider(Rigidbody* body, Vecteur3D halfSize)

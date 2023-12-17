@@ -17,6 +17,8 @@ namespace Physics {
 
 		void SetOrientation(const Quaternion& q);
 
+		void print();
+
 	private :
 		float value[3][3];
 	};

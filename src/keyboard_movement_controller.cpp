@@ -100,6 +100,13 @@ namespace Visual {
 				isSpawnKeyPressed = true;
 			}
 		}
+		else if (glfwGetKey(window, keys.spawn8) == GLFW_PRESS) {
+			if (!isSpawnKeyPressed) {
+
+				FirstApp::getInstance().inputParticle(8);
+				isSpawnKeyPressed = true;
+			}
+		}
 		else {
 			isSpawnKeyPressed = false;
 		}
