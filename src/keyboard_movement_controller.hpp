@@ -27,6 +27,7 @@ namespace Visual {
             int spawn6 = GLFW_KEY_6;
             int spawn7 = GLFW_KEY_7;
             int spawn8 = GLFW_KEY_8;
+            int spawn9 = GLFW_KEY_9;
             int close = GLFW_KEY_ESCAPE;
 		};
 

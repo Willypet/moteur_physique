@@ -146,7 +146,9 @@ namespace Visual {
         case 8:
             App8();
             break;
-
+        case 9:
+            App9();
+            break;
         default:
             App0();
             break;
@@ -458,23 +460,39 @@ namespace Visual {
 
     void FirstApp::App5() // Corps rigides
     {
-        auto body1 = new Physics::Rigidbody( 2.f, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
-        Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(1, 1, 1));
+        //auto body1 = new Physics::Rigidbody( 2.f, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
+        //Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(1, 1, 1));
+        //Physics::PrimitiveCollider* col1 = box1;
+        //body1->SetCollider(col1);
+        //spawnBody(body1);
+        //rigidPhysicsCore.AddRigidBody(body1);
+        //auto body2 = new Physics::Rigidbody( 1.f, Physics::Vecteur3D(-1, 1, 2.5), Physics::Quaternion::identity(), "models/cube_jaune.obj" );
+        //Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(1, 1, 1));
+        //Physics::PrimitiveCollider* col2 = box2;
+        //body2->SetCollider(col2);
+        //spawnBody(body2);
+        //rigidPhysicsCore.AddRigidBody(body2);
+        //
+        //Physics::SpringForceGenerator* spring = new Physics::SpringForceGenerator(Physics::Vecteur3D(-0.5, -0.5, -0.5), body2, Physics::Vecteur3D(0.5, 0.5, 0.5), 5, 1);
+        //
+        //rigidPhysicsCore.AddForce(spring, body1);
+
+        //SPHERE PLANE 2
+        auto body1 = new Physics::Rigidbody(100.f, Physics::Vecteur3D(0, -3, 4), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1, 0.25f);
         Physics::PrimitiveCollider* col1 = box1;
         body1->SetCollider(col1);
         spawnBody(body1);
         rigidPhysicsCore.AddRigidBody(body1);
-        auto body2 = new Physics::Rigidbody( 1.f, Physics::Vecteur3D(-1, 1, 2.5), Physics::Quaternion::identity(), "models/cube_jaune.obj" );
-        Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(1, 1, 1));
+        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion(90.f,90.f,-90.f), "models/plane.obj");
+        Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(1, -1, 0), 0, body2);
         Physics::PrimitiveCollider* col2 = box2;
         body2->SetCollider(col2);
-        spawnBody(body2);
+        spawnBody(body2, 1);
         rigidPhysicsCore.AddRigidBody(body2);
 
-        Physics::SpringForceGenerator* spring = new Physics::SpringForceGenerator(Physics::Vecteur3D(-0.5, -0.5, -0.5), body2, Physics::Vecteur3D(0.5, 0.5, 0.5), 5, 1);
-
-        rigidPhysicsCore.AddForce(spring, body1);
-
+        Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+        rigidPhysicsCore.AddForce(gravity, body1);
     }
 
     void FirstApp::App6() // Cubes qui tourne
@@ -499,6 +517,23 @@ namespace Visual {
         //spawnBody(body3);
         //body3->SetAngularVelocity(Physics::Vecteur3D(0, 0, 1));
         //rigidPhysicsCore.AddRigidBody(body3);
+
+        // SPHERE PLANE
+        auto body1 = new Physics::Rigidbody(.5f, Physics::Vecteur3D(0, -3, 4), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1, 0.25f);
+        Physics::PrimitiveCollider* col1 = box1;
+        body1->SetCollider(col1);
+        spawnBody(body1);
+        rigidPhysicsCore.AddRigidBody(body1);
+        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion::identity(), "models/plane.obj");
+        Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(0,-1,0), 0, body2);
+        Physics::PrimitiveCollider* col2 = box2;
+        body2->SetCollider(col2);
+        spawnBody(body2, 10);
+        rigidPhysicsCore.AddRigidBody(body2);
+
+        Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+        rigidPhysicsCore.AddForce(gravity, body1);    
     }
 
     void FirstApp::App7() //Ressort avec ancre au monde
@@ -514,18 +549,35 @@ namespace Visual {
         //
         //Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
         //rigidPhysicsCore.AddForce(gravity, body1);
+
+        //SPHERE CUBE
+        auto body1 = new Physics::Rigidbody(.5f, Physics::Vecteur3D(4, 0.1, 4.05), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1, 0.25f);
+        Physics::PrimitiveCollider* col1 = box1;
+        body1->SetCollider(col1);
+        spawnBody(body1);
+        rigidPhysicsCore.AddRigidBody(body1);
+        auto body2 = new Physics::Rigidbody(3.f, Physics::Vecteur3D(-4, 0, 4), Physics::Quaternion::identity(), "models/cube_jaune.obj");
+        Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(0.25f, 0.25f, 0.25f));
+        Physics::PrimitiveCollider* col2 = box2;
+        body2->SetCollider(col2);
+        spawnBody(body2);
+        rigidPhysicsCore.AddRigidBody(body2);
+
+        body1->SetLinearVelocity(Physics::Vecteur3D(-.5, 0, 0));
+        body2->SetLinearVelocity(Physics::Vecteur3D(1, 0, 0));
     }
 
     void FirstApp::App8() // Collision de corps rigides
     {
-        auto body1 = new Physics::Rigidbody(2.f, Physics::Vecteur3D(4, 0.1, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
-        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1, Physics::Vecteur3D(0.5f, 0.5f, 0.5f));
+        auto body1 = new Physics::Rigidbody(2.f, Physics::Vecteur3D(4, 0.1, 4), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1,0.25f);
         Physics::PrimitiveCollider* col1 = box1;
         body1->SetCollider(col1);
         spawnBody(body1);
         rigidPhysicsCore.AddRigidBody(body1);
         auto body2 = new Physics::Rigidbody(1.f, Physics::Vecteur3D(-4, 0, 4), Physics::Quaternion::identity(), "models/cube_jaune.obj");
-        Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(0.5f, 0.5f, 0.5f));
+        Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(0.25f, 0.25f, 0.25f));
         Physics::PrimitiveCollider* col2 = box2;
         body2->SetCollider(col2);
         spawnBody(body2);
@@ -533,6 +585,26 @@ namespace Visual {
 
         body1->SetLinearVelocity(Physics::Vecteur3D(-1, 0, 0));
         body2->SetLinearVelocity(Physics::Vecteur3D(1, 0, 0));
+    }
+
+    void FirstApp::App9() // Collision de corps rigides
+    {
+        auto body1 = new Physics::Rigidbody(.5f, Physics::Vecteur3D(0, -3, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
+        Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(1.f, 1.f, 1.f));
+        Physics::PrimitiveCollider* col1 = box1;
+        body1->SetCollider(col1);
+        spawnBody(body1);
+        rigidPhysicsCore.AddRigidBody(body1);
+        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion::identity(), "models/plane.obj");
+        Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(0, -1, 0), 0, body2);
+        Physics::PrimitiveCollider* col2 = box2;
+        body2->SetCollider(col2);
+        spawnBody(body2, 5);
+        rigidPhysicsCore.AddRigidBody(body2);
+
+        Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+        rigidPhysicsCore.AddForce(gravity, body1);
+        body1->SetAngularVelocity(Physics::Vecteur3D(-1, 1, .5));
     }
 
     void FirstApp::loadGameObjects(Physics::Particule* particule) {
@@ -552,12 +624,12 @@ namespace Visual {
         loadGameObjects(particule);
     }
 
-    void FirstApp::spawnBody(Physics::Rigidbody* body) {
+    void FirstApp::spawnBody(Physics::Rigidbody* body, float size) {
         bodies.push_back(std::move(body));
-        loadGameObjects(body);
+        loadGameObjects(body, size);
     }
 
-    void FirstApp::loadGameObjects(Physics::Rigidbody* body) {
+    void FirstApp::loadGameObjects(Physics::Rigidbody* body, float size) {
         std::shared_ptr<VModel> VModel = VModel::createModelFromFile(VDevice, body->getGameObjectFilePath());
 
         auto object = VGameObject::createGameObject();
@@ -565,7 +637,7 @@ namespace Visual {
         object.transform.translation = glm::vec3{ body->getPosition().x, body->getPosition().y, body->getPosition().z };
         Physics::Vecteur3D yxz = body->getRotation().toYXZ();
         object.transform.rotation = glm::vec3{ yxz.x, yxz.y, yxz.z };
-        object.transform.scale = glm::vec3(0.1, 0.1, 0.1);
+        object.transform.scale = glm::vec3(size, size, size);
         body->idGameObject = object.getId();
         gameObjects.emplace(object.getId(), std::move(object));
     }

@@ -43,9 +43,9 @@ namespace Visual {
 		bool shouldClose;
 
 		void loadGameObjects(Physics::Particule* particule);
-		void loadGameObjects(Physics::Rigidbody* body);
+		void loadGameObjects(Physics::Rigidbody* body, float size = .1f);
 		void spawnParticule(Physics::Particule* particule);
-		void spawnBody(Physics::Rigidbody* body);
+		void spawnBody(Physics::Rigidbody* body, float size = .1f);
 		
 		void resetApp();
 		void App0();
@@ -57,6 +57,7 @@ namespace Visual {
 		void App6();
 		void App7();
 		void App8();
+		void App9();
 		
 		VWindow VWindow{WIDTH, HEIGHT, "Moteur Physique"};
 		VDevice VDevice{VWindow};

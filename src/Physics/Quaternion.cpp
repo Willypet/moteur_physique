@@ -12,6 +12,29 @@ namespace Physics {
 		Quaternion(0.f, 0.f, 0.f, 0.f);
 	}
 
+	Quaternion::Quaternion(float yaw, float pitch, float roll) {
+		// Convert angles from degrees to radians
+		yaw = yaw * std::numbers::pi / 180.0;
+		pitch = pitch * std::numbers::pi / 180.0;
+		roll = roll * std::numbers::pi / 180.0;
+
+		// Calculate half angles
+		float cosYaw = std::cos(yaw / 2);
+		float sinYaw = std::sin(yaw / 2);
+		float cosPitch = std::cos(pitch / 2);
+		float sinPitch = std::sin(pitch / 2);
+		float cosRoll = std::cos(roll / 2);
+		float sinRoll = std::sin(roll / 2);
+
+		// Construct quaternion from Euler angles
+		float qw = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
+		float qx = sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll;
+		float qy = cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll;
+		float qz = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
+
+		Quaternion(qw, qx, qy, qz);
+	}
+
 	void Quaternion::Normalized()
 	{
 		float magnitude = std::sqrt(w * w + i * i + j * j + k * k);

@@ -9,6 +9,8 @@ namespace Physics {
 		Quaternion(float w, float i, float j, float k);
 		Quaternion();
 
+		Quaternion(float yaw, float pitch, float roll);
+
 		void Normalized();
 		void RotateByVector(const Vecteur3D& vector);
 		void UpdateByAngularVelocity(const Vecteur3D vector, const float duration);
