@@ -9,20 +9,20 @@ namespace Physics {
 	BoxCollider::BoxCollider(Vecteur3D halfSize)
 	{
 		rigidbody = nullptr;
-		halfSize = halfSize;
+		halfsize = halfSize;
 		offset.SetOrientationAndPosition(Quaternion::identity(), Vecteur3D(0, 0, 0));
 	}
 
 	BoxCollider::BoxCollider(Rigidbody* body, Vecteur3D halfSize)
 	{
 		rigidbody = body;
-		halfSize = halfSize;
+		halfsize = halfSize;
 		offset.SetOrientationAndPosition(Quaternion::identity(), Vecteur3D(0, 0, 0));
 		float mass = rigidbody->getMass();
 
-		Matrix3 inertiaTensor = Matrix3(mass * 4 * (halfSize.y * halfSize.y + halfSize.z * halfSize.z) / 12.0, 0, 0,
-			0, mass * 4 * (halfSize.y * halfSize.y + halfSize.x * halfSize.x) / 12.0, 0,
-			0, 0, mass * 4 * (halfSize.z * halfSize.z + halfSize.x * halfSize.x) / 12.0);
+		Matrix3 inertiaTensor = Matrix3(mass * 4 * (halfsize.y * halfsize.y + halfsize.z * halfsize.z) / 12.0, 0, 0,
+			0, mass * 4 * (halfsize.y * halfsize.y + halfsize.x * halfsize.x) / 12.0, 0,
+			0, 0, mass * 4 * (halfsize.z * halfsize.z + halfsize.x * halfsize.x) / 12.0);
 		inverseInertiaTensor = inertiaTensor.Inverse();
 	}
 

@@ -118,7 +118,8 @@ namespace Physics{
 
 	Vecteur3D operator/(Vecteur3D v, const float f) {
 		if (f < 10e-6) {
-			throw "NullNormalization";
+			//throw "NullNormalization";
+			return Vecteur3D::vecteurNull();
 		}
 		return Vecteur3D(v.x / f, v.y / f, v.z / f);
 	}
