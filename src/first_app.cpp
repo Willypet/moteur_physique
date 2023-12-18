@@ -597,7 +597,7 @@ namespace Visual {
     void FirstApp::App8() // Collision de corps rigides
     {
         //BOX BOX
-        auto body1 = new Physics::Rigidbody(1.f, Physics::Vecteur3D(4, 0, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
+        auto body1 = new Physics::Rigidbody(1.f, Physics::Vecteur3D(4, 0, 4), Physics::Quaternion(0, 0, 0.923879504, 0.382683456), "models/cube_rouge.obj");
         Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(0.1f, 0.1f, 0.1f));
         Physics::PrimitiveCollider* col1 = box1;
         body1->SetCollider(col1);
