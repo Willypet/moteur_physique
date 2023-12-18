@@ -478,21 +478,46 @@ namespace Visual {
         //rigidPhysicsCore.AddForce(spring, body1);
 
         //SPHERE PLANE 2
-        auto body1 = new Physics::Rigidbody(100.f, Physics::Vecteur3D(0, -3, 4), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
-        Physics::SphereCollider* box1 = new Physics::SphereCollider(body1, 0.25f);
-        Physics::PrimitiveCollider* col1 = box1;
-        body1->SetCollider(col1);
-        spawnBody(body1);
-        rigidPhysicsCore.AddRigidBody(body1);
-        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion(90.f,90.f,-90.f), "models/plane.obj");
+        
+        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion(0, 0, 0.923879504, 0.382683456), "models/plane.obj");
         Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(1, -1, 0), 0, body2);
         Physics::PrimitiveCollider* col2 = box2;
         body2->SetCollider(col2);
-        spawnBody(body2, 1);
+        spawnBody(body2, 10);
         rigidPhysicsCore.AddRigidBody(body2);
 
-        Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
-        rigidPhysicsCore.AddForce(gravity, body1);
+        int j = 0;
+        for (int i = 0; i < 100; i++) {
+            if (i % 10 == 0) {
+                j++;
+            }
+
+
+            Physics::Rigidbody* body;
+            switch (i % 4)
+            {
+            case 1:
+                body = new Physics::Rigidbody(100.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+                break;
+            case 2:
+                body = new Physics::Rigidbody(10.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_bleu.obj");
+                break;
+            case 3:
+                body = new Physics::Rigidbody(50.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_vert.obj");
+                break;
+            default:
+                body = new Physics::Rigidbody(500.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_jaune.obj");
+                break;
+            }
+            Physics::SphereCollider* box1 = new Physics::SphereCollider(body, 0.25f);
+            Physics::PrimitiveCollider* col1 = box1;
+            body->SetCollider(col1);
+            spawnBody(body);
+            rigidPhysicsCore.AddRigidBody(body);
+
+            Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+            rigidPhysicsCore.AddForce(gravity, body);
+        }
     }
 
     void FirstApp::App6() // Cubes qui tourne
