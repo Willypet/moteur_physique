@@ -11,6 +11,8 @@
 namespace Physics {
 	class RigidPhysicsCore {
 	public:
+		bool useBroadPhase;
+
 		void UpdateAll(const float duration, const unsigned int substep);
 
 		void AddForce(ForceGenerator* force, Rigidbody* rigidBody);

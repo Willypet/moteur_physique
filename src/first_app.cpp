@@ -39,6 +39,7 @@ namespace Visual {
 
     FirstApp::FirstApp() {
         shouldClose = false;
+        rigidPhysicsCore.useBroadPhase = true;
     }
     
     FirstApp::~FirstApp() {}
@@ -160,6 +161,7 @@ namespace Visual {
 
     void FirstApp::resetApp()
     {
+        rigidPhysicsCore = Physics::RigidPhysicsCore();
         gameObjects.clear();
         bodies.clear();
         particules.clear();
@@ -458,7 +460,7 @@ namespace Visual {
         physicsCore.AddContactGenerator(collisionGenerator);*/
     }
 
-    void FirstApp::App5() // Corps rigides
+    void FirstApp::App5() // Spheres sur plan incliné (avec broad phase)
     {
         //auto body1 = new Physics::Rigidbody( 2.f, Physics::Vecteur3D(2, 2.5, 4), Physics::Quaternion::identity(), "models/cube_rouge.obj");
         //Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(1, 1, 1));
@@ -479,6 +481,7 @@ namespace Visual {
 
         //SPHERE PLANE 2
         
+        rigidPhysicsCore.useBroadPhase = true;
         auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion(0, 0, 0.923879504, 0.382683456), "models/plane.obj");
         Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(1, -1, 0), 0, body2);
         Physics::PrimitiveCollider* col2 = box2;
@@ -487,7 +490,7 @@ namespace Visual {
         rigidPhysicsCore.AddRigidBody(body2);
 
         int j = 0;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 250; i++) {
             if (i % 10 == 0) {
                 j++;
             }
@@ -594,24 +597,48 @@ namespace Visual {
         body2->SetAngularVelocity(Physics::Vecteur3D(1, 0, 1));
     }
 
-    void FirstApp::App8() // Collision de corps rigides
+    void FirstApp::App8() // Spheres sur plan (sans broad phase)
     {
-        //BOX BOX
-        auto body1 = new Physics::Rigidbody(1.f, Physics::Vecteur3D(4, 0, 4), Physics::Quaternion(0, 0, 0.923879504, 0.382683456), "models/cube_rouge.obj");
-        Physics::BoxCollider* box1 = new Physics::BoxCollider(body1, Physics::Vecteur3D(0.1f, 0.1f, 0.1f));
-        Physics::PrimitiveCollider* col1 = box1;
-        body1->SetCollider(col1);
-        spawnBody(body1);
-        rigidPhysicsCore.AddRigidBody(body1);
-        auto body2 = new Physics::Rigidbody(1.f, Physics::Vecteur3D(-4, 0, 4), Physics::Quaternion::identity(), "models/cube_jaune.obj");
-        Physics::BoxCollider* box2 = new Physics::BoxCollider(body2, Physics::Vecteur3D(0.1f, 0.1f, 0.1f));
+        rigidPhysicsCore.useBroadPhase = false;
+        auto body2 = new Physics::Rigidbody(100000000.f, Physics::Vecteur3D(0, 0, 4), Physics::Quaternion(0, 0, 0.923879504, 0.382683456), "models/plane.obj");
+        Physics::PlaneCollider* box2 = new Physics::PlaneCollider(Physics::Vecteur3D(1, -1, 0), 0, body2);
         Physics::PrimitiveCollider* col2 = box2;
         body2->SetCollider(col2);
-        spawnBody(body2);
+        spawnBody(body2, 10);
         rigidPhysicsCore.AddRigidBody(body2);
 
-        body1->SetLinearVelocity(Physics::Vecteur3D(-1, 0, 0));
-        body2->SetLinearVelocity(Physics::Vecteur3D(1, 0, 0));
+        int j = 0;
+        for (int i = 0; i < 250; i++) {
+            if (i % 10 == 0) {
+                j++;
+            }
+
+
+            Physics::Rigidbody* body;
+            switch (i % 4)
+            {
+            case 1:
+                body = new Physics::Rigidbody(100.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_rouge.obj");
+                break;
+            case 2:
+                body = new Physics::Rigidbody(10.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_bleu.obj");
+                break;
+            case 3:
+                body = new Physics::Rigidbody(50.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_vert.obj");
+                break;
+            default:
+                body = new Physics::Rigidbody(500.f, Physics::Vecteur3D(-5 + (i % 10), -6, 14 - j), Physics::Quaternion::identity(), "models/sphere_jaune.obj");
+                break;
+            }
+            Physics::SphereCollider* box1 = new Physics::SphereCollider(body, 0.25f);
+            Physics::PrimitiveCollider* col1 = box1;
+            body->SetCollider(col1);
+            spawnBody(body);
+            rigidPhysicsCore.AddRigidBody(body);
+
+            Physics::GravityForceGenerator* gravity = new Physics::GravityForceGenerator(Physics::Vecteur3D(0, 1, 0));
+            rigidPhysicsCore.AddForce(gravity, body);
+        }
     }
 
     void FirstApp::App9() // Collision de corps rigides

@@ -1,4 +1,5 @@
 #include "RigidPhysicsCore.hpp"
+#include <iostream>
 
 namespace Physics {
 
@@ -16,16 +17,26 @@ namespace Physics {
 
 	std::vector<RigidbodyContact> RigidPhysicsCore::GenerateContacts() {
 		std::vector<RigidbodyContact> res;
-		tree = new Octree(Vecteur3D(0, 0, 0), 1000.f, 2, 8);
-		if (collidersInSim.size() == 0) {
+		if (useBroadPhase) { //Utilisation d'octree
+			tree = new Octree(Vecteur3D(0, 0, 0), 32.f, 2, 8);
+			if (collidersInSim.size() == 0) {
+				return res;
+			}
+			for (int i = 0; i < collidersInSim.size(); i++) {
+				collidersInSim[i]->rigidbody = rigidBodiesInSim[i];
+				tree->insertCollider(collidersInSim[i]);
+			}
+			tree->checkCollisions(res);
 			return res;
 		}
-		for (int i = 0; i < collidersInSim.size(); i++) {
-			collidersInSim[i]->rigidbody = rigidBodiesInSim[i];
-			tree->insertCollider(collidersInSim[i]);
+		else { //Algorithme naif
+			for (int i = 0; i < collidersInSim.size() - 1; i++) {
+				for (int j = i; j < collidersInSim.size(); j++) {
+					collidersInSim[i]->generateContact(collidersInSim[j], res);
+				}
+			}
+			return res;
 		}
-		tree->checkCollisions(res);
-		return res;
 	}
 
 	void RigidPhysicsCore::ApplyForces() {
@@ -93,5 +104,14 @@ namespace Physics {
 		for (auto& [force, bodies] : forces) {
 			delete force;
 		}
+		forces.clear();
+		for (auto& body : rigidBodiesInSim) {
+			delete body;
+		}
+		rigidBodiesInSim.clear();
+		for (auto& col : collidersInSim) {
+			delete col;
+		}
+		collidersInSim.clear();
 	}
 }
